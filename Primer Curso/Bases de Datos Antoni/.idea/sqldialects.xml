@@ -2,6 +2,9 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/Act 4.4.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Ejercicios Practica/EjerciciosPreSegundo/DBL (Consultas).sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Ejercicios Practica/EjerciciosPreSegundo/DDL (Estructura).sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Ejercicios Practica/EjerciciosPreSegundo/Triggers.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Ejercicios Repaso/Level6-Challenges.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Examen.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Triggers/Act 1.sql" dialect="MySQL" />

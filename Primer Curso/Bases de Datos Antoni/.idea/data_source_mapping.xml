@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/Triggers/Repaso.sql" value="1a986f93-b832-41ec-bb23-f632d209a0ad" />
+    <file url="file://$PROJECT_DIR$/Ejercicios Practica/EjerciciosPreSegundo/DBL (Consultas).sql" value="3d153639-80d1-43dc-aa74-5d863d3d322e" />
+    <file url="file://$PROJECT_DIR$/Ejercicios Practica/EjerciciosPreSegundo/DDL (Estructura).sql" value="3d153639-80d1-43dc-aa74-5d863d3d322e" />
+    <file url="file://$PROJECT_DIR$/Ejercicios Practica/EjerciciosPreSegundo/Triggers.sql" value="3d153639-80d1-43dc-aa74-5d863d3d322e" />
   </component>
 </project>
