@@ -1,0 +1,1 @@
+Como usuario, quiero acceder por primera vez a la aplicación (pintar una interfaz que resuelva esta user story)
