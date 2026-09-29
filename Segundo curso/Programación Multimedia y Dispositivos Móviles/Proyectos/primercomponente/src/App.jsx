@@ -1,15 +1,18 @@
 import './App.css'
 import GameCard from "./components/GameCard.jsx"
-import Counter from "./components/Counter.jsx";
-
 
 function App() {
+    const games = [
+        { id: 1, titol: "Celeste" },
+        { id: 2, titol: "Hades" },
+        { id: 3, titol: "Portal 2" },
+        {id: 4, titol: "Minecraft"}
+    ];
   return (
     <>
-        <GameCard titol ="Valorant" plataforma = "PC" any = "2020"/>
-        <GameCard titol ="Pokémon Oleaje" plataforma = "Nintendo" any = "2027"/>
-        <GameCard titol ="GTA VI" plataforma = "Play Station 5" any = "2026"/>
-        <Counter/>
+        {games.map(game => (
+            <GameCard key={game.id} titol={game.titol} />
+        ))}
     </>
   )
 }
