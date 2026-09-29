@@ -1,5 +1,5 @@
 # Desarrollo de interfaces - Índice
-## [[1. User stories.]]
+## [[1. User Stories]]
 ## 2. Ús d'eines i d'agents LLM per a prototipar interfícies
 ## 3. Components amb React i React Native
 ## 4. Onboarding i product tour amb Shepherd i Joyride
