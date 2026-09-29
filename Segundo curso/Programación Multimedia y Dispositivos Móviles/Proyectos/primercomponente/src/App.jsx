@@ -1,6 +1,6 @@
 import './App.css'
 import GameCard from "./components/GameCard.jsx"
-import {useState} from "react";
+import Counter from "./components/Counter.jsx";
 
 
 function App() {
@@ -12,14 +12,6 @@ function App() {
         <Counter/>
     </>
   )
-}
-function Counter(){
-    const [count,setCount] = useState(0);
-    return(
-        <button onClick={()=>setCount(count+1)}>
-            Clics : {count}
-        </button>
-    );
 }
 
 export default App
