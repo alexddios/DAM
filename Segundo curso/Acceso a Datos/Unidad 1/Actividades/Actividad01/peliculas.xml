@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalogo>
+    <pelicula id="1">
+        <nombre>Interstellar</nombre>
+        <autor>Christopher Nolan</autor>
+        <anio>2014</anio>
+        <genero>Ciencia ficción</genero>
+    </pelicula>
+    <pelicula id="2">
+        <nombre>El Padrino</nombre>
+        <autor>Francis Ford Coppola</autor>
+        <anio>1972</anio>
+        <genero>Drama</genero>
+    </pelicula>
+    <pelicula id="3">
+        <nombre>Matrix</nombre>
+        <autor>Lana Wachowski</autor>
+        <anio>1999</anio>
+        <genero>Ciencia ficción</genero>
+    </pelicula>
+    <pelicula id="4">
+        <nombre>Parásitos</nombre>
+        <autor>Bong Joon-ho</autor>
+        <anio>2019</anio>
+        <genero>Drama</genero>
+    </pelicula>
+    <pelicula id="5">
+        <nombre>Toy Story</nombre>
+        <autor>John Lasseter</autor>
+        <anio>1995</anio>
+        <genero>Animación</genero>
+    </pelicula>
+    <pelicula id="6">
+        <nombre>Pulp Fiction</nombre>
+        <autor>Quentin Tarantino</autor>
+        <anio>1994</anio>
+        <genero>Crimen</genero>
+    </pelicula>
+    <pelicula id="7">
+        <nombre>El señor de los anillos: El retorno del rey</nombre>
+        <autor>Peter Jackson</autor>
+        <anio>2003</anio>
+        <genero>Ciencia ficción</genero>
+    </pelicula>
+    <pelicula id="8">
+        <nombre>Origen</nombre>
+        <autor>Christopher Nolan</autor>
+        <anio>2010</anio>
+        <genero>Ciencia ficción</genero>
+    </pelicula>
+    <pelicula id="9">
+        <nombre>La lista de Schindler</nombre>
+        <autor>Steven Spielberg</autor>
+        <anio>1993</anio>
+        <genero>Drama</genero>
+    </pelicula>
+    <pelicula id="10">
+        <nombre>El club de la lucha</nombre>
+        <autor>David Fincher</autor>
+        <anio>1999</anio>
+        <genero>Drama</genero>
+    </pelicula>
+    <pelicula id="11">
+        <nombre>El viaje de Chihiro</nombre>
+        <autor>Hayao Miyazaki</autor>
+        <anio>2001</anio>
+        <genero>Animación</genero>
+    </pelicula>
+    <pelicula id="12">
+        <nombre>Gladiator</nombre>
+        <autor>Ridley Scott</autor>
+        <anio>2000</anio>
+        <genero>Acción</genero>
+    </pelicula>
+    <pelicula id="13">
+        <nombre>Spirited Away</nombre>
+        <autor>Hayao Miyazaki</autor>
+        <anio>2001</anio>
+        <genero>Animación</genero>
+    </pelicula>
+    <pelicula id="14">
+        <nombre>Cadena perpetua</nombre>
+        <autor>Frank Darabont</autor>
+        <anio>1994</anio>
+        <genero>Drama</genero>
+    </pelicula>
+    <pelicula id="15">
+        <nombre>El resplandor</nombre>
+        <autor>Stanley Kubrick</autor>
+        <anio>1980</anio>
+        <genero>Terror</genero>
+    </pelicula>
+    <pelicula id="16">
+        <nombre>La vida es bella</nombre>
+        <autor>Roberto Benigni</autor>
+        <anio>1997</anio>
+        <genero>Drama</genero>
+    </pelicula>
+    <pelicula id="17">
+        <nombre>Blade Runner 2049</nombre>
+        <autor>Denis Villeneuve</autor>
+        <anio>2017</anio>
+        <genero>Ciencia ficción</genero>
+    </pelicula>
+    <pelicula id="18">
+        <nombre>El silencio de los corderos</nombre>
+        <autor>Jonathan Demme</autor>
+        <anio>1991</anio>
+        <genero>Crimen</genero>
+    </pelicula>
+    <pelicula id="19">
+        <nombre>Coco</nombre>
+        <autor>Lee Unkrich</autor>
+        <anio>2017</anio>
+        <genero>Animación</genero>
+    </pelicula>
+    <pelicula id="20">
+        <nombre>El caballero oscuro</nombre>
+        <autor>Christopher Nolan</autor>
+        <anio>2008</anio>
+        <genero>Acción</genero>
+    </pelicula>
+    <pelicula id="21">
+        <nombre>Pinocho de Guillermo del Toro</nombre>
+        <autor>Guillermo del Toro</autor>
+        <anio>2022</anio>
+        <genero>Animación</genero>
+    </pelicula>
+    <pelicula id="22">
+        <nombre>Whiplash</nombre>
+        <autor>Damien Chazelle</autor>
+        <anio>2014</anio>
+        <genero>Drama</genero>
+    </pelicula>
+    <pelicula id="23">
+        <nombre>WALL-E</nombre>
+        <autor>Andrew Stanton</autor>
+        <anio>2008</anio>
+        <genero>Animación</genero>
+    </pelicula>
+    <pelicula id="24">
+        <nombre>Salvar al soldado Ryan</nombre>
+        <autor>Steven Spielberg</autor>
+        <anio>1998</anio>
+        <genero>Drama</genero>
+    </pelicula>
+    <pelicula id="25">
+        <nombre>Psicosis</nombre>
+        <autor>Alfred Hitchcock</autor>
+        <anio>1960</anio>
+        <genero>Terror</genero>
+    </pelicula>
+    <pelicula id="26">
+        <nombre>Uno de los nuestros</nombre>
+        <autor>Martin Scorsese</autor>
+        <anio>1990</anio>
+        <genero>Crimen</genero>
+    </pelicula>
+    <pelicula id="27">
+        <nombre>Alien, el octavo pasajero</nombre>
+        <autor>Ridley Scott</autor>
+        <anio>1979</anio>
+        <genero>Ciencia ficción</genero>
+    </pelicula>
+    <pelicula id="28">
+        <nombre>El truco final (El prestigio)</nombre>
+        <autor>Christopher Nolan</autor>
+        <anio>2006</anio>
+        <genero>Misterio</genero>
+    </pelicula>
+    <pelicula id="29">
+        <nombre>Delrevés (Inside Out)</nombre>
+        <autor>Pete Docter</autor>
+        <anio>2015</anio>
+        <genero>Animación</genero>
+    </pelicula>
+    <pelicula id="30">
+        <nombre>La la land</nombre>
+        <autor>Damien Chazelle</autor>
+        <anio>2016</anio>
+        <genero>Romance</genero>
+    </pelicula>
+    <pelicula id="31">
+        <nombre>Infiltrados</nombre>
+        <autor>Martin Scorsese</autor>
+        <anio>2006</anio>
+        <genero>Crimen</genero>
+    </pelicula>
+    <pelicula id="32">
+        <nombre>Terminator 2: El juicio final</nombre>
+        <autor>James Cameron</autor>
+        <anio>1991</anio>
+        <genero>Acción</genero>
+    </pelicula>
+    <pelicula id="33">
+        <nombre>El gran hotel Budapest</nombre>
+        <autor>Wes Anderson</autor>
+        <anio>2014</anio>
+        <genero>Comedia</genero>
+    </pelicula>
+    <pelicula id="34">
+        <nombre>Amélie</nombre>
+        <autor>Jean-Pierre Jeunet</autor>
+        <anio>2001</anio>
+        <genero>Comedia</genero>
+    </pelicula>
+    <pelicula id="35">
+        <nombre>Dune</nombre>
+        <autor>Denis Villeneuve</autor>
+        <anio>2021</anio>
+        <genero>Ciencia ficción</genero>
+    </pelicula>
+    <pelicula id="36">
+        <nombre>Oppenheimer</nombre>
+        <autor>Christopher Nolan</autor>
+        <anio>2023</anio>
+        <genero>Drama</genero>
+    </pelicula>
+    <pelicula id="37">
+        <nombre>Mad Max: Furia en la carretera</nombre>
+        <autor>George Miller</autor>
+        <anio>2015</anio>
+        <genero>Acción</genero>
+    </pelicula>
+    <pelicula id="38">
+        <nombre>Eco Distante</nombre>
+        <autor>Elena Rojas</autor>
+        <anio>2027</anio>
+        <genero>Ciencia ficción</genero>
+    </pelicula>
+    <pelicula id="39">
+        <nombre>El laberinto del fauno</nombre>
+        <autor>Guillermo del Toro</autor>
+        <anio>2006</anio>
+        <genero>Fantasía</genero>
+    </pelicula>
+    <pelicula id="40">
+        <nombre>Sombras en la niebla</nombre>
+        <autor>Javier Cárdenas</autor>
+        <anio>2024</anio>
+        <genero>Misterio</genero>
+    </pelicula>
+    <pelicula id="41">
+        <nombre>Spider-Man: Un nuevo universo</nombre>
+        <autor>Bob Persichetti</autor>
+        <anio>2018</anio>
+        <genero>Animación</genero>
+    </pelicula>
+    <pelicula id="42">
+        <nombre>La ciudad de cristal</nombre>
+        <autor>Marc Vilanova</autor>
+        <anio>2026</anio>
+        <genero>Crimen</genero>
+    </pelicula>
+    <pelicula id="43">
+        <nombre>¡Olvídate de mí!</nombre>
+        <autor>Michel Gondry</autor>
+        <anio>2004</anio>
+        <genero>Romance</genero>
+    </pelicula>
+    <pelicula id="44">
+        <nombre>Marea nocturna</nombre>
+        <autor>Lucía Santini</autor>
+        <anio>2025</anio>
+        <genero>Terror</genero>
+    </pelicula>
+    <pelicula id="45">
+        <nombre>Parque Jurásico</nombre>
+        <autor>Steven Spielberg</autor>
+        <anio>1993</anio>
+        <genero>Ciencia ficción</genero>
+    </pelicula>
+</catalogo>
