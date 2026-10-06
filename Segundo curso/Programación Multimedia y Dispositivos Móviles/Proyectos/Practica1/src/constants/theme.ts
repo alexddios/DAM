@@ -19,7 +19,7 @@ export const Colors = {
     text: '#ffffff',
     background: '#000000',
     backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
+    backgroundSelected: '#026fe6',
     textSecondary: '#B0B4BA',
   },
 } as const;
@@ -52,7 +52,7 @@ export const Fonts = Platform.select({
 });
 
 export const Spacing = {
-  half: 2,
+  half: 3,
   one: 4,
   two: 8,
   three: 16,
