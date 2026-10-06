@@ -8,6 +8,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { WebBadge } from '@/components/web-badge';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import Counter from "@/components/Counter";
 
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
@@ -42,6 +43,7 @@ export default function HomeScreen() {
         <ThemedText type="code" style={styles.code}>
           get started
         </ThemedText>
+        <Counter/>
 
         <ThemedView type="backgroundElement" style={styles.stepContainer}>
           <HintRow
