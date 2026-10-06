@@ -61,6 +61,12 @@ export default function HomeScreen() {
               title="Fresh start"
               hint={<ThemedText type="code">npm run reset-project</ThemedText>}
           />
+          <HintRow
+              numero={4}
+              title="Expo"
+              hint="Framework para crear aplicaciones"
+              image={require('../../assets/images/icon.png')}
+          />
         </ThemedView>
 
         {Platform.OS === 'web' && <WebBadge />}
