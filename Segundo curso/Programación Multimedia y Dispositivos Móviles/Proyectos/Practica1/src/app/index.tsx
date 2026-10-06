@@ -45,13 +45,21 @@ export default function HomeScreen() {
 
         <ThemedView type="backgroundElement" style={styles.stepContainer}>
           <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+              numero={1}
+              title="Try editing"
+              hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
+
           <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
+              numero={2}
+              title="Dev tools"
+              hint={getDevMenuHint()}
+          />
+
+          <HintRow
+              numero={3}
+              title="Fresh start"
+              hint={<ThemedText type="code">npm run reset-project</ThemedText>}
           />
         </ThemedView>
 
