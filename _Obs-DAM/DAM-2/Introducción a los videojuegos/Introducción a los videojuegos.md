@@ -377,8 +377,7 @@ En la asignatura de *Interfaces, la idea es crear un **panel de control* con:
 ## 📋 7. Esquema simplificado del algoritmo
 
 *Resumen del flujo completo:*
-
-mermaid
+```mermaid title:""
 graph TD
     A["1. INICIALIZACIÓN<br/>Crear matriz 100×100<br/>Llenar con ceros<br/>Fila inferior = fuente de calor"] 
     B["2. CADA FRAME<br/>(30-60 veces por segundo)"]
@@ -397,6 +396,8 @@ graph TD
     F --> G
     G --> H
     H --> C
+```
+
 
 
 ---
@@ -527,3 +528,62 @@ Las siguientes clases *completarán y profundizarán*:
 | *Difusión* | Cómo el calor se propaga desde una celda a sus vecinas. |
 | *Chispa* | Generación aleatoria de calor en la base para variar la animación. |
 | *Modelo vs Visualización* | El modelo es numérico (matriz); la visualización es gráfica (colores). |
+```mermaid title:"UML Fuego"
+classDiagram
+    direction TB
+
+    class IPresenter {
+        <<interface>>
+    }
+    class IModel {
+        <<interface>>
+        getImage()  BufferedImage
+        setPalette()
+        setDimension()
+    }
+    class IView {
+        <<interface>>
+    }
+    class Presenter {
+    }
+    class Model {
+	    +setxxx()
+	    +setDimensions()
+        +void getImage()
+        +void setPalette(ColorTargetsDTO)
+        +play()
+        +stop()
+    }
+    class Render {
+        +void getImage(palette, temps)
+        -render()
+    }
+    class Fire {
+	     coolPointsPercentage : double
+	     sparkPercentage : double 
+        +void setSparks(percentage)
+        +void evolveTemperatrues()
+        +void setCoolPoints(percentage)
+    }
+    class Palette {
+    createPalette()
+    }
+    class ColorTargetDTO {
+    }
+
+    %% Relaciones
+    IPresenter o-- IModel
+    IPresenter o-- IView
+    IPresenter <.. Presenter : <<realizes>>
+    IModel <.. Model : <<realizes>>
+    
+    Model o-- Render
+    Model o-- Fire
+    Model o-- "0..1" Palette
+    
+    Palette o-- ColorTargetDTO
+```
+## evolveTemperatures()
+temperatura
+setCoodPointPercentage
+sparkPercentage

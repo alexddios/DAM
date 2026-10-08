@@ -1,56 +1,43 @@
-# Welcome to your Expo app 👋
+# Práctica 1: Análisis y adaptación de una aplicación móvil
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Módulo:** 0489 Programació Multimèdia i Dispositius Mòbils  
+**Alumno:** Álex De Dios Pallicer  
+**Fecha:** 09/10/2026  
 
-## Get started
+## Descripción del Proyecto
 
-1. Install dependencies
+Este proyecto es una adaptación de la plantilla predeterminada de Expo y React Native. El objetivo principal de la práctica es demostrar la comprensión de la estructura de una aplicación móvil, la configuración del entorno de desarrollo y la capacidad para modificar componentes de forma razonada.
 
+## Modificaciones Realizadas
+
+Se han completado todos los requisitos exigidos en el apartado 4 de la práctica:
+
+1. **Componente Reutilizable:** Se ha modificado el componente `HintRow` para que reciba datos dinámicos mediante *props* (como el número de paso), utilizándose múltiples veces en la pantalla principal sin duplicar código.
+2. **Nuevo Contenido:** Se ha añadido una nueva instancia del componente que incluye información textual nueva y renderiza de forma condicional una imagen (el icono del proyecto).
+3. **Apariencia:** Se ha personalizado el diseño global modificando propiedades en `theme.ts` y en los estilos locales:
+   - Alineación vertical del contenedor principal (`justifyContent: 'flex-start'`).
+   - Color de fondo de los elementos seleccionados (`backgroundSelected`).
+   - Ajuste en los márgenes internos (`Spacing`).
+4. **Interacción:** Se ha integrado un componente `Counter` que utiliza el *hook* `useState` de React para mantener y actualizar el estado de un contador de clics interactivo.
+
+## Tecnologías Utilizadas
+
+- **Lenguaje:** JavaScript / TypeScript
+- **Framework:** React Native
+- **Herramienta de desarrollo:** Expo
+
+## Instrucciones de Ejecución
+
+Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
+
+1. Asegúrate de tener instalado [Node.js](https://nodejs.org/).
+2. Clona o extrae los archivos de este proyecto.
+3. Abre una terminal en la raíz del proyecto y ejecuta el siguiente comando para instalar las dependencias:
    ```bash
    npm install
    ```
-
-2. Start the app
-
+4. Inicia el servidor de desarrollo de Expo:
    ```bash
    npx expo start
    ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+5. Escanea el código QR con la aplicación **Expo Go** (Android/iOS) o presiona `a` en la terminal para abrirlo en un emulador de Android (se requiere Android Studio).
