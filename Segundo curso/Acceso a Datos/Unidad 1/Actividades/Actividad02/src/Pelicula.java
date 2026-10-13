@@ -42,4 +42,20 @@ public class Pelicula {
     public int getAnio() {
         return anio;
     }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
 }
