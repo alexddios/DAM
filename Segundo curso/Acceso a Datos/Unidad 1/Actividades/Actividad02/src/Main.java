@@ -61,7 +61,6 @@ public class Main {
         } while (numero != 0);
     }
 
-    // MÉTODO AUXILIAR: Garantiza que el usuario introduzca un número y no texto
     public static int leerEntero(String mensaje) {
         while (true) {
             System.out.print(mensaje);
@@ -225,7 +224,7 @@ public class Main {
                             3. Año
                             4. Genero
                             0. Terminar y guardar cambios
-                            Elige una opción: 
+                            Elige una opción:
                             """);
                     int opcion = leerEntero("");
 
