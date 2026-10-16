@@ -6,17 +6,19 @@ kanban-plugin: board
 
 ## Por Hacer
 
+- [ ] Hacer clase separada para el botón del programa de procesos
+- [ ] Mirarse programa fuego
+- [ ] Arreglar UX @{21-10-2026}
 
 
 ## In Progress
 
-- [ ] 5 User Stories con sus UX
 - [ ] Práctica Acceso a Datos
 
 
 ## Hecho
 
-- [ ] Volver a hacer tabla IPO @{13-10-2026}
+- [ ] Documento proyecto intermodular
 - [ ] Apuntes IPO del 06/10
 
 

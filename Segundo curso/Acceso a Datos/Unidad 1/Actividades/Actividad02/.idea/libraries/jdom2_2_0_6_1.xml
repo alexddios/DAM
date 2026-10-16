@@ -2,6 +2,7 @@
   <library name="jdom2-2.0.6.1">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/jdom2-2.0.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jaxen-2.0.6.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

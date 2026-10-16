@@ -3,7 +3,7 @@ export default function Comp1(){
 
     return (
         <div>
-            <p>Hola mi querido {nombre}</p>
+            <p>Hola {nombre}</p>
         </div>
     )
 }

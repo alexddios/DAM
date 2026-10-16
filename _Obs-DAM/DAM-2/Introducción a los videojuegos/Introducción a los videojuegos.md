@@ -583,7 +583,254 @@ classDiagram
     
     Palette o-- ColorTargetDTO
 ```
-## evolveTemperatures()
-temperatura
-setCoodPointPercentage
-sparkPercentage
+
+## 🏗️ 11. Arquitectura del proyecto (Patrón MVP) y `evolveTemperatures()`
+
+> [!info] Actualización de la clase 
+> Se define la arquitectura de software mediante el patrón **MVP (Model-View-Presenter)** y se concretan la fórmula definitiva, el sistema de enfriamiento (_cool points_) y la interpolación de la paleta de colores.
+
+### 11.1 Estructura de Clases y Responsabilidades
+
+El proyecto separa la lógica numérica, la conversión gráfica y la interfaz de usuario para no bloquear la aplicación ni mezclar responsabilidades:
+
+- **`Fire` (Motor numérico):** Contiene exclusivamente la matriz de temperaturas (enteros de 0 a 255) y las reglas de evolución. No sabe nada de colores ni de imágenes.
+    
+- **`Palette` y `ColorTargetDTO`:** Se encargan de definir los colores clave asociados a ciertas temperaturas y de calcular por **interpolación lineal** todos los colores intermedios para generar un array/tabla de 256 posiciones (de 0 a 255).
+    
+- **`Render` (Traductor visual):** Recibe la matriz de temperaturas de `Fire` y la paleta de `Palette`, cruzando ambos datos para devolver un `BufferedImage` listo para pintar.
+    
+- **`Model` (Coordinador del modelo):** Contiene las instancias de `Fire`, `Palette` y `Render`. Gestiona el bucle principal (hilo/thread con `play()` y `stop()`) y expone los métodos de configuración (`setDimension()`, `setPalette()`, etc.).
+    
+- **`View` (Interfaz Gráfica - Swing):** Muestra el `BufferedImage` en un panel/canvas y contiene los controles (sliders, botones, selector de colores). **Importante:** En ella no se programa lógica del fuego; solo recoge eventos del usuario y pinta lo que le dan.
+    
+- **`Presenter` (Intermediario):** Conecta la `View` y el `Model` mediante sus interfaces (`IView`, `IModel`). Escucha los cambios en los controles de la vista (ej. mover un slider) y actualiza los parámetros en el modelo.
+    
+
+### 11.2 Detalle del método `evolveTemperatures()` (Clase `Fire`)
+
+Este método se ejecuta en cada iteración (frame) y concentra los **3 pasos clave** del cálculo de temperaturas:
+
+#### 1. Generación de chispas (`setSparks` / `sparkPercentage`)
+
+En la última fila (la base de la matriz), se recorre cada columna y se decide aleatoriamente si se crea una nueva chispa de calor máximo:
+
+- Se lanza un número aleatorio (entre 0 y 1 o 0 y 100).
+    
+- Si es menor que `sparkPercentage`, a esa celda se le asigna **255** (temperatura máxima).
+    
+
+#### 2. Puntos de enfriamiento (`setCoolPoints` / `coolPointsPercentage`)
+
+Para evitar que la base se sature de calor (quedándose todo el borde inferior en 255 blanco fijo) y lograr que las llamas se separen de forma natural, se introduce el concepto de **puntos fríos** en la base:
+
+- Recorriendo igualmente la base, según la probabilidad `coolPointsPercentage`, algunas celdas se fuerzan a **0** (se enfrían).
+    
+- El equilibrio entre `sparkPercentage` (sube a 255) y `coolPointsPercentage` (baja a 0) es lo que da dinamismo al nacimiento de las llamas.
+    
+
+#### 3. Propagación y fórmula de actualización (Recorrido de abajo a arriba)
+
+En la implementación en vivo se recorre la matriz **desde la penúltima fila hacia arriba** (`y = alto - 2` hasta `0`), calculando cada celda en función de sí misma, sus vecinas laterales y las 3 celdas inferiores:
+```java title:"Ejemplo Evolve Temperatures"
+// Ejemplo de la fórmula de propagación en evolveTemperatures()
+for (int y = height - 2; y >= 0; y--) {
+    for (int x = 1; x < width - 1; x++) {
+        
+        // Suma ponderada de la fila actual (centro y lados) y la fila inferior (abajo y diagonales)
+        double nuevaTemp = (
+            temps[y][x]     * pesoCentro +
+            temps[y][x - 1] * pesoIzq +
+            temps[y][x + 1] * pesoDer +
+            temps[y + 1][x]     * pesoAbajo +
+            temps[y + 1][x - 1] * pesoAbajoIzq +
+            temps[y + 1][x + 1] * pesoAbajoDer
+        ) / sumaDePesos - factorEnfriamiento (decay);
+
+        // Limitar (clamp) el valor entre 0 y 255
+        temps[y][x] = Math.max(0, Math.min(255, (int) nuevaTemp));
+    }
+}
+```
+> [!tip] Factor de atenuación (_Decay_) 
+> Si la suma de ponderaciones se divide exactamente por el total de pesos, el calor casi no se pierde al subir y el fuego llega hasta el techo del canvas. Para que la llama se extinga a cierta altura, se resta una pequeña constante de enfriamiento en cada fila o se divide por un divisor ligeramente mayor a la suma de los pesos.
+
+## 🎨 12. Creación de la Paleta (`Palette` y `ColorTargetDTO`)
+
+En lugar de escribir a mano los 256 colores posibles, se utiliza una lista de **objetivos de color (`ColorTargetDTO`)** ordenados por temperatura:
+
+1. **Definición de _Targets_ (Nodos):** Cada `ColorTargetDTO` guarda una **temperatura** (0–255) y un **color RGBA** (Red, Green, Blue, Alpha).
+    
+    - _Ejemplo:_
+        
+        - Temp `0` → `(0, 0, 0, 0)` (Negro totalmente transparente)
+            
+        - Temp `60` → `(180, 0, 0, 120)` (Rojo oscuro semitransparente)
+            
+        - Temp `180` → `(255, 140, 0, 220)` (Naranja intenso)
+            
+        - Temp `255` → `(255, 255, 255, 255)` (Blanco puro opaco)
+            
+2. **Interpolación (`createPalette()`):** El método calcula automáticamente los colores intermedios entre dos _targets_ consecutivos (por ejemplo, qué color exacto le toca a la temperatura `61`, `62`, etc.) interpolando canal por canal ($R, G, B, A$) de forma lineal.
+    
+
+## 🖼️ 13. Renderizado de la Imagen (`Render`)
+
+El método `getImage(palette, temps)` convierte la matriz numérica en un objeto `BufferedImage` de Java (`TYPE_INT_ARGB` para soportar canal Alpha/transparencia):
+```java title:"getImage"
+public BufferedImage getImage(Palette palette, int[][] temps) {
+    int height = temps.length;
+    int width = temps[0].length;
+    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int temp = temps[y][x];
+            int colorARGB = palette.getColor(temp); // Obtiene el entero ARGB de la paleta
+            image.setRGB(x, y, colorARGB);
+        }
+    }
+    return image;
+}
+```
+## 🕹️ 14. Conexión con la Interfaz y Bucle de Animación (Audio 2)
+
+En la segunda parte de la sesión se detalla cómo conectar los paneles de la interfaz gráfica con el motor del fuego:
+
+### 14.1 El bucle de control (`play()` / `stop()`)
+
+- El método `play()` dentro del `Model` (o coordinado con el `Presenter`) arranca un **hilo de ejecución (`Thread` o `Timer`)** para no congelar la interfaz gráfica de Swing (el _Event Dispatch Thread_).
+    
+- En cada ciclo del bucle (`while (running)`):
+    
+    1. Llama a `fire.evolveTemperatures()`.
+        
+    2. Pide a `render.getImage(palette, fire.getTemps())` la nueva imagen generada.
+        
+    3. Envía la imagen a la vista para que haga un `repaint()` sobre el contenedor/lienzo.
+        
+    4. Hace una breve pausa (`Thread.sleep(...)`) para controlar los FPS (fotogramas por segundo).
+        
+
+### 14.2 Flujo de eventos desde la Vista (Sliders y Botones)
+
+Cuando el usuario interactúa con el panel de control en tiempo real:
+```mermaid title:""
+sequenceDiagram
+    actor Usuario
+    participant View as IView (Swing)
+    participant Presenter as IPresenter
+    participant Model as IModel
+    participant Fire as Fire / Palette
+
+    Usuario->>View: Mueve Slider (ej. % Chispas o Enfriamiento)
+    View->>Presenter: Notifica cambio de valor
+    Presenter->>Model: setSparks(nuevoValor) / setCoolPoints(nuevoValor)
+    Model->>Fire: Actualiza atributo interno
+    Note over Model,Fire: En el siguiente frame del bucle,<br/>evolveTemperatures() ya usa el nuevo valor
+```
+### 14.3 Componentes principales de la interfaz a implementar
+
+- **Panel de visualización (Canvas):** Donde se dibuja el `BufferedImage` (escalado al tamaño del panel con `drawImage`), permitiendo incluso poner una imagen de fondo (como una chimenea o antorcha) gracias al canal **Alpha (transparencia)** de las temperaturas bajas.
+    
+- **Controles de dinámica (`Fire`):**
+    
+    - Slider para `sparkPercentage` (cantidad de chispas en la base).
+        
+    - Slider para `coolPointsPercentage` (cantidad de puntos de enfriamiento en la base).
+        
+    - Controles/Sliders para ajustar los **pesos de la matriz de ponderación** o la velocidad de disipación.
+        
+- **Editor de Paleta (`Palette`):**
+    
+    - Componente visual para añadir, eliminar o modificar los `ColorTargetDTO` (elegir a qué temperatura de 0 a 255 va cada color y su opacidad) y regenerar la paleta en caliente llamando a `model.setPalette(...)`.
+        
+- **Botones de estado:** `Play` / `Stop` (o `Pause`) para iniciar o detener el hilo de simulación.
+    
+
+## 🛠️ 15. Diagrama de Clases UML actualizado y corregido
+
+```mermaid title:""
+classDiagram
+    direction TB
+
+    class IPresenter {
+        <<interface>>
+        +onPlayClicked()
+        +onStopClicked()
+        +onSparkPercentageChanged(double)
+        +onCoolPointsChanged(double)
+        +onPaletteChanged(List~ColorTargetDTO~)
+    }
+
+    class IModel {
+        <<interface>>
+        +getImage() BufferedImage
+        +setPalette(List~ColorTargetDTO~)
+        +setDimension(int width, int height)
+        +setSparks(double percentage)
+        +setCoolPoints(double percentage)
+        +play()
+        +stop()
+    }
+
+    class IView {
+        <<interface>>
+        +updateImage(BufferedImage)
+        +setPresenter(IPresenter)
+    }
+
+    class Presenter {
+        -IModel model
+        -IView view
+    }
+
+    class Model {
+        -Render render
+        -Fire fire
+        -Palette palette
+        -boolean running
+        +setDimension(int width, int height)
+        +getImage() BufferedImage
+        +setPalette(List~ColorTargetDTO~)
+        +play()
+        +stop()
+    }
+
+    class Render {
+        +getImage(Palette palette, int[][] temps) BufferedImage
+        -render()
+    }
+
+    class Fire {
+        -int[][] temperatures
+        -double coolPointsPercentage
+        -double sparkPercentage
+        +setSparks(double percentage)
+        +setCoolPoints(double percentage)
+        +evolveTemperatures()
+        +getTemperatures() int[][]
+    }
+
+    class Palette {
+        -int[] colors
+        +createPalette(List~ColorTargetDTO~)
+        +getColor(int temp) int
+    }
+
+    class ColorTargetDTO {
+        +int temperature
+        +Color color
+    }
+
+    %% Relaciones
+    IPresenter o-- IModel
+    IPresenter o-- IView
+    IPresenter <|.. Presenter : <<realizes>>
+    IModel <|.. Model : <<realizes>>
+    
+    Model *-- Render
+    Model *-- Fire
+    Model o-- "0..1" Palette
+    
+    Palette o-- "*" ColorTargetDTO
+```
