@@ -276,10 +276,10 @@
     <anio>1998</anio>
     <genero>Animación</genero>
   </pelicula>
-  <pelicula id="47">
-    <nombre>Pokémon 4Ever</nombre>
-    <autor>GameFreak</autor>
-    <anio>2001</anio>
-    <genero>Animación</genero>
+  <pelicula id="48">
+    <nombre>botella</nombre>
+    <autor>jose</autor>
+    <anio>1999</anio>
+    <genero>teror</genero>
   </pelicula>
 </catalogo>
