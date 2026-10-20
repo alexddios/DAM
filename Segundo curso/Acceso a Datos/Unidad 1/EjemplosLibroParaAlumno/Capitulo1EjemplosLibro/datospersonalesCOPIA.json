@@ -1,0 +1,12 @@
+{
+  "nombre": "Maria Rey",
+  "edad": 30,
+  "email": "maria.rey@example.com",
+  "direccion": {
+    "calle": "Avenida el Vado",
+    "numero": 42,
+    "ciudad": "Guadalajara",
+    "pais": "España"
+  },
+  "lenguajes": ["Java", "Python", "SQL"]
+}

@@ -1,0 +1,6 @@
+Los streams son un concepto fundamental en el sistema Java IO. 
+En esencia, un stream representa un flujo continuo de datos
+ que puede ser leído o escrito.
+
+Las clases InputStream y OutputStream son clases abstractas que representan,
+respectivamente, un flujo de datos de entrada binario y un flujo de salida binario. 

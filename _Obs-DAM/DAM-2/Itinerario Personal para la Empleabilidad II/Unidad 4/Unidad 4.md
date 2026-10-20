@@ -1,4 +1,21 @@
 # Unidad 4: Habilidades emprendedoras e innovación
+## Índice
+- [[#1. El emprendedor creatividad e innovación]]
+- [[#2. Las habilidades emprendedoras]]
+	- [[#2.1. Competencias personales y emocionales]]
+	- [[#2.2. Competencias sociales]]
+- [[#3. El intraemprendedor]]
+- [[#4. El concepto y el proceso de innovación]]
+- [[#5. El valor del emprendimiento para la sociedad]]
+	- [[#5.1 Bienestar social]]
+	- [[#5.2. Los emprendedores sociales. Sostenibilidad y cuidado del medioambiente]]
+	- [[#5.3 La Agenda 2030]]
+- [[#6. Metodologías para fomentar la creatividad, el emprendimiento y la innovación]]
+	- [[#6.1. La tormenta de ideas o _brainstorming_]]
+	- [[#6.2. El pensamiento lateral]]
+	- [[#6.3. El listado de atributos]]
+	- [[#6.4. El papel de la inteligencia artificial (IA)]]
+	- [[#6.5. Comunicación creativa y atractiva (_Storytelling_)]]
 
 ## 1. El emprendedor: creatividad e innovación
 
@@ -220,3 +237,79 @@ graph TD
 - En 2015, la ONU aprobó la Agenda 2030 sobre el Desarrollo Sostenible, una oportunidad para que los países emprendan un nuevo camino con el que mejorar la vida de todos, sin excluir a nadie.
     
 - Su finalidad es erradicar la pobreza, proteger el planeta y garantizar que todas las personas disfruten de paz y prosperidad.
+
+## 6. Metodologías para fomentar la creatividad, el emprendimiento y la innovación
+
+Existen diversas metodologías para ayudar a generar ideas y fomentar la innovación empresarial.
+
+### 6.1. La tormenta de ideas o _brainstorming_
+
+- Es una técnica muy utilizada para generar ideas en grupo, permitiendo que la gente se exprese con entera libertad.
+    
+- Las críticas están prohibidas, toda idea es bienvenida, se debe experimentar con la mayor cantidad de ideas posibles y se recomienda construir sobre las ideas de los demás.
+    
+
+**Etapas del proceso:**
+
+1. **Elección del tema:** En primer lugar se elige un tema sobre el cual aportar ideas de forma libre y a la vista de todos.
+    
+2. **Selección y debate:** El coordinador selecciona las mejores ideas y canaliza el debate hacia el consenso dentro de un tiempo prudencial fijado.
+    
+3. **Decisión:** Finalmente, se trabajan las ideas hasta alcanzar un punto de decisión.
+```mermaid title:"mermaid"
+graph LR
+    A[1. Elegir tema e \nideación libre] --> B[2. Coordinador \nselecciona y \ncanaliza debate]
+    B --> C[3. Trabajar ideas \nhasta tomar \ndecisión]
+```
+### 6.2. El pensamiento lateral
+
+- Concepto acuñado por Edward de Bono para diferenciarlo del pensamiento lógico o vertical.
+    
+- La mente suele crear patrones limitando las soluciones creativas, por lo que el pensamiento lateral busca romper nuestra forma tradicional de pensar.
+    
+- En términos empresariales, propone que en ocasiones la solución no es hacerlo mejor, sino hacerlo de forma diferente.
+    
+- **Técnica del escape:** Consiste en examinar el asunto que se desea resolver y negar o cancelar una característica de este. Ejemplo: preguntarse qué ocurriría si elimináramos la etiqueta del precio en cada producto para ahorrar costes de etiquetado.
+    
+
+### 6.3. El listado de atributos
+
+- Esta técnica es adecuada para la generación de nuevos productos o para mejorar servicios o productos ya existentes.
+    
+- Para ponerla en práctica, es conveniente elaborar una tabla dividida en tres columnas principales:
+    
+    - **Componentes:** En la primera se indicarán los componentes del bien o servicio objeto de estudio.
+        
+    - **Atributos:** En la siguiente columna se anotarán los atributos específicos de cada componente.
+        
+    - **Ideas:** En la última se escribirán las nuevas ideas que permitirán cambiar o mejorar cada uno de esos atributos.
+        
+
+|**Componentes**|**Atributos**|**Ideas (Mejoras/Cambios)**|
+|---|---|---|
+|_(Ej. Envase)_|_(Ej. Cristal)_|_(Ej. Usar materiales biodegradables)_|
+
+### 6.4. El papel de la inteligencia artificial (IA)
+
+- La inteligencia artificial se puede aplicar directamente al proceso de innovación empresarial.
+    
+- Puede analizar grandes cantidades de datos de distintas fuentes (opiniones, ventas, redes sociales) para identificar patrones y tendencias, generando así nuevas ideas basadas en el conocimiento del mercado.
+    
+- Sirve para **evaluar ideas**, prediciendo su impacto, aceptación y viabilidad, lo que permite saber qué ideas tendrán éxito o cuáles mejorar.
+    
+- Realiza análisis predictivos y agiliza el proceso de toma de decisiones, eliminando los errores humanos.
+    
+- Permite crear **prototipos de forma rápida** (como modelos 3D o simuladores de realidad virtual) para testar nuevos productos y crear un bucle de retroalimentación continua con los usuarios.
+    
+- Ofrece la posibilidad de personalizar productos y servicios, así como automatizar tareas rutinarias.
+    
+
+### 6.5. Comunicación creativa y atractiva (_Storytelling_)
+
+- Un elemento clave del emprendedor es saber comunicar y convencer al mercado (bancos, inversores, clientes, familia) de las bondades del producto o idea.
+    
+- Para no hablar de negocios fríamente, se utiliza el **storytelling** o el arte de contar historias.
+    
+- El _storytelling_ se aplica en el ámbito empresarial para generar una conexión emocional con el cliente a través del lenguaje y de unos recursos visuales atractivos.
+    
+- Transforma el modelo de negocio en una historia que genera confianza y conexión con la audiencia, haciéndola mucho más fácil de recordar y transmitir.

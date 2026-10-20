@@ -1,0 +1,44 @@
+[
+	{
+		"id": 3,
+		"apellido": "SEVILLA",
+		"dep": 30,
+		"salario": 2200.0
+	},
+	{
+		"id": 4,
+		"apellido": "REY",
+		"dep": 20,
+		"salario": 2000.0
+	},
+	{
+		"id": 5,
+		"apellido": "CASILLA",
+		"dep": 30,
+		"salario": 1435.87
+	},
+	{
+		"id": 7,
+		"apellido": "FERNANDEZ",
+		"dep": 10,
+		"salario": 1000.45
+	},
+	{
+		"id": 9,
+		"apellido": "GIL",
+		"dep": 20,
+		"salario": 2400.6
+	},
+	{
+		"id": 10,
+		"apellido": "LOPEZ",
+		"dep": 10,
+		"salario": 3000.0
+	},
+	{
+		"id": 20,
+		"apellido": "RAMOS",
+		"dep": 10,
+		"salario": 1500.56
+	}
+]

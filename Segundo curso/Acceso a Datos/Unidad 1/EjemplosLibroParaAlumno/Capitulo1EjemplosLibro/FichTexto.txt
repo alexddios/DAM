@@ -1,0 +1,4 @@
+esto
+es
+un 
+fichero de texto

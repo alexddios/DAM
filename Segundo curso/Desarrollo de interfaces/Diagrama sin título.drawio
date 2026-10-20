@@ -1,0 +1,156 @@
+<mxfile host="Electron">
+  <diagram name="Página-1" id="ebKKRV4v77ystZBGAlFi">
+    <mxGraphModel dx="1030" dy="626" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="us1_title" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;verticalAlign=middle;fontSize=13;" value="&lt;b&gt;US 1:&lt;/b&gt;&lt;br&gt;As a club owner,&lt;br&gt;I want to log in for&lt;br&gt;the first time&lt;br&gt;(desde el correo)" vertex="1">
+          <mxGeometry height="190" width="180" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="us2_title" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;verticalAlign=middle;fontSize=13;" value="&lt;b&gt;US 2:&lt;/b&gt;&lt;br&gt;As an admin,&lt;br&gt;I want to create&lt;br&gt;a user" vertex="1">
+          <mxGeometry height="190" width="180" x="40" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="us3_title" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;verticalAlign=middle;fontSize=13;" value="&lt;b&gt;US 3:&lt;/b&gt;&lt;br&gt;As a user,&lt;br&gt;I want to log in&lt;br&gt;[for the first time]" vertex="1">
+          <mxGeometry height="190" width="180" x="40" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="us4_title" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;verticalAlign=middle;fontSize=13;" value="&lt;b&gt;US 4:&lt;/b&gt;&lt;br&gt;As a user,&lt;br&gt;I want to recover&lt;br&gt;my password" vertex="1">
+          <mxGeometry height="190" width="180" x="40" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="us5_title" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;verticalAlign=middle;fontSize=13;" value="&lt;b&gt;US 5:&lt;/b&gt;&lt;br&gt;As an admin,&lt;br&gt;I want to view a&lt;br&gt;list of users" vertex="1">
+          <mxGeometry height="190" width="180" x="40" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="us1_s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;[NUEVA] 1.1 Email Invitación&lt;/b&gt;&lt;hr&gt;From: noreply@sportclub.com&lt;br&gt;To: info@club.com&lt;br&gt;&lt;br&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;Hello Sr Alex, click below to activate your owner account:&lt;br&gt;&lt;br&gt;&lt;b&gt;[ ACTIVATE ACCOUNT ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="260" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="us1_s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" value="&lt;b&gt;1.2 First Login Owner&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;Sr Alex,&lt;br&gt;info@club.com&lt;br&gt;&lt;br&gt;Input password:&lt;br&gt;[ _______________ | Show ]&lt;br&gt;&lt;font color=&quot;#777777&quot;&gt;At least 20 characters&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;[ OK ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="530" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="us1_s3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#ff0000;strokeWidth=2;fontSize=11;" value="&lt;b&gt;1.3 Wrong Password&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;Sr Alex,&lt;br&gt;info@club.com&lt;br&gt;&lt;br&gt;Input password:&lt;br&gt;&lt;font color=&quot;#ff0000&quot;&gt;[ _______________ | Show ]&lt;br&gt;At least 20 characters&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;[ OK ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="800" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="us1_s4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;[MEJORADA] 1.4 Home Owner&lt;/b&gt;&lt;hr&gt;[User Icon] &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; [Grid E]&lt;br&gt;&lt;b&gt;Welcome, Sr Alex (Owner)&lt;/b&gt;&lt;hr&gt;&lt;b&gt;Quick Actions:&lt;/b&gt;&lt;br&gt;[+ Create User] [Users List]&lt;br&gt;&lt;br&gt;&lt;b&gt;Stats:&lt;/b&gt; Active Users: 42 | Pending: 3" vertex="1">
+          <mxGeometry height="190" width="210" x="1070" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us1_1" edge="1" parent="1" source="us1_s1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us1_s2" value="Click link">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us1_2" edge="1" parent="1" source="us1_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ff0000;strokeWidth=2;" target="us1_s3" value="&lt; 20 chars">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us1_3" edge="1" parent="1" source="us1_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us1_s4" value="Valid OK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="635" y="20" />
+              <mxPoint x="1175" y="20" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="us2_s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;[NUEVA] 2.1 Admin Panel&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt; | Admin Panel&lt;br&gt;&amp;gt; Dashboard&lt;br&gt;&amp;gt; Users Directory&lt;br&gt;&amp;gt; Settings&lt;hr&gt;Click on:&lt;br&gt;&lt;b&gt;[ + ADD USER ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="260" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="us2_s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" value="&lt;b&gt;2.2 Create New User&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt; | Admin Panel&lt;br&gt;&lt;b&gt;Create New User&lt;/b&gt;&lt;br&gt;Input full name:&lt;br&gt;[ Enter a value ]&lt;br&gt;Input email:&lt;br&gt;[ Enter a value ]&lt;br&gt;Select role: [ User ▼ ]&lt;br&gt;&lt;b&gt;[ CREATE ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="530" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="us2_s3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#ff0000;strokeWidth=2;fontSize=11;" value="&lt;b&gt;[NUEVA] 2.3 Invalid Data Error&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt; | Admin Panel&lt;br&gt;Input full name:&lt;br&gt;[ User 1 ]&lt;br&gt;Input email:&lt;br&gt;&lt;font color=&quot;#ff0000&quot;&gt;[ bad_email_format ]&lt;br&gt;Invalid email or empty field&lt;/font&gt;&lt;br&gt;&lt;b&gt;[ CREATE ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="800" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="us2_s4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;[MEJORADA] 2.4 Success Create&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;font color=&quot;#3cb504&quot;&gt;&lt;b&gt;User created and invitation email sent.&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;[ BACK TO USERS LIST ]&lt;/b&gt;&lt;br&gt;&lt;i&gt;(Añadido botón para no quedar atrapado)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="1070" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us2_1" edge="1" parent="1" source="us2_s1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us2_s2" value="+ Add User">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us2_2" edge="1" parent="1" source="us2_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ff0000;strokeWidth=2;" target="us2_s3" value="Invalid Email">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us2_3" edge="1" parent="1" source="us2_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us2_s4" value="Valid CREATE">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="635" y="265" />
+              <mxPoint x="1175" y="265" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="us3_s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;[NUEVA] 3.1 Email Temp Pass&lt;/b&gt;&lt;hr&gt;From: noreply@sportclub.com&lt;br&gt;To: user@club.com&lt;br&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;Welcome User! Your temporary password is:&lt;br&gt;&lt;b&gt;X9#mP2!k&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;[ FIRST LOGIN ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="260" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="us3_s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" value="&lt;b&gt;3.2 First Login User&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;Welcome User, user@club.com&lt;br&gt;Input temp password:&lt;br&gt;[ _______________ | Show ]&lt;br&gt;Input new password:&lt;br&gt;[ _______________ | Show ]&lt;br&gt;&lt;font color=&quot;#777777&quot;&gt;At least 20 characters&lt;/font&gt;&lt;br&gt;&lt;b&gt;[ OK ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="530" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="us3_s3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#ff0000;strokeWidth=2;fontSize=11;" value="&lt;b&gt;3.3 Wrong Password User&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;Welcome User, user@club.com&lt;br&gt;Input temp password:&lt;br&gt;[ _______________ | Show ]&lt;br&gt;Input new password:&lt;br&gt;&lt;font color=&quot;#ff0000&quot;&gt;[ _______________ | Show ]&lt;br&gt;At least 20 characters&lt;/font&gt;&lt;br&gt;&lt;b&gt;[ OK ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="800" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="us3_s4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;[MEJORADA] 3.4 Home Screen 1&lt;/b&gt;&lt;hr&gt;[User Icon] &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; [Grid E]&lt;br&gt;&lt;font color=&quot;#3cb504&quot;&gt;[✓] Password updated!&lt;/font&gt;&lt;br&gt;&lt;b&gt;Hello, User (Active Member)&lt;/b&gt;&lt;hr&gt;[ Book Court ] &amp;nbsp; [ My Classes ]&lt;br&gt;&lt;b&gt;Next Activity:&lt;/b&gt;&lt;br&gt;- Thu 18:00 Padel Court 2" vertex="1">
+          <mxGeometry height="190" width="210" x="1070" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us3_1" edge="1" parent="1" source="us3_s1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us3_s2" value="Click link">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us3_2" edge="1" parent="1" source="us3_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ff0000;strokeWidth=2;" target="us3_s3" value="Invalid Pass">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us3_3" edge="1" parent="1" source="us3_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us3_s4" value="Valid OK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="635" y="505" />
+              <mxPoint x="1175" y="505" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="us4_s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;[NUEVA] 4.1 Standard Login&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;Input email:&lt;br&gt;[ user@club.com ]&lt;br&gt;Input password:&lt;br&gt;[ _________ | Show ]&lt;br&gt;&lt;u&gt;&lt;font color=&quot;#0000ff&quot;&gt;Forgot password?&lt;/font&gt;&lt;/u&gt;&lt;br&gt;&lt;b&gt;[ LOG IN ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="180" x="260" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="us4_s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" value="&lt;b&gt;4.2 Password Recovery&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;Enter your email to reset your password.&lt;br&gt;&lt;br&gt;Input email:&lt;br&gt;[ Enter a value ]&lt;br&gt;&lt;br&gt;&lt;b&gt;[ SEND ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="180" x="480" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="us4_s3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#ff0000;strokeWidth=2;fontSize=11;" value="&lt;b&gt;4.3 Wrong / Invalid Email&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;Enter your email to reset your password.&lt;br&gt;Input email:&lt;br&gt;&lt;font color=&quot;#ff0000&quot;&gt;[ wrong_email ]&lt;br&gt;Invalid email&lt;/font&gt;&lt;br&gt;&lt;b&gt;[ SEND ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="180" x="700" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="us4_s4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" value="&lt;b&gt;4.4 Recovery Email Sent&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;font color=&quot;#3cb504&quot;&gt;Recovery email sent. The link opens a new password form.&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;[ OPEN EMAIL ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="180" x="920" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="us4_s5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;[NUEVA] 4.5 Email &amp;amp; New Pass&lt;/b&gt;&lt;hr&gt;1. Email: &lt;b&gt;[RESET PASSWORD]&lt;/b&gt;&lt;hr&gt;2. New Password Form:&lt;br&gt;Input new password:&lt;br&gt;[ _______________ | Show ]&lt;br&gt;At least 20 characters&lt;br&gt;&lt;b&gt;[ SAVE &amp;amp; LOG IN ]&lt;/b&gt;" vertex="1">
+          <mxGeometry height="190" width="200" x="1140" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="us4_s6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;[NUEVA] 4.6 Home (Logged In)&lt;/b&gt;&lt;hr&gt;&lt;font color=&quot;#3cb504&quot;&gt;&lt;b&gt;[✓] Password Reset Success!&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;br&gt;User is redirected to Standard Login or directly to Member Home Screen." vertex="1">
+          <mxGeometry height="190" width="190" x="1380" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us4_1" edge="1" parent="1" source="us4_s1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us4_s2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us4_2" edge="1" parent="1" source="us4_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ff0000;strokeWidth=2;" target="us4_s3" value="Error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us4_3" edge="1" parent="1" source="us4_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us4_s4" value="Valid Email">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="745" />
+              <mxPoint x="1010" y="745" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_us4_4" edge="1" parent="1" source="us4_s4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us4_s5" value="Click Email">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us4_5" edge="1" parent="1" source="us4_s5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us4_s6" value="OK">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="us5_s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" value="&lt;b&gt;[NUEVA] 5.1 Admin Home&lt;/b&gt;&lt;hr&gt;&lt;b&gt;[X] SPORTCLUB&lt;/b&gt; | Admin Panel&lt;br&gt;&amp;gt; Dashboard&lt;br&gt;&lt;b&gt;&amp;gt; Users Directory (Click)&lt;/b&gt;&lt;br&gt;&amp;gt; Settings" vertex="1">
+          <mxGeometry height="190" width="210" x="260" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="us5_s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" value="&lt;b&gt;5.2 Users Directory&lt;/b&gt;&lt;hr&gt;&lt;b&gt;USERS DIRECTORY&lt;/b&gt; &amp;nbsp; [&lt;b&gt;+ ADD USER&lt;/b&gt;]&lt;hr&gt;SrAlex | info@club.com | Owner&lt;br&gt;User 1 | user1@club.com | User&lt;br&gt;Admin1 | admin1@club.com | Admin&lt;hr&gt;&amp;lt; 1 2 3 ... 10 &amp;gt;" vertex="1">
+          <mxGeometry height="190" width="230" x="530" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="us5_s3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="&lt;b&gt;[NUEVA] 5.3 User Details / Edit&lt;/b&gt;&lt;hr&gt;&amp;lt; Back to Users Directory&lt;br&gt;&lt;b&gt;USER DETAILS&lt;/b&gt;&lt;br&gt;Name: User 1&lt;br&gt;Email: user1@club.com&lt;br&gt;Role: [ User ▼ ]&lt;br&gt;&lt;br&gt;&lt;b&gt;[ SAVE ]&lt;/b&gt; &amp;nbsp; &lt;font color=&quot;#ff0000&quot;&gt;&lt;b&gt;[ DELETE ]&lt;/b&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="190" width="210" x="830" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us5_1" edge="1" parent="1" source="us5_s1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us5_s2" value="Open List">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_us5_2" edge="1" parent="1" source="us5_s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3cb504;strokeWidth=2;" target="us5_s3" value="Click User Row">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,7 @@
+Carpeta Capitulo1EjemplosLibro: proyecto Maven
+Todos los ejemplos del Capitulo 1 están  dentro del proyecto Maven Capitulo1EjemplosLibro
+
+Carpeta RecursosEjercicioCompruebatuAprendizaje:
+Contiene el paquete datos y la clase que crea los ficheros de la actividad propuesta.
+
+

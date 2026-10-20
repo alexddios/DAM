@@ -1,0 +1,11 @@
+{
+  "libro" : [ {
+    "titulo" : "El Quijote",
+    "autor" : "Miguel de Cervantes",
+    "precio" : "19.99"
+  }, {
+    "titulo" : "Cien Años de Soledad",
+    "autor" : "Gabriel García Márquez",
+    "precio" : "25.50"
+  } ]
+}
