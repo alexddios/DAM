@@ -656,21 +656,27 @@ for (int y = height - 2; y >= 0; y--) {
 
 ## 🎨 12. Creación de la Paleta (`Palette` y `ColorTargetDTO`)
 
-En lugar de escribir a mano los 256 colores posibles, se utiliza una lista de **objetivos de color (`ColorTargetDTO`)** ordenados por temperatura:
+En lugar de escribir a mano los 256 colores posibles, se utiliza una lista de **objetivos de color (`ColorTargetDTO` o `TargetColor`)** ordenados por temperatura.
 
-1. **Definición de _Targets_ (Nodos):** Cada `ColorTargetDTO` guarda una **temperatura** (0–255) y un **color RGBA** (Red, Green, Blue, Alpha).
+1. **Definición de _Targets_ (Nodos):** Cada `ColorTargetDTO` guarda una **temperatura** (0–255) y un **color RGBA** (Red, Green, Blue, Alpha). Es **obligatorio** definir al menos un Target en la temperatura mínima (0) y otro en la máxima (255) para que el algoritmo tenga límites definidos y no se salga de rango.
     
-    - _Ejemplo:_
+2. **Interpolación Lineal (`createPalette()`):** El método calcula automáticamente los colores intermedios entre dos _targets_ consecutivos rellenando los huecos.
+    
+    Para hacerlo, se debe calcular la transición progresiva de cada canal de color (R, G, B y A) mediante las siguientes matemáticas:
+    
+    - **Cálculo de pasos (Steps):** Se calcula cuántos grados de temperatura hay entre el Target inicial y el final.
         
-        - Temp `0` → `(0, 0, 0, 0)` (Negro totalmente transparente)
+        - _Fórmula:_ `Pasos = Temperatura Final - Temperatura Inicial`.
             
-        - Temp `60` → `(180, 0, 0, 120)` (Rojo oscuro semitransparente)
+    - **Cálculo del incremento por paso (Increment):** Se calcula cuánto debe aumentar o disminuir cada canal de color por cada grado de temperatura.
+        
+        - _Fórmula:_ `Incremento = (Color Final - Color Inicial) / Pasos`.
             
-        - Temp `180` → `(255, 140, 0, 220)` (Naranja intenso)
-            
-        - Temp `255` → `(255, 255, 255, 255)` (Blanco puro opaco)
-            
-2. **Interpolación (`createPalette()`):** El método calcula automáticamente los colores intermedios entre dos _targets_ consecutivos (por ejemplo, qué color exacto le toca a la temperatura `61`, `62`, etc.) interpolando canal por canal ($R, G, B, A$) de forma lineal.
+    - **Ejemplo práctico:** Si queremos pasar de la temperatura 0 a la 20 (20 pasos), y el canal rojo debe subir de 0 a 80, el incremento será `(80 - 0) / 20 = 4`. Es decir, por cada grado que suba la temperatura, el rojo aumentará en 4.
+        
+3. **Gestión de decimales y precisión:** Es crucial usar tipos de datos flotantes (`float` o `double`) para calcular los incrementos y acumular los valores durante el bucle de interpolación. Si se usan enteros (`int`), se perderán los decimales (por ejemplo, si el incremento es 0.5, el sistema contaría 0) provocando saltos bruscos de color o errores al llegar al Target.
+    
+    - **Regla de oro:** Mantén las operaciones matemáticas con decimales y conviértelo a entero (`int` o `Math.round`) **solo al final**, justo antes de guardar el color definitivo en el array de la paleta.
     
 
 ## 🖼️ 13. Renderizado de la Imagen (`Render`)

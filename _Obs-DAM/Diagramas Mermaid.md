@@ -34,7 +34,11 @@ class Volador {
 +volar() void 
 }
 class Color { 
-<<enumeration>> ROJO VERDE AZUL }
+<<enumeration>> 
+ROJO 
+VERDE 
+AZUL 
+}
 class Repo { <<service>> }
 class Figura { <<abstract>> }
 ```
