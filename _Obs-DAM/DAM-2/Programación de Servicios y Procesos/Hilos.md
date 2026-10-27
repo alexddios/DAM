@@ -220,27 +220,46 @@ El Gestor (`Manager`) debe implementar mecanismos de exclusión mutua (por ejemp
 - Bloquea al Productor si intenta hacer `add()` y el búfer o almacén está lleno.
 ```mermaid title:""
 classDiagram
-    class IManager {
-        <<interface>>
+    class IPresenter
+    class IView
+    class IModel
+    
+    class Presenter
+    class SMP
+    
+    class View {
+        run()
     }
-    class Manager {
-        +add()
-        +remove()
+    
+    class Model {
+        run()
     }
-    class Producer {
-        +run()
-    }
+    
+    class DataPanel
+    class ControlPanel
+    class Viewer
+    
     class Consumer {
-        +run()
+        run()
     }
-    class Resource {
-        -int quantity
-        +add()
-        +remove()
+    class Resource
+    class Producer {
+        run()
     }
 
-    Manager ..|> IManager
-    Producer --> "1" Manager : usa para añadir
-    Consumer --> "1" Manager : usa para extraer
-    Manager o-- "n" Resource : gestiona el almacén
+    IPresenter <|.. Presenter
+    IView <|.. View
+    IModel <|.. Model
+    
+    Presenter o-- View
+    Presenter o-- Model
+    
+    View o-- DataPanel
+    View o-- ControlPanel
+    View o-- Viewer
+    
+    Model o-- Consumer
+    Model o-- Resource
+    Model o-- Producer
+    Viewer *-- SMP
 ```
