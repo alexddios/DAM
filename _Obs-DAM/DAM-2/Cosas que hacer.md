@@ -6,7 +6,8 @@ kanban-plugin: board
 
 ## Por Hacer
 
-- [ ] Mirarse programa fuego
+- [ ] Práctica Acceso a Datos @{13-11-2026}
+- [ ] Ejercicio Programación Multimedia @{10-11-2026}
 
 
 ## In Progress
@@ -15,11 +16,16 @@ kanban-plugin: board
 
 ## Hecho
 
+- [ ] Programa Consumidor y Productor
+- [ ] Programa Sprites Videojuegos @{04-11-2026}
+- [ ] Práctica Interfaces @{05-11-2026}
 
 
 ## Examenes
 
-- [ ] Examen Servicios y Procesos @{02-11-2026}
+- [ ] [[Examen Acceso a Datos]]
+- [ ] Examen Ingles @{09-11-2026}
+- [ ] Examen IPO @{24-11-2026}
 
 
 
