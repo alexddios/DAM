@@ -1,7 +1,5 @@
 import model.IModel;
 import model.Modelo;
-import model.SpriteAnimation;
-import model.SpriteSheet;
 import presenter.IPresenter;
 import presenter.Presenter;
 import view.IView;

@@ -3,64 +3,105 @@ import { useState, useEffect } from "react";
 import { router } from 'expo-router';
 import { colores } from '../constants/colores';
 
-export default function descubrir() {
+// Centro de Palma. La API devuelve los artículos de Wikipedia que están cerca de este punto.
+const LATITUD = 39.5694;
+const LONGITUD = 2.6502;
+const RADIO_METROS = 10000; // 10 km es el máximo que permite la API
+
+const URL_API =
+    'https://es.wikipedia.org/w/api.php?action=query&list=geosearch&format=json&origin=*' +
+    `&gscoord=${LATITUD}%7C${LONGITUD}&gsradius=${RADIO_METROS}&gslimit=30`;
+
+// Muestra la distancia en metros o en kilómetros según lo lejos que esté.
+function formatearDistancia(metros) {
+    if (metros < 1000) return `a ${Math.round(metros)} m`;
+    return `a ${(metros / 1000).toFixed(1)} km`;
+}
+
+export default function Descubrir() {
     const [resultados, setResultados] = useState([]);
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState(null);
+    // Cada vez que cambia, el useEffect vuelve a hacer la consulta.
+    const [intento, setIntento] = useState(0);
+
     useEffect(() => {
         async function obtenerDatos() {
             try {
-                // Cambiamos la URL por una 100% estable para probar
-                const respuesta = await fetch('https://geocoding-api.open-meteo.com/v1/search?name=Palma&count=15&language=es&format=json');
+                // Wikipedia rechaza las peticiones que no dicen qué aplicación las hace.
+                const respuesta = await fetch(URL_API, {
+                    headers: { 'User-Agent': 'MyPlaces/1.0 (practica DAM)' },
+                });
+                if (!respuesta.ok) throw new Error(`Respuesta HTTP ${respuesta.status}`);
                 const datos = await respuesta.json();
-
-// Si la API no encuentra nada, results puede no existir, por lo que ponemos un array vacío por defecto
-                setResultados(datos.results || []);
+                // Si no hay resultados, query o geosearch pueden no existir.
+                setResultados(datos.query?.geosearch || []);
             } catch (e) {
-                console.error("Motivo del fallo:", e); // Esto saldrá en tu terminal
-                setError("Error al cargar los datos");
+                // console.warn y no console.error: en Expo Go el error tapa la pantalla.
+                console.warn('Fallo al consultar la API:', e);
+                setError('No se han podido cargar los lugares. Revisa la conexión.');
             } finally {
                 setCargando(false);
             }
         }
         obtenerDatos();
-    }, []);
-    function volver() {
-        if (router.canGoBack()) {
-            router.back();
-        } else {
-            router.replace('/');
-        }
+    }, [intento]);
+
+    // Vuelve al estado de carga y cambia "intento" para que se repita la consulta.
+    function reintentar() {
+        setCargando(true);
+        setError(null);
+        setIntento((n) => n + 1);
     }
+
     if (cargando) {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Buscando lugares...</Text>
+            <View style={styles.centrado}>
+                <Text style={styles.textoEstado}>Buscando lugares...</Text>
             </View>
         );
     }
+
     if (error) {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: 'red' }}>{error}</Text>
+            <View style={styles.centrado}>
+                <Text style={styles.textoError}>{error}</Text>
+                <Pressable
+                    accessibilityRole="button"
+                    onPress={reintentar}
+                    style={({ pressed }) => [styles.boton, pressed && styles.pulsado]}
+                >
+                    <Text style={styles.textoBoton}>Reintentar</Text>
+                </Pressable>
             </View>
         );
     }
+
     return (
         <View style={styles.pantalla}>
             <FlatList
                 data={resultados}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item.pageid.toString()}
+                contentContainerStyle={styles.lista}
+                ListHeaderComponent={
+                    <Text style={styles.cabecera}>Lugares de interés cerca del centro de Palma</Text>
+                }
+                ListEmptyComponent={
+                    <View style={styles.vacio}>
+                        <Text style={styles.tituloVacio}>No se han encontrado lugares</Text>
+                        <Text style={styles.textoEstado}>Prueba de nuevo más tarde.</Text>
+                    </View>
+                }
                 renderItem={({ item }) => (
                     <View style={styles.tarjeta}>
-                        <Text style={styles.tituloTarjeta}>{item.name}</Text>
-                        <Text style={styles.textoTarjeta}>{item.admin1 ? item.admin1 + ', ' : ''}{item.country}</Text>
+                        <Text style={styles.tituloTarjeta}>{item.title}</Text>
+                        <Text style={styles.textoTarjeta}>{formatearDistancia(item.dist)}</Text>
                     </View>
                 )}
             />
             <Pressable
                 accessibilityRole="button"
-                onPress={volver}
+                onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
                 style={({ pressed }) => [styles.boton, pressed && styles.pulsado]}
             >
                 <Text style={styles.textoBoton}>Volver</Text>
@@ -68,23 +109,49 @@ export default function descubrir() {
         </View>
     );
 }
+
 const styles = StyleSheet.create({
     pantalla: { flex: 1, padding: 16, backgroundColor: colores.fondo },
+    lista: { gap: 8, paddingBottom: 8 },
+    cabecera: { fontSize: 15, color: colores.textoSuave, marginBottom: 4 },
+    centrado: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 24,
+        gap: 16,
+        backgroundColor: colores.fondo,
+    },
+    textoEstado: { fontSize: 15, color: colores.textoSuave, textAlign: 'center' },
+    textoError: { fontSize: 16, color: colores.peligro, textAlign: 'center' },
+    vacio: {
+        alignItems: 'center',
+        gap: 6,
+        paddingVertical: 40,
+        backgroundColor: colores.superficie,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderStyle: 'dashed',
+        borderColor: colores.borde,
+    },
+    tituloVacio: { fontSize: 18, fontWeight: '700', color: colores.texto },
     tarjeta: {
         padding: 16,
-        borderBottomWidth: 1,
-        borderColor: colores.borde,
         backgroundColor: colores.superficie,
-        marginBottom: 8,
-        borderRadius: 8
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: colores.borde,
+        gap: 4,
     },
     tituloTarjeta: { fontSize: 16, fontWeight: 'bold', color: colores.texto },
     textoTarjeta: { color: colores.textoSuave },
     boton: {
+        alignSelf: 'stretch',
         borderWidth: 1.5,
         borderColor: colores.principal,
         borderRadius: 999,
         minHeight: 48,
+        paddingHorizontal: 24,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 16,

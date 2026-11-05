@@ -28,8 +28,8 @@ public class Presenter implements IPresenter{
         view.setPresenter(this);
 
         // 1. Cargar las 4 hojas: id, archivo, columnas, filas, pasos
-        model.loadSS("Pajaro","res/Bird.png",4,3,10);
-        model.loadSS("Vortice","res/ColorSwirl.png",4,2,7);
+        model.loadSS("Explosion","res/explosion.png",8,1,8);
+        model.loadSS("Pato","res/pato.png",1,4,4);
         model.loadSS("Fuego","res/Flame.png",4,4,14);
         model.loadSS("Mujer","res/mujer.png",12,1,12);
 
@@ -37,13 +37,13 @@ public class Presenter implements IPresenter{
         //    Varias usan la misma hoja con distinta velocidad: cada una va por su cuenta.
 
         // Pájaro x3
-        model.crearAnimacion("Pajaro", 80);
-        model.crearAnimacion("Pajaro", 120);
-        model.crearAnimacion("Pajaro", 200);
+        model.crearAnimacion("Pato", 80);
+        model.crearAnimacion("Pato", 120);
+        model.crearAnimacion("Pato", 200);
 
         // Vórtice x2
-        model.crearAnimacion("Vortice", 100);
-        model.crearAnimacion("Vortice", 150);
+        model.crearAnimacion("Explosion", 100);
+        model.crearAnimacion("Explosion", 150);
 
         // Fuego x3
         model.crearAnimacion("Fuego", 50);
