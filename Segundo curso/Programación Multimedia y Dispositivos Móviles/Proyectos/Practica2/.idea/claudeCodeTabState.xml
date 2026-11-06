@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ClaudeCodeTabState">
+    <option name="tabSessions">
+      <map>
+        <entry key="0">
+          <value>
+            <TabSessionState>
+              <option name="projectPath" value="C:\Users\alexd\DAM\Segundo curso\Programación Multimedia y Dispositivos Móviles\Proyectos\Practica2" />
+              <option name="provider" value="claude" />
+              <option name="cwd" value="C:\Users\alexd\DAM\Segundo curso\Programación Multimedia y Dispositivos Móviles\Proyectos\Practica2" />
+              <option name="model" value="claude-sonnet-5" />
+              <option name="permissionMode" value="default" />
+            </TabSessionState>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
