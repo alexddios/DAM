@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { router } from 'expo-router';
 import { colores } from '../constants/colores';
 import * as Location from 'expo-location';
+import EstadoConexion from "../components/EstadoConexion";
+import { useNetInfo } from '@react-native-community/netinfo';
+
 
 // Centro de Palma. La API devuelve los artículos de Wikipedia que están cerca de este punto.
 const LATITUD = 39.5694;
@@ -22,6 +25,11 @@ function formatearDistancia(metros) {
 }
 
 export default function Descubrir() {
+    const red = useNetInfo();
+
+    // Al arrancar isConnected vale null (aún no se sabe): solo es "sin red" si es false.
+    const sinConexion = red.isConnected === false;
+
     const [coordenadas,setCoordenadas] = useState({
         latitud: LATITUD,
         longitud: LONGITUD
@@ -35,6 +43,7 @@ export default function Descubrir() {
     const [avisoUbicacion, setAvisoUbicacion] = useState(null);
 
     useEffect(() => {
+        if (sinConexion) return;
         async function obtenerDatos() {
             try {
                 // Wikipedia rechaza las peticiones que no dicen qué aplicación las hace.
@@ -45,6 +54,8 @@ export default function Descubrir() {
                 const datos = await respuesta.json();
                 // Si no hay resultados, query o geosearch pueden no existir.
                 setResultados(datos.query?.geosearch || []);
+                // Si antes falló (por ejemplo, al perder la red), se quita el error.
+                setError(null);
             } catch (e) {
                 // console.warn y no console.error: en Expo Go el error tapa la pantalla.
                 console.warn('Fallo al consultar la API:', e);
@@ -54,7 +65,7 @@ export default function Descubrir() {
             }
         }
         obtenerDatos();
-    }, [intento,coordenadas]);
+    }, [intento,coordenadas,sinConexion]);
 
     // Vuelve al estado de carga y cambia "intento" para que se repita la consulta.
     function reintentar() {
@@ -79,6 +90,19 @@ export default function Descubrir() {
             console.warn('Error de ubicación:', e);
             setAvisoUbicacion('No se ha podido obtener la ubicación.');
         }
+    }
+
+    // Va antes que "cargando": sin red no se hace el fetch y cargando se quedaría siempre en true.
+    if (sinConexion) {
+        return (
+            <View style={styles.centrado}>
+                <EstadoConexion />
+                <Text style={styles.textoError}>No hay conexión a internet.</Text>
+                <Text style={styles.textoEstado}>
+                    Los lugares se cargarán solos cuando vuelva la red.
+                </Text>
+            </View>
+        );
     }
 
     if (cargando) {
@@ -111,7 +135,9 @@ export default function Descubrir() {
                 keyExtractor={(item) => item.pageid.toString()}
                 contentContainerStyle={styles.lista}
                 ListHeaderComponent={
+
                     <View style={styles.cabeceraCondicionada}>
+                        <EstadoConexion />
                         <Text style={styles.cabecera}>
                             {coordenadas.latitud === LATITUD ? "Lugares de interés cerca de Palma" : "Lugares de interés cerca de ti"}
                         </Text>

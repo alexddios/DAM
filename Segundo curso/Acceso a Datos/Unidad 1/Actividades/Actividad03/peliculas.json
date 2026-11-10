@@ -273,13 +273,13 @@
     "id" : 46,
     "titulo" : "Pokémon: La película - Mewtwo vs. Mew",
     "director" : "GameFreak",
-    "año" : 1998,
+    "año" : 1996,
     "genero" : "Animación"
   }, {
-    "id" : 48,
-    "titulo" : "botella",
-    "director" : "jose",
-    "año" : 1999,
-    "genero" : "teror"
+    "id" : 49,
+    "titulo" : "Borrar",
+    "director" : "Borrar",
+    "año" : 1889,
+    "genero" : "Borrar"
   } ]
 }

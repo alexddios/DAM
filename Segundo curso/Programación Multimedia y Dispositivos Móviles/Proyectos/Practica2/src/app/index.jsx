@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {useLugares} from "../context/lugares";
 import {colores} from "../constants/colores";
 import TarjetaLugar from "../components/TarjetaLugar";
+import EstadoConexion from "../components/EstadoConexion";
 export default function Home() {
   const {lugares, eliminarLugar} = useLugares();
 
@@ -14,7 +15,9 @@ export default function Home() {
         keyExtractor={(lugar) => lugar.id}
         contentContainerStyle={styles.lista}
         ListHeaderComponent={
+
           <View style={styles.introduccion}>
+            <EstadoConexion />
             <Text style={styles.titulo}>Mis lugares</Text>
             <Text style={styles.descripcion}>
               Guarda los sitios que te gustan y vuelve a ellos cuando quieras.
