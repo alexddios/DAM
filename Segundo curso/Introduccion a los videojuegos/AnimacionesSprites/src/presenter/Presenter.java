@@ -4,44 +4,39 @@ import model.IModel;
 import model.SpriteAnimation;
 import view.IView;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Presenter: coordina modelo y vista. Es el único que habla con el modelo;
- * la vista solo recibe imágenes ya recortadas.
+ * Presenter: coordina modelo y vista. Es el único que habla con los dos.
+ * Del modelo saca números (qué hoja usa cada animación y en qué frame va)
+ * y se los pasa a la vista como AnimacionDTO; la vista es quien tiene las imágenes y pinta.
  */
 public class Presenter implements IPresenter{
     private final IModel model;
     private final IView view;
 
+    /** Recibe modelo y vista ya creados (los crea Main): no los crea él. */
     public Presenter(IModel model, IView view) {
         this.model = model;
         this.view = view;
     }
 
-    /** Arranque del programa: carga todos los assets al principio y pone todo en marcha. */
+    /** Arranque del programa: conecta la vista, crea las animaciones y pone todo en marcha. */
     @Override
     public void start(){
-        // La vista necesita al presenter para pedirle imágenes y para los botones
+        // 1. La vista necesita al presenter para pedirle qué pintar y para avisarle de los botones
         view.setPresenter(this);
 
-        // 1. Cargar las 4 hojas: id, archivo, columnas, filas, pasos
-        model.loadSS("Explosion","res/explosion.png",8,1,8);
-        model.loadSS("Pato","res/pato.png",1,4,4);
-        model.loadSS("Fuego","res/Flame.png",4,4,14);
-        model.loadSS("Mujer","res/mujer.png",12,1,12);
-
-        // 2. Crear las 10 animaciones: id de la hoja + ms entre frames.
+        // 2. Crear las 10 animaciones: id de la hoja (registrada en el Catalogo) + ms entre frames.
         //    Varias usan la misma hoja con distinta velocidad: cada una va por su cuenta.
 
-        // Pájaro x3
+        // Pato x3
         model.crearAnimacion("Pato", 80);
         model.crearAnimacion("Pato", 120);
         model.crearAnimacion("Pato", 200);
 
-        // Vórtice x2
+        // Explosión x2
         model.crearAnimacion("Explosion", 100);
         model.crearAnimacion("Explosion", 150);
 
@@ -60,16 +55,19 @@ public class Presenter implements IPresenter{
         play();
     }
 
-    /** Recorre las animaciones y devuelve una lista nueva con el frame actual de cada una. */
+    /**
+     * Lo que la vista tiene que pintar ahora: por cada animación, un DTO con su hoja y su frame actual.
+     * Lee las SpriteAnimation del modelo y construye una lista nueva de DTOs; las animaciones no salen de aquí.
+     */
     @Override
-    public List<BufferedImage> getImages() {
-        List<BufferedImage> imagenes = new ArrayList<>();
+    public List<AnimacionDTO> getAnimaciones() {
+        List<AnimacionDTO> dtos = new ArrayList<>();                    // la lista que se le da a la vista
 
-        for (SpriteAnimation animacion : model.getAnimaciones()) {
-            imagenes.add(animacion.getImage());
+        for (SpriteAnimation animacion : model.getAnimaciones()) {      // la lista del modelo
+            dtos.add(new AnimacionDTO(animacion.getIdHoja(), animacion.getFrameActual()));
         }
 
-        return imagenes;
+        return dtos;
     }
 
     /** Botón Iniciar: arranca el hilo de cada animación. */

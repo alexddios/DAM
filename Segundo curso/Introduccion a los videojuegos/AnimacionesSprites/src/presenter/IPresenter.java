@@ -1,15 +1,14 @@
 package presenter;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 /** Lo que la vista puede pedirle al Presenter. */
 public interface IPresenter {
-    /** Carga los recursos, crea las animaciones y muestra la ventana. */
+    /** Crea las animaciones, muestra la ventana y las pone en marcha. */
     void start();
 
-    /** Frame actual de cada animación, en orden. La vista lo pide en cada repintado. */
-    List<BufferedImage> getImages();
+    /** Hoja y frame actual de cada animación, en orden. La vista lo pide en cada repintado. */
+    List<AnimacionDTO> getAnimaciones();
 
     /** Arranca (o reanuda) todas las animaciones. */
     void play();
@@ -17,3 +16,4 @@ public interface IPresenter {
     /** Para todas las animaciones. */
     void stop();
 }
+

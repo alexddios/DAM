@@ -1,45 +1,39 @@
 package model;
 
+import assets.Catalogo;
+import assets.HojaInfo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Modelo: guarda las hojas de sprites (por id) y las animaciones creadas a partir de ellas.
+ * Modelo: guarda las animaciones y su estado (qué hoja usan, en qué frame van, a qué velocidad).
+ * No carga ni guarda imágenes: de cada hoja solo necesita sus pasos, que saca del Catalogo.
  */
 public class Modelo implements IModel{
-    private Map<String ,SpriteSheet> hojas;          // id → hoja (cada hoja se carga una sola vez)
+    private final Catalogo catalogo;                 // datos de las hojas; se recibe desde fuera (inyección)
     private List<SpriteAnimation> animaciones;       // animaciones en orden de creación
 
-    public Modelo(){
-        this.hojas = new HashMap<>();
+    /** @param catalogo catálogo de hojas ya rellenado; lo crea Main y se lo pasa al modelo */
+    public Modelo(Catalogo catalogo){
+        this.catalogo = catalogo;
         this.animaciones = new ArrayList<>();
     }
 
     /**
-     * Carga una hoja y la guarda con su id.
-     * @throws IllegalArgumentException si ya hay una hoja con ese id (put la sobrescribiría sin avisar)
-     */
-    @Override
-    public void loadSS(String id, String ruta, int columnas, int filas,int pasos){
-        if (hojas.containsKey(id)){
-            throw new IllegalArgumentException("Ya existe una hoja con este id: "+id);
-        }
-        SpriteSheet hoja = new SpriteSheet(ruta, columnas, filas, pasos);
-        hojas.put(id,hoja);
-    }
-
-    /**
      * Crea una animación que usa la hoja id y la añade a la lista.
-     * @throws IllegalArgumentException si no hay ninguna hoja con ese id
+     * Del catálogo solo toma los pasos de la hoja; la animación guarda el id para que la vista sepa qué pintar.
+     * @throws IllegalArgumentException si el catálogo no tiene ninguna hoja con ese id
      */
     @Override
     public void crearAnimacion(String id, int ms){
-        if(!hojas.containsKey(id)){
+        HojaInfo info = catalogo.get(id);   // si el id no está registrado, el propio catálogo lanza la excepción
+        if(info == null){                   // protección extra: con el Catalogo actual nunca llega a cumplirse
             throw new IllegalArgumentException("La hoja con el id "+ id + " no existe");
         }
-        SpriteAnimation animation = new SpriteAnimation(hojas.get(id),ms);
+        SpriteAnimation animation = new SpriteAnimation(id, info.pasos(), ms);
         animaciones.add(animation);
     }
 

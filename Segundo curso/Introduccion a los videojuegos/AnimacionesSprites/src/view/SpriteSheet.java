@@ -1,16 +1,16 @@
-package model;
+package view;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.ServerSocket;
 
 /**
  * Hoja de sprites: una imagen PNG con varios frames colocados en una rejilla.
+ * Es parte de la vista: la crea View a partir de los datos del Catalogo.
  * Al crearla, carga la imagen del disco y recorta TODOS los frames una sola vez;
  * después getFrame solo devuelve el frame ya recortado, sin crear objetos nuevos.
- * Varias SpriteAnimation pueden compartir la misma hoja.
+ * Varias animaciones pueden usar la misma hoja.
  */
 public class SpriteSheet {
     private String ruta;              // ruta del archivo (para los mensajes de error)
@@ -23,7 +23,7 @@ public class SpriteSheet {
     /**
      * Carga la hoja, comprueba que se puede dividir en frames iguales y recorta todos los frames.
      *
-     * @param ruta     ruta del PNG, relativa a la carpeta del proyecto (ej. "res/Bird.png")
+     * @param ruta     ruta del PNG, relativa a la carpeta del proyecto (ej. "res/pato.png")
      * @param columnas columnas de la rejilla
      * @param filas    filas de la rejilla
      * @param pasos    número de frames de la animación (1..columnas*filas)
@@ -93,7 +93,7 @@ public class SpriteSheet {
         return this.subImages[n];
     }
 
-    /** Número de frames de la animación; SpriteAnimation lo usa para volver al frame 0. */
+    /** Número de frames de la hoja. */
     public int getPasos(){
         return this.pasos;
     }
