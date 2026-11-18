@@ -1,0 +1,6 @@
+# Para segundo de DAM: videojuegos y Servicios y Procesos
+
+- **Origen:** SpriteAnimation, 2026-10-30, al revisar la visión y el fundacional. El propietario: «es para segundo de dam que tienen un módulo opcional de videojuegos que es en el que se trabajarán las animáciones pero también tienen un modulo de procesos y servicios dónde se dan threads».
+- **Contexto:** «Material de consulta sobre sprites y MVP para FP» hablaba de alumnos de FP de DAM y DAW, sin curso ni módulo, y los documentos situaron la demo en primero.
+- **Decisión:** la demo es para alumnos de segundo de DAM. Las animaciones se trabajan en el módulo optativo de videojuegos, y los hilos, en Programación de Servicios y Procesos, que el mismo grupo cursa ese año. Se mantiene lo demás de la decisión sustituida: la demo enseña por igual a cargar y usar hojas de sprites y la arquitectura MVP, y el alumno la usa como material de consulta.
+- **Consecuencias:** el caso conductor ocurre en segundo de DAM, y el profesor protagonista da el módulo de videojuegos. Los hilos, tema secundario en la demo, se apoyan en lo que el grupo ve en Programación de Servicios y Procesos. Sustituye a «Material de consulta sobre sprites y MVP para FP».

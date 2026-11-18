@@ -1,0 +1,12 @@
+/* Bloques de código de los documentos del proyecto. El kit de la SF solo da estilo al código en línea. */
+pre {
+  background: var(--fondo-suave);
+  border-left: 3px solid var(--primario);
+  border-radius: 4px;
+  padding: .8em 1em;
+  margin: 1em 0 1.2em;
+  overflow-x: auto;
+  line-height: 1.45;
+}
+pre code { background: none; padding: 0; font-size: .82em; white-space: pre; }
+@media print { pre { overflow: visible; white-space: pre-wrap; break-inside: avoid; } pre code { white-space: pre-wrap; } }

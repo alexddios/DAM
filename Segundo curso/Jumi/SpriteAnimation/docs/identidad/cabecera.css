@@ -1,0 +1,4 @@
+/* Enlace al repositorio en la cabecera de color: claro y legible sobre el fondo oscuro; en papel, el color normal. */
+.portada.oscura .idea a, .site-header .institution-repo a { color: #9ee6dc; text-decoration-color: rgba(158,230,220,.55); }
+.site-header .institution-repo { color: rgba(255,255,255,.82); font-size: .8rem; margin-top: .2rem; }
+@media print { .portada.oscura .idea a, .site-header .institution-repo a { color: var(--primario); } .site-header .institution-repo { color: var(--texto); } }

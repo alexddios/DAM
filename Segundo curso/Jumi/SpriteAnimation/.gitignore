@@ -1,0 +1,23 @@
+# Software Factory
+.sf/estado.json
+.sf/peticiones.json
+.sf/peticiones.lock
+.sf/historial.jsonl
+.sf/copias/
+.claude/worktrees/
+.sf/subagentes.json
+sf/decisiones/README.html
+
+# Java
+out/
+build/
+target/
+*.class
+.idea/
+*.iml
+
+# VS Code: se comparten las tareas, el lanzador y la configuración del proyecto Java
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/settings.json

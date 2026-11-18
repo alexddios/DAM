@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SpriteAnimation</title>
+<meta name="description" content="Cómo animar sprites en Java, con el código bien organizado: MVP, interfaces, inyección de dependencias e hilos. Material para 2º de DAM.">
+<style>
+  :root { --fondo: #f7f8fa; --texto: #1c2434; --suave: #556075; --acento: #2f6fdb; --tarjeta: #ffffff; --borde: #d9dee7; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fondo: #1c2434; --texto: #e8ecf3; --suave: #a7b1c2; --acento: #7aa8ff; --tarjeta: #26314a; --borde: #3a4866; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 17px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 48px 16px; }
+  h1 { font-size: 2.2rem; margin: 0 0 .2em; }
+  .lema { color: var(--suave); margin: 0 0 1.5em; }
+  img { display: block; margin: 0 auto 2em; max-width: 100%; image-rendering: pixelated; border-radius: 8px; }
+  a { color: var(--acento); }
+  ul { list-style: none; padding: 0; display: grid; gap: 12px; }
+  li a { display: block; padding: 14px 18px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 10px; text-decoration: none; }
+  li a strong { display: block; color: var(--texto); }
+  li a span { color: var(--suave); font-size: .92em; }
+  footer { color: var(--suave); font-size: .9em; margin-top: 2.5em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>SpriteAnimation</h1>
+  <p class="lema">Cómo animar sprites en Java, con el código bien organizado. Material para 2º de DAM.</p>
+  <img src="docs/imagenes/demo-sprites.gif" alt="El pato aleteando y la explosión, cada uno a su ritmo" width="280">
+  <ul>
+    <li><a href="docs/material/mvp-interfaces-inyeccion.html"><strong>MVP, interfaces e inyección de dependencias</strong><span>El documento para alumnos, con la demo de animación de sprites.</span></a></li>
+    <li><a href="docs/material/estructura-demo.html"><strong>La estructura de la demo</strong><span>El mapa del código: los cinco paquetes, qué hace cada clase y quién conoce a quién.</span></a></li>
+    <li><a href="https://github.com/jumibot/SpriteAnimation"><strong>Repositorio en GitHub</strong><span>El código de la demo, con sus pruebas y cómo ejecutarla, las hojas de sprites y las decisiones de diseño.</span></a></li>
+  </ul>
+  <footer>Código con licencia MIT. Material con licencia CC BY 4.0. Sprites de dominio público (CC0).</footer>
+</main>
+</body>
+</html>

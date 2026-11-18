@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.ServerSocket;
 
 /**
  * Hoja de sprites: una imagen PNG con varios frames colocados en una rejilla.
@@ -19,7 +20,6 @@ public class SpriteSheet {
     private int spriteWidth;          // ancho de cada frame en píxeles
     private int spriteHeight;         // alto de cada frame en píxeles
     private BufferedImage[] subImages; // frames ya recortados, en orden (posición n = frame n)
-
     /**
      * Carga la hoja, comprueba que se puede dividir en frames iguales y recorta todos los frames.
      *

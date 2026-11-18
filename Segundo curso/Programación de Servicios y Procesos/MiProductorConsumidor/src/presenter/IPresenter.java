@@ -1,9 +1,6 @@
 package presenter;
 
-import config.Config;
-import config.Estado;
-import config.EstadoHilo;
-import config.ResourceInfo;
+import config.*;
 
 import java.util.List;
 
@@ -15,6 +12,6 @@ public interface IPresenter {
     int getStockTotal();
     int getTotalProducido();
     int getTotalConsumido();
-    List<ResourceInfo> resources();
-    List<EstadoHilo> hilos();
+    List<ResourceInfo> getResources();
+    List<HiloInfo> getHilos();
 }

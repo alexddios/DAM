@@ -1,10 +1,8 @@
 package view;
 
-import listeners.AccionBoton;
-import presenter.IPresenter;
-
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /** Panel inferior con los botones Iniciar y Parar. */
 public class ControlPanel extends JPanel {
@@ -32,18 +30,15 @@ public class ControlPanel extends JPanel {
         add(parar, gc);
     }
 
-    /** Conecta los botones con el presenter. Lo llama View.setPresenter. */
-    public void setPresenter(IPresenter presenter) {
+    /** Conecta los botones con el listener (la View). Lo llama View.setPresenter. */
+    public void setActionListener(ActionListener listener) {
         // 1. Etiquetar cada botón con su comando, para que el listener sepa cuál se pulsó
-        iniciar.setActionCommand(AccionBoton.INICIAR);
-        parar.setActionCommand(AccionBoton.PARAR);
+        iniciar.setActionCommand(View.INICIAR);
+        parar.setActionCommand(View.PARAR);
 
-        // 2. Crear UN listener que conoce al presenter
-        AccionBoton escuchador = new AccionBoton(presenter);
-
-        // 3. Ese mismo listener escucha a los dos botones
-        iniciar.addActionListener(escuchador);
-        parar.addActionListener(escuchador);
+        // 2. El mismo listener escucha a los dos botones
+        iniciar.addActionListener(listener);
+        parar.addActionListener(listener);
     }
 
 }

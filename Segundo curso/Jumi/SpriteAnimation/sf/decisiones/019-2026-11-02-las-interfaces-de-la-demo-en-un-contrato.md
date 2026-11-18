@@ -1,0 +1,7 @@
+# Las interfaces de la demo, en un contrato
+
+- **Origen:** SpriteAnimation, 2026-11-02, al revisar el documento explicativo de MVP (tarea 6). El propietario quería que el nombre aclarara qué tipos son interfaces y, entre las opciones, eligió el contrato.
+- **Contexto:** «Sufijo Interface en las interfaces de la demo» proponía `AnimationModelInterface`, `AnimationViewInterface` y `AnimationPresenterInterface`. Antes de aplicarlo, se valoraron otras formas.
+- **Opciones:** sufijo `Interface`; un contrato con las tres interfaces anidadas, la convención extendida de MVP en Java (ejemplos de arquitectura de Android); o los nombres de antes.
+- **Decisión:** una interfaz `AnimationContract` agrupa tres interfaces anidadas: `AnimationContract.Model`, `AnimationContract.View` y `AnimationContract.Presenter`, con los mismos métodos que tenían. Las clases `Model`, `View` y `Presenter` las implementan; el constructor es `Presenter(AnimationContract.Model, AnimationContract.View)`. Sustituye a «Sufijo Interface en las interfaces de la demo», que no llegó a aplicarse.
+- **Consecuencias:** cada uso deja claro que el tipo es una interfaz, los tres contratos se leen juntos en un archivo y el alumno aprende una convención real de MVP. El documento explica en dos líneas que una interfaz puede tener interfaces anidadas. Cambia los nombres de «Interfaces y constructores de la demo» y de «El presentador recibe el modelo y la vista por sus interfaces».

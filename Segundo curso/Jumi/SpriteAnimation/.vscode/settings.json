@@ -1,0 +1,6 @@
+{
+  // Para el Extension Pack for Java: proyecto sin Gradle ni Maven, con estas carpetas.
+  "java.project.sourcePaths": ["src/main/java", "src/main/resources", "src/test/java"],
+  "java.project.outputPath": "out/vscode",
+  "java.project.referencedLibraries": []
+}

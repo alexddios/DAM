@@ -1,0 +1,7 @@
+# Un hilo por sprite y un hilo de pintado
+
+- **Origen:** SpriteAnimation, 2026-10-30, al preparar el documento de visión. El propietario: «Un hilo por sprite (modelo) y un hilo para pintar (vista). Ojo no es un juego, es un ejemplo mínimo didáctico, sin controles de movimiento, colisiones, ...»; «Crear y parar hilos, Velocidad constante, usaremos un Canvas para pintar. Nada se dibuja solo...»; los hilos, «como tema secundario».
+- **Contexto:** se añade el uso de hilos a la demo y hay que decidir cómo se usan y cuánto pesan.
+- **Opciones:** un hilo por sprite, un solo bucle de animación o comparar los dos; enseñar crear y parar hilos, el hilo de eventos de Swing, el estado compartido o la velocidad constante; dar a los hilos el mismo peso que a los sprites y MVP o un peso secundario.
+- **Decisión:** en el modelo, cada sprite tiene su propio hilo. En la vista, un solo hilo pinta en un `Canvas` de forma explícita: nada se dibuja solo. Se enseña a crear y parar hilos y a mantener una velocidad constante. Los hilos son un tema secundario frente a los sprites y MVP. La demo no es un juego: no tiene controles de movimiento ni colisiones.
+- **Consecuencias:** el hilo de eventos de Swing no es un tema de la demo. El estado que comparten los hilos de los sprites y el de pintado se resuelve de forma mínima y correcta, sin hacer de ello una lección. El dibujo se hace con Java2D sobre el `Canvas` (ver «Swing y Java2D como librería gráfica»).

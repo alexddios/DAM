@@ -4,12 +4,18 @@ import presenter.IPresenter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Vista: la ventana. Contiene el lienzo (ViewPanel) arriba y los botones (ControlPanel) abajo.
  * Tiene su propio hilo, que cada FRAME_MS pide las imágenes al Presenter y se las pasa al lienzo.
  */
-public class View implements IView,Runnable {
+public class View implements IView,Runnable,ActionListener {
+    // Comandos de los botones (public static para usarlos desde ControlPanel)
+    public static final String PARAR = "BTN_PARAR";
+    public static final String INICIAR = "BTN_INICIAR";
+
     private IPresenter presenter;
     private final JFrame frame;
     private final ViewPanel viewer;              // lienzo donde se pintan las animaciones
@@ -60,11 +66,20 @@ public class View implements IView,Runnable {
         }
     }
 
-    /** Guarda el presenter y se lo pasa al panel de botones para sus listeners. */
+    /** Guarda el presenter y conecta los botones con esta vista como listener. */
     @Override
     public void setPresenter(IPresenter presenter) {
         this.presenter=presenter;
-        controlPanel.setPresenter(presenter);
+        controlPanel.setActionListener(this);
+    }
+
+    /** Mira el actionCommand del botón pulsado y avisa al presenter. */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()){
+            case PARAR -> presenter.stop();
+            case INICIAR -> presenter.play();
+        }
     }
 
     /** Muestra la ventana y arranca el hilo de repintado. */

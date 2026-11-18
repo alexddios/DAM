@@ -1,0 +1,24 @@
+{
+  // Tareas de VS Code: Terminal > Ejecutar tarea… Llaman a los mismos scripts que la línea de órdenes.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Ejecutar demo",
+      "type": "process",
+      "command": "${workspaceFolder}/ejecutar.sh",
+      "windows": { "command": "cmd.exe", "args": ["/d", "/c", "${workspaceFolder}\\ejecutar.cmd"] },
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "Probar",
+      "type": "process",
+      "command": "${workspaceFolder}/probar.sh",
+      "windows": { "command": "cmd.exe", "args": ["/d", "/c", "${workspaceFolder}\\probar.cmd"] },
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "group": { "kind": "test", "isDefault": true }
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+sf/decisiones/README.md merge=union
+*.cmd text eol=crlf
+*.sh text eol=lf

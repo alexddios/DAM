@@ -1,0 +1,6 @@
+# El constructor del presentador conecta y start() solo arranca
+
+- **Origen:** SpriteAnimation, 2026-11-02, al revisar el montaje del documento explicativo de MVP (tarea 6). El propietario: «start arranca cosas y el constructor del presentador las presenta (conecta)».
+- **Contexto:** «Los sprites se crean en el modelo y el presentador arranca la aplicación» y «main pide los sprites al modelo, no el presentador» dejaban `view.setPresenter(this)` dentro de `Presenter.start()`, mezclando conectar y arrancar.
+- **Decisión:** el constructor `Presenter(Model, AnimationView)` guarda el modelo y la vista y se conecta a ellos: `view.setPresenter(this)` como última línea y, si algún día el modelo necesitara al presentador, también ahí. `Presenter.start()` solo arranca: `model.start()` y `view.start()`. Hasta `start()` todo lo hace el hilo de `main` construyendo; los demás hilos nacen en `start()`.
+- **Consecuencias:** el documento explica que pasar `this` desde un constructor («dejar escapar `this`») suele ser mala práctica en Java, y por qué aquí no da problemas: es la última línea del constructor, la vista solo guarda la referencia y aún no hay otros hilos. El documento explicativo de MVP y sus viñetas se rehacen con este montaje.

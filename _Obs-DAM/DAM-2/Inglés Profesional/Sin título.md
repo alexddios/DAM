@@ -1,0 +1,5 @@
+1. The text says Mac users are "a little bit od both" wild risk takers and safe from hackers. Explain in your own words what the autor means. Do you agree with this conclusion? 
+
+2. Acording to the text, hackers historically attacked Windows more than macOS because of market, not beacuse of technical superiority. What does this tell us about how cybercriminals think and make decisions? Can you apply the same login to another platform or technology you use (e.g. Android vs iOS, popular apps,games)?
+3. The autor compares App Sandbox to "a high-walled sandbox as a child". Explain how sandboxing works using your own technical knowledge and evaludate analogy
+4. Apple prevents the installation of software that is not avaliable through ist approved outlets. This increases security but reduces the user's freedom. Is this a fair trade-off? Who should decide what you can install on a device you own the manufacturer or the user? Argue your position

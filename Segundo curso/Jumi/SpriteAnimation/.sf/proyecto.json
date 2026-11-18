@@ -1,0 +1,13 @@
+{
+  "sf": "1.7.0",
+  "proyecto": "SpriteAnimation",
+  "descripcion": "Demostración de cómo usar sprites para crear animaciones en Java",
+  "color": "orange",
+  "metodologia": true,
+  "idioma": "es",
+  "commits": "libre",
+  "remoto": "origin",
+  "rama_main": "main",
+  "manifiesto": null,
+  "coautor": "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+}

@@ -1,0 +1,5 @@
+# Reglas de los documentos de visión de SpriteAnimation
+
+- **El protagonista es el profesor.** El caso conductor lo protagoniza un profesor de FP que usa SpriteAnimation para enseñar. Los alumnos aparecen como personajes secundarios: sus prácticas y sus dudas son las que el profesor resuelve con la demo. (El autor, 2026-10-30: «cambia de personaje, debe ser el profesor»; «pueden aparecer alumnos como segundos personajes, pero el principal el profe».)
+- **Segundo de DAM.** El caso ocurre en segundo de DAM: el profesor protagonista da el módulo optativo de videojuegos, donde se trabajan las animaciones, y el mismo grupo estudia hilos en Programación de Servicios y Procesos. (Decisión «Para segundo de DAM: videojuegos y Servicios y Procesos».)
+- **El material didáctico habla al alumno.** En los documentos para alumnos, cada frase le sirve a él: nada sobre cómo se ha hecho el documento o el código (de dónde sale, si compila, qué se ha recortado), ni en avisos ni en el pie. (El autor, 2026-10-31: «Nuestro lector es un alumno. Esto no aporta al alumno».)
