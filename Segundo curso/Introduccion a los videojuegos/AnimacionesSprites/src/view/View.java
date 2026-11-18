@@ -32,7 +32,7 @@ public class View implements IView,Runnable,ActionListener {
     private final ViewPanel viewer;              // lienzo donde se pintan las animaciones
     private final ControlPanel controlPanel;     // botones Iniciar / Parar
 
-    Map<String, SpriteSheet> hojas;              // id → hoja ya cargada y recortada
+    private Map<String, SpriteSheet> hojas;              // id → hoja ya cargada y recortada
 
     private final int FRAME_MS = 16;             // ~60 repintados por segundo (1000 / 60)
 
