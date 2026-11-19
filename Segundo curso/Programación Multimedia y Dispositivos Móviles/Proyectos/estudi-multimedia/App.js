@@ -41,6 +41,7 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.titol}>Estudi Multimèdia</Text>
       <Button title="Triar de la galeria" onPress={triarDeGaleria} />
+      <Button title="Fer una foto" onPress={ferFoto} />
 
       {imatge && (
         <>
