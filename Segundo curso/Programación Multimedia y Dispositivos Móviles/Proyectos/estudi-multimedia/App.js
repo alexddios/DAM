@@ -22,6 +22,21 @@ export default function App() {
     }
   }
 
+  // Demo 1b · Fer una foto i mostrar-la (CA b, e)
+  async function ferFoto() {
+    const permis = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permis.granted) {
+      Alert.alert('Activa la càmera');
+      return;
+    }
+    try {
+      const resultat = await ImagePicker.launchCameraAsync({ quality: 0.8 });
+      if (!resultat.canceled) setImatge(resultat.assets[0]);
+    } catch (error) {
+      Alert.alert('Error de càmera', error.message); // sense càmera...
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.titol}>Estudi Multimèdia</Text>
