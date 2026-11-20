@@ -3,6 +3,11 @@ package util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+/**
+ * Utilidad para leer un fichero de texto línea a línea.
+ * Si el fichero no existe (por ejemplo, la primera vez que arranca el servidor),
+ * leerLinea() devuelve null y cerrar() no hace nada, así que no salta ningún NullPointerException.
+ */
 public class FicheroEntrada {
 
     private final String nombre;

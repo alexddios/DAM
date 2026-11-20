@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * Panel inferior: campos de nombre y puntuación en una fila y el botón "Get Scores" debajo.
+ * Cada componente que genera eventos lleva un actionCommand fijo ("get" y "enviar"),
+ * porque el de un JTextField por defecto sería el texto que haya escrito el usuario.
+ */
 public class ControlPanel extends JPanel {
     private final JTextField textoNombre;
     private final JTextField textoScore;
@@ -12,6 +17,8 @@ public class ControlPanel extends JPanel {
     public ControlPanel() {
         setLayout(new GridBagLayout());
 
+        // Columnas ajustadas para que todo quepa en los 300 px de la ventana:
+        // si no cabe, GridBagLayout encoge los campos a su tamaño mínimo (casi cero).
         textoNombre = new JTextField(7);
         textoScore = new JTextField(4);
         textoScore.setActionCommand("enviar");
@@ -31,6 +38,7 @@ public class ControlPanel extends JPanel {
         add(getScores,c);
     }
 
+    /** Devuelve un panel con dos componentes uno al lado del otro (se puede anidar). */
     private JPanel crearPar(JComponent izquierda, JComponent derecha) {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -48,6 +56,7 @@ public class ControlPanel extends JPanel {
     public String getPuntuacion(){
         return textoScore.getText();
     }
+    /** El botón y el Enter del campo de la puntuación avisan al mismo listener (la View). */
     public void setActionListener(ActionListener listener){
         getScores.addActionListener(listener);
         textoScore.addActionListener(listener);

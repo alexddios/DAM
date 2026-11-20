@@ -5,8 +5,11 @@ import presenter.Presenter;
 import view.IView;
 import view.View;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+/**
+ * Punto de entrada del cliente. Crea el modelo y la vista y se los inyecta al presentador:
+ * ninguna clase crea sus propias dependencias.
+ * Antes hay que arrancar ScoreServer o ThreadScoreServer.
+ */
 void main() {
     IModel model = new Model();
     IView view = new View();

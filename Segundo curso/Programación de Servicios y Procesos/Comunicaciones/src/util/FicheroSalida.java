@@ -3,6 +3,10 @@ package util;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
+/**
+ * Utilidad para escribir un fichero de texto línea a línea.
+ * Captura ella misma las excepciones y las muestra por consola.
+ */
 public class FicheroSalida {
 
     private final String nombre;
@@ -13,6 +17,7 @@ public class FicheroSalida {
         this.nombre = nombre;
     }
 
+    /** Abre el fichero. Con anadir = false se sobrescribe; con true se escribe al final. */
     public void abrir(boolean anadir) {
         try {
             fichero = new FileWriter(nombre, anadir);
@@ -22,6 +27,7 @@ public class FicheroSalida {
         }
     }
 
+    /** Escribe una línea y su salto de línea. */
     public void escribirLinea(String linea) {
         try {
             escritor.write(linea);
@@ -31,6 +37,7 @@ public class FicheroSalida {
         }
     }
 
+    /** Cierra el fichero; cerrar el BufferedWriter vuelca lo que quede pendiente en el disco. */
     public void cerrar() {
         try {
             escritor.close();

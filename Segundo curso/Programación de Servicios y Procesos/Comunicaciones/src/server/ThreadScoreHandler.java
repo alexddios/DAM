@@ -8,6 +8,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * Hilo que atiende a un único cliente del servidor multihilo.
+ * Hace lo mismo que el ScoreServer secuencial con un cliente, pero en su propio hilo.
+ * Recibe el HighScores compartido, que está protegido con synchronized.
+ */
 public class ThreadScoreHandler implements Runnable{
     private final Socket socket;
     private final HighScores hs;
@@ -17,6 +22,7 @@ public class ThreadScoreHandler implements Runnable{
         this.hs = hs;
     }
 
+    /** Monta los streams, atiende al cliente hasta que se va, cierra y guarda las puntuaciones. */
     @Override
     public void run(){
         try{
@@ -31,6 +37,8 @@ public class ThreadScoreHandler implements Runnable{
             System.out.println(e);
         }
     }
+
+    /** Bucle de mensajes: termina con 'bye' o cuando readLine() devuelve null. */
     private void processClient(BufferedReader in, PrintWriter out) {
         String line;
         boolean done = false;
@@ -51,6 +59,7 @@ public class ThreadScoreHandler implements Runnable{
         }
     }
 
+    /** Atiende 'get' y 'score'; el resto de mensajes se ignora. */
     private void doRequest(String line, PrintWriter out) {
         if (line.trim().toLowerCase().equals("get")) {
             System.out.println("Processing 'get'");
