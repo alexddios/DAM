@@ -1,4 +1,6 @@
-package model;
+package server;
+
+import model.HighScores;
 
 import java.io.BufferedReader;
 import java.io.IOException;

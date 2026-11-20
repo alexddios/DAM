@@ -2,6 +2,7 @@ package model;
 
 import util.FicheroEntrada;
 import util.FicheroSalida;
+import view.ControlPanel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class HighScores {
         this.scores = new ArrayList<>();
         cargarScores();
     }
-    public void addScore(ScoreInfo score){
+    public synchronized void addScore(ScoreInfo score){
         int pos = scores.size();
         for (int i = 0; i < scores.size(); i++) {
             if (scores.get(i).puntos() < score.puntos()){
@@ -39,7 +40,7 @@ public class HighScores {
         }
 
     }
-    public void guardarScores(){
+    public synchronized void guardarScores(){
         FicheroSalida f = new FicheroSalida(RUTA);
         f.abrir(false);
         for (ScoreInfo s : scores){
@@ -59,7 +60,7 @@ public class HighScores {
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         StringBuilder sb = new StringBuilder("HIGH$$ ");
         for (ScoreInfo s : scores){
             sb.append(s);
