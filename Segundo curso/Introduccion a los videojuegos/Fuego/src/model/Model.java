@@ -1,18 +1,14 @@
 package model;
 
-import java.awt.image.BufferedImage;
-
 public class Model implements IModel,Runnable{
     private final int width = 320;
     private final int height = 200;
     private final int frameMS = 33;
 
     private final Fire fire;
-    private final Render render;
 
     public Model(){
         fire = new Fire(width,height);
-        render = new Render(fire, Palette.createPalette());
     }
     @Override
     public void start() { // Inicia el hilo
@@ -34,17 +30,22 @@ public class Model implements IModel,Runnable{
 
     @Override
     public void update() {
-        synchronized (fire) { // Render no lee mientras se actualiza
+        synchronized (fire) {
             fire.sparksGeneration();
             fire.coolPointsGeneration();
             fire.updateFlames();
         }
     }
-
     @Override
-    public BufferedImage getImage() {
-        return render.getImage();
+    public int[][] getTemperatures() {
+        synchronized (fire){
+            int [][] original = fire.getTemperatures();
+            int[][] copia = new int[original.length][];
+            for (int i = 0; i < original.length; i++) {
+                copia[i] = original[i].clone();
+            }
+            return copia;
+        }
     }
-
 
 }
