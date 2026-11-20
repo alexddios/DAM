@@ -3,8 +3,6 @@ package presenter;
 import model.IModel;
 import view.IView;
 
-import java.awt.image.BufferedImage;
-
 public class Presenter implements IPresenter{
     private final IModel model;
     private final IView view;
@@ -22,7 +20,7 @@ public class Presenter implements IPresenter{
     }
 
     @Override
-    public BufferedImage getImage() {
-        return model.getImage();
+    public int[][] getTemperatures() {
+        return model.getTemperatures();
     }
 }
