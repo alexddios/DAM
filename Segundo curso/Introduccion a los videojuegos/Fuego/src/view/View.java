@@ -3,10 +3,13 @@ package view;
 import presenter.IPresenter;
 
 import javax.swing.*;
-import java.awt.Dimension;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 // La View es solo la ventana: contiene el Viewer (canvas) y hace de puente con el Presenter
-public class View implements IView,Runnable{
+public class View implements IView,Runnable, ActionListener {
+    private final ControlPanel controlPanel;
     private IPresenter presenter;
 
     private final JFrame frame;
@@ -16,18 +19,46 @@ public class View implements IView,Runnable{
 
     private final int FRAME_MS = 16;
 
+    public static final String INICIAR = "BTN_INICIAR";
+    public static final String PAUSAR = "BTN_PAUSAR";
+    public static final String PARAR = "BTN_PARAR";
+
     public View(Palette palette){
         viewer = new Viewer();
+        controlPanel = new ControlPanel();
 
         frame = new JFrame("Fire Animation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(viewer); // mete el canvas dentro de la ventana
+
+        JPanel p = new JPanel(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+
+        gc.gridx = 1;
+        gc.gridy = 0;
+        gc.gridheight = 2;
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.fill = GridBagConstraints.BOTH;
+        p.add(viewer,gc);
+
+        gc.gridx = 0;
+        gc.gridy = 0;
+        gc.gridheight = 1;
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.anchor = GridBagConstraints.NORTH;
+        p.add(controlPanel,gc);
+
+        frame.add(p);
+
         this.render = new Render(palette);
     }
 
     @Override
     public void setPresenter(IPresenter presenter) {
         this.presenter=presenter;
+        controlPanel.setActionListener(this);
     }
 
     @Override
@@ -55,6 +86,15 @@ public class View implements IView,Runnable{
             } catch (InterruptedException e) {
                 return; // si interrumpen el hilo, simplemente termina
             }
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()){
+            case INICIAR -> presenter.iniciar();
+            case PAUSAR -> presenter.pausar();
+            case PARAR -> presenter.parar();
         }
     }
 }

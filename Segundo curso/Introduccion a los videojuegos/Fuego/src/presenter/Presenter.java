@@ -1,5 +1,6 @@
 package presenter;
 
+import config.Estado;
 import model.IModel;
 import view.IView;
 
@@ -17,6 +18,24 @@ public class Presenter implements IPresenter{
         view.setPresenter(this);
         model.start();
         view.start();
+    }
+
+    @Override
+    public void iniciar() {
+        model.iniciar();
+    }
+
+    @Override
+    public void pausar() {
+        if(model.getEstado() == Estado.PARADO){
+            return;
+        }
+        model.pausar();
+    }
+
+    @Override
+    public void parar() {
+        model.parar();
     }
 
     @Override
