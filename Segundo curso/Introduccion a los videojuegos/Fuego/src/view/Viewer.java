@@ -20,7 +20,7 @@ public class Viewer extends Canvas{
         BufferedImage buffer = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_ARGB);
         Graphics gb = buffer.getGraphics();
 
-        gb.setColor(Color.BLACK);
+        gb.setColor(Color.WHITE);
         gb.fillRect(0,0,getWidth(),getHeight());
 
         gb.drawImage(current,0,0,getWidth(),getHeight(),null);
