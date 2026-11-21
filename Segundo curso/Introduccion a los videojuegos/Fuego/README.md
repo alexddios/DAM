@@ -181,7 +181,7 @@ nueva = max(0, (actual + left + center + right) / 4 - random(0..1))
 
 | Temperatura | Alpha | R | G | B | Color |
 |------------:|------:|----:|----:|----:|-------|
-| 0   | 0   | 0   | 0   | 0   | Transparente / negro |
+| 0   | 0   | 0   | 0   | 0   | Transparente (se ve el fondo blanco del `Viewer`) |
 | 20  | 255 | 224 | 58  | 0   | Rojo anaranjado |
 | 80  | 255 | 255 | 208 | 32  | Amarillo |
 | 255 | 255 | 255 | 255 | 255 | Blanco |
@@ -297,7 +297,7 @@ Tiene comentados `play()`, `pause()` y `stop()`, pensados para controlar la anim
 
 #### `Viewer` (extiende `Canvas`)
 - `setImage(BufferedImage)` guarda la imagen (campo `volatile`) y llama a `repaint()`.
-- `paint(Graphics)` no hace nada si aún no hay imagen o el canvas mide 0. Si no, pinta con doble buffer: fondo negro, fuego escalado al tamaño del canvas y volcado del buffer a pantalla.
+- `paint(Graphics)` no hace nada si aún no hay imagen o el canvas mide 0. Si no, pinta con doble buffer: fondo blanco, fuego escalado al tamaño del canvas y volcado del buffer a pantalla.
 - `update(Graphics)` llama directamente a `paint()` para evitar el parpadeo.
 
 #### `Render`
