@@ -31,7 +31,7 @@ javac -d out src/Main.java src/model/*.java src/view/*.java src/presenter/*.java
 java -cp out Main
 ```
 
-Se abre una ventana titulada **"Fire Animation0"** con el fuego animado. Al cerrarla termina el programa.
+Se abre una ventana titulada **"Fire Animation"** con el fuego animado. Al cerrarla termina el programa.
 
 ---
 
@@ -39,21 +39,21 @@ Se abre una ventana titulada **"Fire Animation0"** con el fuego animado. Al cerr
 
 ```
 src/
-├── Main.java                 Punto de entrada: crea Modelo, Vista y Presentador
-├── model/
+├── Main.java                 Punto de entrada: crea Modelo, Vista y Presentador y los inyecta
+├── model/                    Solo estado y números
 │   ├── IModel.java           Interfaz del modelo
 │   ├── Model.java            Modelo: bucle de simulación en su propio hilo
-│   ├── Fire.java             Matriz de temperaturas y algoritmo del fuego
-│   ├── Render.java           Convierte temperaturas en una imagen ARGB
-│   ├── Palette.java          Tabla temperatura → color (256 entradas)
-│   └── ColorTargetDTO.java   Punto de control de la paleta (temperatura + ARGB)
+│   └── Fire.java             Matriz de temperaturas y algoritmo del fuego
 ├── presenter/
 │   ├── IPresenter.java       Interfaz del presentador
 │   └── Presenter.java        Une Modelo y Vista
-└── view/
+└── view/                     Todo lo visual
     ├── IView.java            Interfaz de la vista
     ├── View.java             Ventana (JFrame) + hilo de refresco
-    └── Viewer.java           Canvas donde se pinta la imagen
+    ├── Viewer.java           Canvas con doble buffer donde se pinta la imagen
+    ├── Render.java           Convierte temperaturas en una imagen ARGB
+    ├── Palette.java          Tabla temperatura → color (256 entradas)
+    └── ColorTargetDTO.java   Punto de control de la paleta (temperatura + ARGB)
 ```
 
 ---
@@ -68,12 +68,12 @@ classDiagram
         <<interface>>
         +update()
         +start()
-        +getImage() BufferedImage
+        +getTemperatures() int[][]
     }
     class IPresenter {
         <<interface>>
         +start()
-        +getImage() BufferedImage
+        +getTemperatures() int[][]
     }
     class IView {
         <<interface>>
@@ -83,12 +83,12 @@ classDiagram
 
     class Model
     class Fire
-    class Render
-    class Palette
-    class ColorTargetDTO
     class Presenter
     class View
     class Viewer
+    class Render
+    class Palette
+    class ColorTargetDTO
 
     IModel <|.. Model
     IPresenter <|.. Presenter
@@ -101,20 +101,21 @@ classDiagram
     Presenter --> IView
     View --> IPresenter
     View *-- Viewer
-    Model *-- Fire
-    Model *-- Render
-    Render --> Fire
+    View *-- Render
     Render --> Palette
     Palette ..> ColorTargetDTO
+    Model *-- Fire
 ```
 
 | Capa | Responsabilidad |
 |------|-----------------|
-| **Modelo** (`model`) | Simula el fuego (`Fire`) y lo traduce a una imagen (`Render` + `Palette`). No sabe nada de Swing. |
-| **Presentador** (`presenter`) | Arranca el modelo y la vista y hace de intermediario: la vista le pide la imagen y él se la pide al modelo. |
-| **Vista** (`view`) | Muestra la ventana y repinta periódicamente la imagen que obtiene del presentador. No sabe nada del modelo. |
+| **Modelo** (`model`) | Simula el fuego (`Fire`) y da una **copia** de su matriz de temperaturas. Solo guarda números: no sabe nada de colores, imágenes ni Swing. |
+| **Presentador** (`presenter`) | Arranca el modelo y la vista y hace de intermediario: la vista le pide las temperaturas y él se las pide al modelo. |
+| **Vista** (`view`) | Convierte las temperaturas en imagen (`Render` + `Palette`) y la repinta periódicamente en el `Viewer`. No sabe nada del modelo. |
 
 La vista y el modelo **nunca se comunican directamente**: todo pasa por el presentador y por interfaces, lo que permite cambiar una capa sin tocar las demás.
+
+`Main` crea las piezas y se las inyecta: la `Palette` se crea en `Main` y se pasa a la `View`, que con ella crea su `Render`. Ninguna clase crea sus propias dependencias.
 
 ---
 
@@ -122,29 +123,27 @@ La vista y el modelo **nunca se comunican directamente**: todo pasa por el prese
 
 ```mermaid
 sequenceDiagram
-    participant EDT as Main (hilo de Swing)
+    participant Main
     participant P as Presenter
     participant M as Model
     participant V as View
-    participant Vw as Viewer
 
-    EDT->>M: new Model()  (crea Fire, Palette y Render)
-    EDT->>V: new View()   (crea JFrame y Viewer)
-    EDT->>P: new Presenter(model, view)
-    EDT->>P: start()
+    Main->>M: new Model()  (crea Fire de 320 × 200)
+    Main->>V: new View(Palette.createPalette())  (crea Viewer, JFrame y Render)
+    Main->>P: new Presenter(model, view)
+    Main->>P: start()
     P->>V: setPresenter(this)
     P->>M: start()  → lanza hilo "Model-Fire"
     P->>V: start()
-    V->>P: getImage()
-    P->>M: getImage()
-    V->>Vw: setPreferredSize + setImage
-    V->>V: pack() + setVisible(true)
+    V->>P: getTemperatures()
+    P->>M: getTemperatures()
+    V->>V: tamaño del Viewer + pack() + setVisible(true)
     V->>V: lanza hilo "fire-view"
 ```
 
-1. `Main` crea todo dentro de `SwingUtilities.invokeLater`, es decir, en el **Event Dispatch Thread** de Swing.
+1. `Main` crea el modelo, la vista (con su paleta) y el presentador, y llama a `presenter.start()`.
 2. `Presenter.start()` registra el presentador en la vista, arranca el hilo del modelo y luego la vista.
-3. `View.start()` pide la primera imagen para saber el tamaño del canvas, ajusta la ventana con `pack()`, la muestra y arranca su propio hilo de refresco.
+3. `View.start()` pide las primeras temperaturas para saber el tamaño del canvas (`temperatures[0].length` × `temperatures.length`), ajusta la ventana con `pack()`, la muestra y arranca su propio hilo de refresco.
 
 ---
 
@@ -178,7 +177,7 @@ nueva = max(0, (actual + left + center + right) / 4 - random(0..1))
 
 ## La paleta de colores
 
-`Palette` precalcula un array de **256 colores ARGB**, uno por temperatura, interpolando linealmente entre varios **puntos de control** (`ColorTargetDTO`):
+`Palette` (en la vista) precalcula un array de **256 colores ARGB**, uno por temperatura, interpolando linealmente entre varios **puntos de control** (`ColorTargetDTO`):
 
 | Temperatura | Alpha | R | G | B | Color |
 |------------:|------:|----:|----:|----:|-------|
@@ -206,31 +205,37 @@ El programa usa tres hilos:
 
 | Hilo | Dónde se crea | Qué hace | Frecuencia |
 |------|---------------|----------|------------|
-| **EDT** (Swing) | `SwingUtilities.invokeLater` | Construye los objetos y ejecuta `Viewer.paint()` | Cuando Swing repinta |
 | **`Model-Fire`** | `Model.start()` | Bucle `update()` → `sleep(33 ms)` | ≈ 30 actualizaciones/s |
-| **`fire-view`** | `View.start()` | Bucle `presenter.getImage()` → `viewer.setImage()` → `sleep(16 ms)` | ≈ 60 refrescos/s |
+| **`fire-view`** | `View.start()` | Bucle `presenter.getTemperatures()` → `render.getImage(...)` → `viewer.setImage(...)` → `sleep(16 ms)` | ≈ 60 refrescos/s |
+| **EDT** (Swing) | Swing | Ejecuta `Viewer.paint()` cuando toca repintar | Cuando Swing repinta |
 
 Los dos hilos propios son **daemon**, así que no impiden que la JVM termine al cerrar la ventana.
 
-Como varios hilos acceden a los mismos datos, se usan dos bloqueos:
+Cómo se evita que un hilo lea datos a medio escribir:
 
-- **`synchronized (fire)`**
-  - `Model.update()` lo toma mientras modifica las temperaturas.
-  - `Render.getImage()` lo toma mientras las lee.
-  - Así nunca se convierte en imagen un fuego a medio actualizar.
-- **`synchronized (image)`**
-  - `Render.getImage()` lo toma mientras escribe los píxeles.
-  - `Viewer.paint()` lo toma mientras dibuja la imagen.
-  - Así el canvas nunca pinta una imagen a medio escribir.
+- **`synchronized (fire)` en `Model`**
+  - `update()` lo toma mientras modifica las temperaturas.
+  - `getTemperatures()` lo toma mientras las copia.
+  - Así la vista nunca recibe un fuego a medio actualizar.
+- **La copia ("foto") de las temperaturas**
+  - `getTemperatures()` copia la matriz **fila a fila** (`original[i].clone()`). Clonar solo la matriz copiaría el array de filas, pero las filas seguirían siendo las mismas que modifica el modelo.
+  - La vista trabaja con su copia y el modelo sigue con la original sin molestarse.
+- **Una imagen nueva en cada fotograma**
+  - `Render.getImage()` crea una `BufferedImage` nueva cada vez y solo la rellena el hilo `fire-view`.
+  - El `Viewer` la recibe ya terminada y nadie vuelve a escribir en ella, así que no hace falta bloquearla.
+  - Si nadie más escribe los datos que usas, no hay nada que proteger.
+- **`volatile` en `Viewer.image`**
+  - `setImage()` lo escribe el hilo `fire-view` y `paint()` lo lee el EDT.
+  - `volatile` asegura que el EDT vea siempre la última imagen.
 
-`Viewer` sobrescribe `update(Graphics)` para llamar directamente a `paint()`. De esta forma AWT no borra el fondo antes de cada repintado y se evita el parpadeo.
+`Viewer` pinta con **doble buffer** (dibuja en una imagen en memoria y la vuelca de una vez) y sobrescribe `update(Graphics)` para llamar directamente a `paint()`. Así AWT no borra el fondo antes de cada repintado y se evita el parpadeo.
 
 ---
 
 ## Referencia de clases
 
 ### `Main`
-Punto de entrada. Crea `Model`, `View` y `Presenter` en el hilo de Swing y llama a `presenter.start()`.
+Punto de entrada. Crea `Model()`, `View(Palette.createPalette())` y `Presenter(model, view)`, y llama a `presenter.start()`. No usa lambdas ni `SwingUtilities.invokeLater`.
 
 ### Paquete `model`
 
@@ -239,14 +244,14 @@ Punto de entrada. Crea `Model`, `View` y `Presenter` en el hilo de Swing y llama
 |--------|-------------|
 | `void start()` | Arranca la simulación. |
 | `void update()` | Avanza un paso la simulación. |
-| `BufferedImage getImage()` | Devuelve la imagen actual del fuego. |
+| `int[][] getTemperatures()` | Devuelve una copia de la matriz de temperaturas. |
 
 #### `Model` (implementa `IModel`, `Runnable`)
-- Crea un `Fire` de **320 × 200** y un `Render` con la paleta por defecto.
+- Crea un `Fire` de **320 × 200**.
 - `start()` lanza el hilo daemon `Model-Fire`.
 - `run()` llama a `update()` cada `frameMS = 33` ms hasta que el hilo se interrumpe.
 - `update()` ejecuta chispas → puntos fríos → propagación, todo dentro de `synchronized (fire)`.
-- `getImage()` delega en `render.getImage()`.
+- `getTemperatures()` copia la matriz fila a fila dentro de `synchronized (fire)`.
 
 #### `Fire`
 Guarda la matriz de temperaturas e implementa el algoritmo.
@@ -262,32 +267,19 @@ Guarda la matriz de temperaturas e implementa el algoritmo.
 | `updateFlames()` | Propaga el calor hacia arriba (ver algoritmo). |
 | `getTemperatures()`, `getWidth()`, `getHeight()` | Getters. |
 
-#### `Render`
-- Tiene una `BufferedImage` de tipo `TYPE_INT_ARGB` del mismo tamaño que el fuego.
-- `getImage()` recorre la matriz, pone cada píxel a `palette.color(temperatura)` y devuelve la imagen. Siempre devuelve **la misma instancia** y la reescribe en cada llamada.
-
-#### `Palette`
-- `Palette(List<ColorTargetDTO> targets)` construye la tabla de 256 colores interpolando entre los puntos de control.
-- `int color(int temperatura)` devuelve el color ARGB empaquetado en un `int`.
-- `static Palette createPalette()` crea la paleta por defecto (negro → rojo → amarillo → blanco).
-- `mix(v1, v2, ratio)` hace la interpolación lineal de un canal.
-
-#### `ColorTargetDTO`
-Objeto inmutable con `temperatura`, `alpha`, `red`, `green` y `blue`. Representa un punto de control de la paleta.
-
 ### Paquete `presenter`
 
 #### `IPresenter`
 | Método | Descripción |
 |--------|-------------|
 | `void start()` | Arranca la aplicación. |
-| `BufferedImage getImage()` | Devuelve la imagen del modelo a la vista. |
+| `int[][] getTemperatures()` | Pasa las temperaturas del modelo a la vista. |
 
 Tiene comentados `play()`, `pause()` y `stop()`, pensados para controlar la animación más adelante.
 
 #### `Presenter` (implementa `IPresenter`)
 - `start()`: `view.setPresenter(this)` → `model.start()` → `view.start()`.
-- `getImage()`: delega en `model.getImage()`.
+- `getTemperatures()`: delega en `model.getTemperatures()`.
 
 ### Paquete `view`
 
@@ -298,14 +290,28 @@ Tiene comentados `play()`, `pause()` y `stop()`, pensados para controlar la anim
 | `void start()` | Muestra la ventana y arranca el refresco. |
 
 #### `View` (implementa `IView`, `Runnable`)
-- Crea un `JFrame` ("Fire Animation0", `EXIT_ON_CLOSE`) con un `Viewer` dentro.
-- `start()` usa la primera imagen para dimensionar el canvas, muestra la ventana y lanza el hilo `fire-view`.
-- `run()` pide la imagen al presentador y se la pasa al `Viewer` cada `FRAME_MS = 16` ms.
+- Recibe la `Palette` en el constructor y crea con ella su `Render`.
+- Crea un `JFrame` ("Fire Animation", `EXIT_ON_CLOSE`) con un `Viewer` dentro.
+- `start()` usa las primeras temperaturas para dimensionar el canvas, muestra la ventana y lanza el hilo `fire-view`.
+- `run()` pide las temperaturas al presentador, las convierte en imagen con `render` y se la pasa al `Viewer` cada `FRAME_MS = 16` ms.
 
 #### `Viewer` (extiende `Canvas`)
-- `setImage(BufferedImage)` guarda la imagen y llama a `repaint()`.
-- `paint(Graphics)` dibuja la imagen escalada al tamaño del canvas, bloqueando la imagen mientras lo hace.
+- `setImage(BufferedImage)` guarda la imagen (campo `volatile`) y llama a `repaint()`.
+- `paint(Graphics)` no hace nada si aún no hay imagen o el canvas mide 0. Si no, pinta con doble buffer: fondo negro, fuego escalado al tamaño del canvas y volcado del buffer a pantalla.
 - `update(Graphics)` llama directamente a `paint()` para evitar el parpadeo.
+
+#### `Render`
+- Recibe la `Palette` en el constructor.
+- `getImage(int[][] temperatures)` crea una `BufferedImage` `TYPE_INT_ARGB` nueva del tamaño de la matriz y pone cada píxel a `palette.color(temperatura)`.
+
+#### `Palette`
+- `Palette(List<ColorTargetDTO> targets)` construye la tabla de 256 colores interpolando entre los puntos de control.
+- `int color(int temperatura)` devuelve el color ARGB empaquetado en un `int`.
+- `static Palette createPalette()` crea la paleta por defecto (negro → rojo → amarillo → blanco).
+- `mix(v1, v2, ratio)` hace la interpolación lineal de un canal.
+
+#### `ColorTargetDTO`
+Objeto inmutable con `temperatura`, `alpha`, `red`, `green` y `blue`. Representa un punto de control de la paleta.
 
 ---
 
@@ -325,9 +331,8 @@ Tiene comentados `play()`, `pause()` y `stop()`, pensados para controlar la anim
 
 ## Posibles mejoras
 
-- Implementar `play()`, `pause()` y `stop()` (ya esbozados en `IPresenter`) con botones o teclas.
+- Añadir un panel de control y un panel de datos para cambiar los parámetros y para iniciar, pausar y parar la animación (`play()`, `pause()` y `stop()` ya están esbozados en `IPresenter`).
+- Pasar el ancho y el alto desde `Main` en lugar de fijarlos dentro de `Model`.
 - Usar el atributo `cooling` (ahora sin uso) o eliminarlo.
 - Corregir el nombre `coolPontsPercentage` → `coolPointsPercentage`.
-- Corregir el título de la ventana ("Fire Animation0").
-- Hacer que la ventana se pueda redimensionar manteniendo la proporción, o permitir escalar la imagen (por ejemplo ×2) para verla más grande.
-- Usar doble búfer (`BufferStrategy`) en el `Canvas` para un renderizado más fluido.
+- Hacer que la ventana se pueda redimensionar manteniendo la proporción, o escalar la imagen (por ejemplo ×2) para verla más grande.
