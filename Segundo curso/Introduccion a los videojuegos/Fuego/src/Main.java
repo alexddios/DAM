@@ -3,17 +3,12 @@ import model.Model;
 import presenter.IPresenter;
 import presenter.Presenter;
 import view.IView;
+import view.Palette;
 import view.View;
 
-import javax.swing.*;
-
 void main() {
-    SwingUtilities.invokeLater(
-            () -> {
-                IModel model = new Model();
-                IView view = new View();
-                IPresenter presenter = new Presenter(model,view);
-                presenter.start();
-            }
-    );
+    IModel model = new Model();
+    IView view = new View(Palette.createPalette());
+    IPresenter presenter = new Presenter(model, view);
+    presenter.start();
 }

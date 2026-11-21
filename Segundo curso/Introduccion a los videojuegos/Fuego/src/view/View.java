@@ -3,7 +3,6 @@ package view;
 import presenter.IPresenter;
 
 import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 
 // La View es solo la ventana: contiene el Viewer (canvas) y hace de puente con el Presenter
@@ -13,14 +12,17 @@ public class View implements IView,Runnable{
     private final JFrame frame;
     private final Viewer viewer;
 
+    private final Render render;
+
     private final int FRAME_MS = 16;
 
-    public View(){
+    public View(Palette palette){
         viewer = new Viewer();
 
-        frame = new JFrame("Fire Animation0");
+        frame = new JFrame("Fire Animation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(viewer); // mete el canvas dentro de la ventana
+        this.render = new Render(palette);
     }
 
     @Override
@@ -30,12 +32,10 @@ public class View implements IView,Runnable{
 
     @Override
     public void start() {
-        BufferedImage first = presenter.getImage();
+        int [][] temperatures = presenter.getTemperatures();
 
         //usamos first para settear la ventana
-        viewer.setPreferredSize(new Dimension(first.getWidth(),first.getHeight()));
-        viewer.setImage(first);
-
+        viewer.setPreferredSize(new Dimension(temperatures[0].length,temperatures.length));
         //Frame - ventana principal
         frame.pack();
         frame.setVisible(true);
@@ -49,7 +49,7 @@ public class View implements IView,Runnable{
     @Override
     public void run() {
         while (true){
-            viewer.setImage(presenter.getImage());
+            viewer.setImage(render.getImage(presenter.getTemperatures()));
             try {
                 Thread.sleep(FRAME_MS);
             } catch (InterruptedException e) {
