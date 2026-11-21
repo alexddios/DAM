@@ -50,6 +50,13 @@ public class Fire {
             }
         }
     }
+    public void restartTemperatures(){
+        for (int i = 0; i < temperatures.length; i++) {
+            for (int j = 0; j < temperatures[0].length; j++) {
+                temperatures[i][j]=0;
+            }
+        }
+    }
 
     public int[][] getTemperatures() {
         return temperatures;
