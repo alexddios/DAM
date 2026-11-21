@@ -14,9 +14,9 @@ public class ControlPanel extends JPanel {
         GridBagConstraints gc = new GridBagConstraints();
         gc.insets = new Insets(5, 5, 5, 5);   // separación alrededor de cada botón
 
-        iniciar = new JButton("Iniciar");
-        pausar = new JButton("Pausar");
-        parar = new JButton("Parar");
+        iniciar = new JButton("▶ Iniciar");
+        pausar = new JButton("⏸ Pausar");
+        parar = new JButton("⏹ Parar");
 
         gc.gridx = 0;
         gc.gridy = 0;
