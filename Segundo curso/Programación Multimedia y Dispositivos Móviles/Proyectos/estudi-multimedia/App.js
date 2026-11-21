@@ -5,20 +5,30 @@ import * as ImagePicker from 'expo-image-picker';
 
 // Demo 1a · Triar de la galeria (CA b)
 export default function App() {
-  const [imatge, setImatge] = useState(null);
+  const [imatges, setImatges] = useState([]);
+  const [missatge,setMissatge] = useState('');
 
   async function triarDeGaleria() {
     const permis = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permis.granted) {
-      Alert.alert('Permís denegat', 'Sense accés a la galeria.');
+      setMissatge('Permís denegat: sense accés a la galeria.');
       return;
     }
-    const resultat = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      quality: 1,
-    });
-    if (!resultat.canceled) {
-      setImatge(resultat.assets[0]); // { uri, width, height, mimeType }
+    setMissatge('');
+    try {
+      const resultat = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        quality: 1,
+        allowsMultipleSelection: true,
+        selectionLimit : 3
+      });
+      if (!resultat.canceled) {
+        setImatges(resultat.assets); // { uri, width, height, mimeType }
+      }else{
+        setImatges([]);
+      }
+    }catch (e) {
+      Alert.alert('Error de galeria',e.message);
     }
   }
 
@@ -26,12 +36,17 @@ export default function App() {
   async function ferFoto() {
     const permis = await ImagePicker.requestCameraPermissionsAsync();
     if (!permis.granted) {
-      Alert.alert('Activa la càmera');
+      setMissatge('Permís denegat: sense accés a la càmera.');
       return;
     }
+    setMissatge('');
     try {
       const resultat = await ImagePicker.launchCameraAsync({ quality: 0.8 });
-      if (!resultat.canceled) setImatge(resultat.assets[0]);
+      if (!resultat.canceled){
+        setImatges([resultat.assets[0]]);
+      } else{
+        setImatges([]);
+      }
     } catch (error) {
       Alert.alert('Error de càmera', error.message); // sense càmera...
     }
@@ -43,13 +58,21 @@ export default function App() {
       <Button title="Triar de la galeria" onPress={triarDeGaleria} />
       <Button title="Fer una foto" onPress={ferFoto} />
 
-      {imatge && (
-        <>
-          <Image source={{ uri: imatge.uri }} style={styles.imatge} />
-          <Text>
-            {imatge.width} × {imatge.height} px · {imatge.mimeType}
-          </Text>
-        </>
+      {missatge !== '' && <Text style={styles.missatge}>{missatge}</Text>}
+
+      {imatges.length ? (
+          <View style={styles.fila}>
+            {imatges.map(imatge => (
+                <View key={imatge.uri} style={styles.targeta}>
+                  <Image source={{ uri: imatge.uri }} style={styles.imatge} />
+                  <Text style={styles.fitxa}>
+                    {imatge.width} × {imatge.height} px · {((imatge.width*imatge.height)/1_000_000).toFixed(1)} Mpx · {imatge.mimeType}
+                  </Text>
+                </View>
+            ))}
+          </View>
+      ) : (
+          <Text>Cap imatge seleccionada</Text>
       )}
 
       <StatusBar style="auto" />
@@ -72,7 +95,31 @@ const styles = StyleSheet.create({
   },
   imatge: {
     width: '100%',
-    height: 260,
+    height: 120,
     resizeMode: 'contain',
+  },
+  fila: {
+    flexDirection: "row",
+    gap:12,
+    width: '100%'
+  },
+  targeta: {
+    flex:1
+  },
+  fitxa: {
+    fontSize: 11,
+    textAlign: 'center',
+    color: '#555',
+    marginTop: 4,
+  },
+  missatge: {
+    color: '#b00020',
+    backgroundColor: '#fdecea',
+    borderColor: '#b00020',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    textAlign: 'center',
   },
 });

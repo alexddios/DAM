@@ -2,8 +2,8 @@ package presenter;
 
 public interface IPresenter {
     void start();
-    // void play();
-    //void puse();
-//    void stop();
+    void iniciar();
+    void pausar();
+    void parar();
     int [][] getTemperatures();
 }

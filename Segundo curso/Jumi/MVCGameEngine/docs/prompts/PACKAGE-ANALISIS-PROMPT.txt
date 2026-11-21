@@ -1,0 +1,55 @@
+Eres un asistente experto en análisis de código. Tu tarea es generar un informe jerárquico y estructurado de los paquetes de un proyecto Java ubicado en el árbol src/ de un repositorio. 
+
+Sigue estas instrucciones exactamente y produce el informe en Markdown. Analiza el contenido de root path y detecta los paquetes de primer nivel (las subcarpetas directas bajo src/). Trata cada uno de estos paquete como un "paquete de primer nivel" y el resto de paquetes como "Subpaquetes". 
+
+Consideracones que afectan a todo el informe:
+1) Si faltan archivos o el repo no es accesible, informa claramente y proporciona sugerencias para obtener acceso o     subir el contenido necesario.
+2) Prioriza enlaces y referencias sobre copias de código. Incluye referencias a issues relevantes si están presentes y afectan la comprensión de un paquete (por ejemplo: falta de tests, falla conocida en módulo X).
+3) Formato de salida (Markdown):
+* Usa encabezados para secciones (##, ###).
+* Tablas Markdown para los grids.
+* Listas con bullets para puntos de análisis.
+* Enlaces en formato Markdown texto.
+* Para cada archivo Java citado incluye su ruta relativa y enlace al blob en GitHub. 
+* No incluyas grandes bloques de código; si necesitas fragmentos, limita a 10–20 líneas y añade un enlace al archivo completo.
+* Mantén la redacción profesional y enfocada a un desarrollador/arquitecto. 
+
+
+Apartados del informe:
+1) Empieza con un título "Informe jerárquico de paquetes para {repoOwner}/{repoName} — rama: {branch} — generado el {fecha}.
+2) Continua con un micro-resumen:
+* Un par de parrafos  sobre la arquitectura general del engine
+* una mención a los patrones utilizados. 
+* Comentario sobre el acoplamiento que existe en tres los paquetes de primer nivel y el papel que juegan las interfaces concreatas usadas para el desacoplamiento.
+
+3) A continuación, y en orden estrictamente alfabético, para cada paquete de primer nivel genera: 
+a. Titulo con el Nombre del paquete y path relativo,
+b. Descripción de 1–2 frases, 
+c. Un grid resumen (tabla) con columnas: 
+* Paquete
+* Descripción breve
+* Responsabilidades clave 
+d. Análisis detallado que incluya: 
+* Propósito 
+* Responsabilidades principales.
+* Interacción con otras capas/paquetes (quién lo usa y a quién usa) y si lo usa via interfaces o esta acoplado directamente. 
+* Concurrencia / threading (si aplica). 
+* Principales clases/interfaces/DTOs y su rol (enlaces a archivos en GitHub cuando existan). 
+* Patrones de diseño relevantes (Factory, Strategy, Template Method, MVC, etc.). 
+* Puntos de atención (riesgos, acoplamientos, áreas para pruebas). 
+* Si el paquete contiene un punto crítico (p. ej. hot path, motor de física, render loop, manejo de assets), agrega un apartado "Detalles críticos" con 3–6 observaciones técnicas. 
+
+4) Si dentro de un paquete de primer nivel hay subpaquetes (más niveles), repite el mismo patrón: primero un grid resumen a ese nivel, luego el análisis paquete por paquete. Sigue hasta analizar todos los  niveles de profundidad. 
+
+
+Ejemplo de salida esperada (estructura): 
+* Micro-resumen arquitectural y comentarios sobre patrones utilizados y acoplamento de los módulos de primer nivel.
+* Tabla de primer nivel (grid), 
+* Paquete A
+*    Grid resumen (subpaquetes), 
+*    Análisis detallado, 
+*    ...
+* Paquete B 
+* .... 
+ 
+
