@@ -1,12 +1,17 @@
 package view;
 
+import config.Config;
 import presenter.IPresenter;
 
 import javax.swing.*;
-import java.awt.Dimension;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 // La View es solo la ventana: contiene el Viewer (canvas) y hace de puente con el Presenter
-public class View implements IView,Runnable{
+public class View implements IView, Runnable, ActionListener {
+    private final ControlPanel controlPanel;
+    private final DataPanel dataPanel;
     private IPresenter presenter;
 
     private final JFrame frame;
@@ -16,40 +21,95 @@ public class View implements IView,Runnable{
 
     private final int FRAME_MS = 16;
 
-    public View(Palette palette){
+    public static final String INICIAR = "BTN_INICIAR";
+    public static final String PAUSAR = "BTN_PAUSAR";
+    public static final String PARAR = "BTN_PARAR";
+    public static final String APLICAR = "BTN_APLICAR";
+
+    public View(Palette palette) {
         viewer = new Viewer();
+        controlPanel = new ControlPanel();
+        dataPanel = new DataPanel();
 
         frame = new JFrame("Fire Animation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(viewer); // mete el canvas dentro de la ventana
+
+        JPanel p = new JPanel(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+
+        gc.gridx = 1;
+        gc.gridy = 0;
+        gc.gridheight = 2;
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.fill = GridBagConstraints.BOTH;
+        p.add(viewer, gc);
+
+        gc.gridx = 0;
+        gc.gridy = 0;
+        gc.gridheight = 1;
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.anchor = GridBagConstraints.NORTH;
+        p.add(controlPanel, gc);
+
+        gc.gridy = 1;
+        gc.weighty = 1;
+        gc.fill = GridBagConstraints.BOTH;
+        p.add(dataPanel, gc);
+
+        frame.add(p);
+
         this.render = new Render(palette);
     }
 
     @Override
     public void setPresenter(IPresenter presenter) {
-        this.presenter=presenter;
+        this.presenter = presenter;
+        controlPanel.setActionListener(this);
     }
 
     @Override
     public void start() {
-        int [][] temperatures = presenter.getTemperatures();
+        int[][] temperatures = presenter.getTemperatures();
 
         //usamos first para settear la ventana
-        viewer.setPreferredSize(new Dimension(temperatures[0].length,temperatures.length));
+        viewer.setPreferredSize(new Dimension(temperatures[0].length, temperatures.length));
         //Frame - ventana principal
         frame.pack();
         frame.setVisible(true);
 
         //Hilos
-        Thread thread = new Thread(this,"fire-view");
+        Thread thread = new Thread(this, "fire-view");
         thread.setDaemon(true);
         thread.start();
     }
 
     @Override
+    public void mostrarError(String mensaje) {
+        JOptionPane.showMessageDialog(frame, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    @Override
     public void run() {
-        while (true){
+        int contadorFrames = 0;
+        long inicioSegundo = System.currentTimeMillis();
+        int fps = 0;
+        while (true) {
             viewer.setImage(render.getImage(presenter.getTemperatures()));
+            contadorFrames++;
+            long ahora = System.currentTimeMillis();
+            if (ahora - inicioSegundo >= 1000) {
+                fps = contadorFrames;
+                contadorFrames = 0;
+                inicioSegundo = ahora;
+            }
+            SwingUtilities.invokeLater(new DataTask(this.dataPanel,
+                    presenter.getEstado(),
+                    presenter.getPasos(),
+                    fps,
+                    presenter.getConfig()));
             try {
                 Thread.sleep(FRAME_MS);
             } catch (InterruptedException e) {
@@ -57,4 +117,15 @@ public class View implements IView,Runnable{
             }
         }
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()) {
+            case INICIAR -> presenter.iniciar();
+            case PAUSAR -> presenter.pausar();
+            case PARAR -> presenter.parar();
+            case APLICAR -> presenter.aplicarConfig(controlPanel.getConfig());
+        }
+    }
+
 }

@@ -1,14 +1,20 @@
 package model;
 
+import config.Config;
+import config.Estado;
+
 public class Model implements IModel,Runnable{
     private final int width = 320;
     private final int height = 200;
     private final int frameMS = 33;
 
+    private volatile Estado estado;
+    private volatile int pasos;
     private final Fire fire;
 
     public Model(){
         fire = new Fire(width,height);
+        this.estado = Estado.PARADO;
     }
     @Override
     public void start() { // Inicia el hilo
@@ -19,7 +25,10 @@ public class Model implements IModel,Runnable{
     @Override
     public void run() {
         while (true) {
-            update();
+            if (estado == Estado.EN_MARCHA){
+                update();
+                pasos++;
+            }
             try {
                 Thread.sleep(frameMS);
             } catch (InterruptedException e) {
@@ -45,6 +54,53 @@ public class Model implements IModel,Runnable{
                 copia[i] = original[i].clone();
             }
             return copia;
+        }
+    }
+
+    @Override
+    public void iniciar() {
+        estado = Estado.EN_MARCHA;
+    }
+
+    @Override
+    public void pausar() {
+        estado = Estado.EN_PAUSA;
+    }
+
+    @Override
+    public void parar() {
+        estado = Estado.PARADO;
+        synchronized (fire){
+            fire.restartTemperatures();
+        }
+        pasos=0;
+    }
+
+    @Override
+    public Estado getEstado() {
+        return estado;
+    }
+
+    @Override
+    public int getPasos() {
+        return pasos;
+    }
+
+    @Override
+    public void aplicarConfig(Config config) {
+        synchronized (fire){
+            fire.setAtributos(config);
+        }
+    }
+
+    @Override
+    public Config getConfig() {
+        synchronized (fire){
+            return new Config(
+                    fire.getSparksPercentage(),
+                    fire.getCoolPontsPercentage(),
+                    fire.getCooling()
+            );
         }
     }
 
