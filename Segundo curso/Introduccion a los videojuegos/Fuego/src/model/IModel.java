@@ -1,5 +1,6 @@
 package model;
 
+import config.Config;
 import config.Estado;
 
 public interface IModel {
@@ -11,4 +12,5 @@ public interface IModel {
     void parar();
     Estado getEstado();
     int getPasos();
+    void aplicarConfig(Config config);
 }
