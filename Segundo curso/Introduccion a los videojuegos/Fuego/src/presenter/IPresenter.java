@@ -1,6 +1,7 @@
 package presenter;
 
 import config.Config;
+import config.Estado;
 
 public interface IPresenter {
     void start();
@@ -9,4 +10,7 @@ public interface IPresenter {
     void parar();
     int [][] getTemperatures();
     void aplicarConfig(Config config);
+    Estado getEstado();
+    int getPasos();
+    Config getConfig();
 }

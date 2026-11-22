@@ -13,4 +13,5 @@ public interface IModel {
     Estado getEstado();
     int getPasos();
     void aplicarConfig(Config config);
+    Config getConfig();
 }
