@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Fire {
     private  int sparksPercentage = 40;
-    private  int coolPontsPercentage = 30;
+    private  int coolPointsPercentage = 30;
     private  int cooling = 1;
 
     private final int width;
@@ -32,7 +32,7 @@ public class Fire {
     public void coolPointsGeneration(){
         int base = height -1;
         for (int x = 0; x < width; x++) {
-            if (random.nextInt(100)< coolPontsPercentage){
+            if (random.nextInt(100)< coolPointsPercentage){
                 temperatures[base][x] = 0;
             }
         }
@@ -72,7 +72,7 @@ public class Fire {
     }
     public void setAtributos(Config config){
         this.sparksPercentage = config.chispas();
-        this.coolPontsPercentage = config.puntosFrios();
+        this.coolPointsPercentage = config.puntosFrios();
         this.cooling = config.enfriamiento();
     }
 
@@ -80,8 +80,8 @@ public class Fire {
         return sparksPercentage;
     }
 
-    public int getCoolPontsPercentage() {
-        return coolPontsPercentage;
+    public int getCoolPointsPercentage() {
+        return coolPointsPercentage;
     }
 
     public int getCooling() {

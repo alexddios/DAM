@@ -530,5 +530,4 @@ Fijos en el código:
 - Inicializar los deslizadores con `presenter.getConfig()` en lugar de escribir 40, 30 y 1 a mano en el `ControlPanel`.
 - Aplicar los cambios de los deslizadores al momento (con un `ChangeListener`) en lugar de con el botón Aplicar.
 - Mostrar el estado con un texto más legible ("En marcha" en vez de `EN_MARCHA`).
-- Corregir el nombre `coolPontsPercentage` → `coolPointsPercentage`.
 - Pasar el ancho y el alto desde `Main` en lugar de fijarlos dentro de `Model`.

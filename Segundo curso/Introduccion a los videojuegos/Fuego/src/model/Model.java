@@ -98,7 +98,7 @@ public class Model implements IModel,Runnable{
         synchronized (fire){
             return new Config(
                     fire.getSparksPercentage(),
-                    fire.getCoolPontsPercentage(),
+                    fire.getCoolPointsPercentage(),
                     fire.getCooling()
             );
         }
