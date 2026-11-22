@@ -75,4 +75,16 @@ public class Fire {
         this.coolPontsPercentage = config.puntosFrios();
         this.cooling = config.enfriamiento();
     }
+
+    public int getSparksPercentage() {
+        return sparksPercentage;
+    }
+
+    public int getCoolPontsPercentage() {
+        return coolPontsPercentage;
+    }
+
+    public int getCooling() {
+        return cooling;
+    }
 }

@@ -93,4 +93,15 @@ public class Model implements IModel,Runnable{
         }
     }
 
+    @Override
+    public Config getConfig() {
+        synchronized (fire){
+            return new Config(
+                    fire.getSparksPercentage(),
+                    fire.getCoolPontsPercentage(),
+                    fire.getCooling()
+            );
+        }
+    }
+
 }

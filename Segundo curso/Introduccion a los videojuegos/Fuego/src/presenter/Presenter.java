@@ -53,6 +53,22 @@ public class Presenter implements IPresenter{
         }
         model.aplicarConfig(config);
     }
+
+    @Override
+    public Estado getEstado() {
+       return model.getEstado();
+    }
+
+    @Override
+    public int getPasos() {
+        return model.getPasos();
+    }
+
+    @Override
+    public Config getConfig() {
+        return model.getConfig();
+    }
+
     private String validar(Config c){
         if (c.chispas() < Config.CHISPAS_MIN || c.chispas()> Config.CHISPAS_MAX){
             return String.format("Las chispas no pueden ser menor a %d o mayor a %d",
