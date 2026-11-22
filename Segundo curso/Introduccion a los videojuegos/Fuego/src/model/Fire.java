@@ -1,12 +1,13 @@
 package model;
 
+import config.Config;
+
 import java.util.Random;
 
 public class Fire {
-    private final int sparksPercentage = 40;
-    private final int coolPontsPercentage = 30;
-    private final int randomizer = 1;
-    private final int cooling = 1; // lo que pierde cada celda al subir
+    private  int sparksPercentage = 40;
+    private  int coolPontsPercentage = 30;
+    private  int cooling = 1;
 
     private final int width;
     private final int height;
@@ -46,7 +47,7 @@ public class Fire {
                 int right  = temperatures[y+1][Math.min(x+1, width-1)]; // evita salir por la derecha
 
                 // Se enfría un poco al subir, sin bajar de 0
-                temperatures[y][x] = Math.max(0, (actual + left + center + right) / 4- random.nextInt(randomizer+1));
+                temperatures[y][x] = Math.max(0, (actual + left + center + right) / 4- random.nextInt(cooling +1));
             }
         }
     }
@@ -68,5 +69,10 @@ public class Fire {
 
     public int getHeight() {
         return height;
+    }
+    public void setAtributos(Config config){
+        this.sparksPercentage = config.chispas();
+        this.coolPontsPercentage = config.puntosFrios();
+        this.cooling = config.enfriamiento();
     }
 }

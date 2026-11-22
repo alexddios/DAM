@@ -1,5 +1,6 @@
 package model;
 
+import config.Config;
 import config.Estado;
 
 public class Model implements IModel,Runnable{
@@ -83,6 +84,13 @@ public class Model implements IModel,Runnable{
     @Override
     public int getPasos() {
         return pasos;
+    }
+
+    @Override
+    public void aplicarConfig(Config config) {
+        synchronized (fire){
+            fire.setAtributos(config);
+        }
     }
 
 }

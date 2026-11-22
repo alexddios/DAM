@@ -1,5 +1,6 @@
 package view;
 
+import config.Config;
 import presenter.IPresenter;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class View implements IView,Runnable, ActionListener {
     public static final String INICIAR = "BTN_INICIAR";
     public static final String PAUSAR = "BTN_PAUSAR";
     public static final String PARAR = "BTN_PARAR";
+    public static final String APLICAR = "BTN_APLICAR";
 
     public View(Palette palette){
         viewer = new Viewer();
@@ -78,6 +80,11 @@ public class View implements IView,Runnable, ActionListener {
     }
 
     @Override
+    public void mostrarError(String mensaje) {
+        JOptionPane.showMessageDialog(frame, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    @Override
     public void run() {
         while (true){
             viewer.setImage(render.getImage(presenter.getTemperatures()));
@@ -95,6 +102,8 @@ public class View implements IView,Runnable, ActionListener {
             case INICIAR -> presenter.iniciar();
             case PAUSAR -> presenter.pausar();
             case PARAR -> presenter.parar();
+            case APLICAR -> presenter.aplicarConfig(controlPanel.getConfig());
         }
     }
+
 }
