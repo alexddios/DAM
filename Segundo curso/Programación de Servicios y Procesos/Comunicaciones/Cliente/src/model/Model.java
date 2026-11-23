@@ -14,11 +14,15 @@ import java.util.List;
  */
 public class Model implements IModel{
     private static final int PORT = 1234;
-    private static final  String HOST = "localhost";
+    private final String host;   // IP o nombre del ordenador donde corre el servidor
 
     private Socket sock;
     private BufferedReader in;   // para leer líneas que envía el servidor
     private PrintWriter out;     // para enviar líneas al servidor
+
+    public Model(String host) {
+        this.host = host;
+    }
 
     /**
      * Envía 'get', lee la respuesta "HIGH$$ n1 & p1 & n2 & p2 & ..." y la convierte en una lista.
@@ -65,7 +69,7 @@ public class Model implements IModel{
      */
     @Override
     public void conectarse() throws IOException {
-        sock = new Socket(HOST,PORT);
+        sock = new Socket(host,PORT);
         in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
         out = new PrintWriter(sock.getOutputStream(),true);
     }
