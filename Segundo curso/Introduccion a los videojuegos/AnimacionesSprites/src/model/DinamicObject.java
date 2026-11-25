@@ -23,16 +23,19 @@ public class DinamicObject implements Runnable {
     // Es la velocidad angular que pide el jugador, en grados por segundo (negativa = izquierda, 0 = no gira).
     // Va aparte de "datos" para que solo el hilo del objeto escriba "datos" y no se pierda ninguna orden.
     private volatile double giro;
+    // volatile: lo escribe empujar() desde el hilo de la ventana y lo lee integrar() en el hilo del objeto.
+    // Es el empuje del motor en píxeles por segundo al cuadrado (0 = motor apagado). Va aparte de "datos" por lo mismo que giro.
+    private volatile double empuje;
 
     /**
      * @param x,y   posición inicial en píxeles
      * @param vx,vy velocidad inicial en píxeles por segundo
      * @param angle ángulo inicial en grados
-     * @param thrust empuje del motor en píxeles por segundo al cuadrado
+     * El motor empieza apagado y no gira: lo cambian empujar() y girar().
      */
-    public DinamicObject(String idImagen, double x, double y, double vx, double vy, double angle, double thrust) {
+    public DinamicObject(String idImagen, double x, double y, double vx, double vy, double angle) {
         this.idImagen = idImagen;
-        this.datos = new DatosDinamicObject(System.nanoTime(), x, y, vx, vy, 0, 0, angle, thrust);   // accX y accY empiezan en 0: se calculan en cada paso
+        this.datos = new DatosDinamicObject(System.nanoTime(), x, y, vx, vy, 0, 0, angle);   // accX y accY empiezan en 0: se calculan en cada paso
         this.running = false;
     }
 
@@ -42,7 +45,7 @@ public class DinamicObject implements Runnable {
             running = true;
             // El reloj empieza ahora: si estuvo parado, el dt del primer paso no cuenta todo el tiempo de la pausa
             DatosDinamicObject d = datos;
-            datos = new DatosDinamicObject(System.nanoTime(), d.posX(), d.posY(), d.speedX(), d.speedY(), d.accX(), d.accY(),d.angle(),d.thrust());
+            datos = new DatosDinamicObject(System.nanoTime(), d.posX(), d.posY(), d.speedX(), d.speedY(), d.accX(), d.accY(),d.angle());
             new Thread(this, "dinamic-object").start();
         }
     }
@@ -74,8 +77,10 @@ public class DinamicObject implements Runnable {
         long ahora = System.nanoTime();
         double dt = Math.min((ahora - d.timeStamp()) / NANOS_POR_SEGUNDO, DT_MAX);
 
-        double accX = Math.cos(Math.toRadians(d.angle())) * d.thrust();
-        double accY = Math.sin(Math.toRadians(d.angle())) * d.thrust();
+        double empuje = this.empuje;     // se lee una sola vez, como giro: otro hilo puede cambiarlo en cualquier momento
+
+        double accX = Math.cos(Math.toRadians(d.angle())) * empuje;
+        double accY = Math.sin(Math.toRadians(d.angle())) * empuje;
 
         double nuevaVx = d.speedX() + accX * dt;
         double nuevaVy = d.speedY() + accY * dt;
@@ -87,7 +92,7 @@ public class DinamicObject implements Runnable {
         double nuevaVelAng = giro;                            // velocidad angular de este paso, en grados por segundo
         double nuevoAng = d.angle() + nuevaVelAng * dt;       // ángulo + velocidad · tiempo
 
-        return new DatosDinamicObject(ahora, nuevaX, nuevaY, nuevaVx, nuevaVy, accX, accY,nuevoAng,d.thrust());
+        return new DatosDinamicObject(ahora, nuevaX, nuevaY, nuevaVx, nuevaVy, accX, accY,nuevoAng);
     }
 
     public String getIdImagen() { return idImagen; }
@@ -103,6 +108,17 @@ public class DinamicObject implements Runnable {
      */
     public void girar(double gradosPorSegundo) {
         this.giro = gradosPorSegundo;
+    }
+
+    /**
+     * Pide al objeto que empuje con esa fuerza hasta que se le diga otra cosa.
+     * Se llama desde otro hilo (el de la ventana): solo guarda la orden, la aplica el hilo del objeto en el siguiente paso.
+     * El empuje va en la dirección a la que mira el objeto (ver integrar).
+     *
+     * @param empuje fuerza en píxeles por segundo al cuadrado; 0 apaga el motor
+     */
+    public void empujar(double empuje){
+        this.empuje = empuje;
     }
 
 }

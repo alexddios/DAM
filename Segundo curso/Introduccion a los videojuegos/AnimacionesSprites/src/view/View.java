@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ import java.util.Map;
  * animación, saca esas imágenes de sus hojas y se las pasa al lienzo.
  * También escucha los botones (ActionListener) y avisa al Presenter.
  */
-public class View implements IView,Runnable,ActionListener {
+public class View implements IView,Runnable,ActionListener, KeyListener {
     // Comandos de los botones (public static para usarlos desde ControlPanel)
     public static final String PARAR = "BTN_PARAR";
     public static final String INICIAR = "BTN_INICIAR";
@@ -129,5 +131,20 @@ public class View implements IView,Runnable,ActionListener {
         Thread thread = new Thread(this,"sprites-view");
         thread.setDaemon(true);   // daemon: no impide que el programa termine al cerrar la ventana
         thread.start();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

@@ -18,7 +18,7 @@ public class Presenter implements IPresenter{
     private static final double VX = 0;        // velocidad inicial en x, en píxeles por segundo
     private static final double VY = 0;        // velocidad inicial en y, en píxeles por segundo
     private static final double ANGULO = 90;   // ángulo inicial en grados (0 = derecha, 90 = abajo)
-    private static final double THRUST = 50;   // empuje del motor, en píxeles por segundo al cuadrado
+    private static final double THRUST = 50;   // empuje del motor mientras se pulsa ↑, en píxeles por segundo al cuadrado
 
     // Giro: grados por segundo a los que gira el objeto (positivo = derecha, negativo = izquierda)
     private static final double GIRO = 180;
@@ -61,8 +61,7 @@ public class Presenter implements IPresenter{
         // model.crearAnimacion("Mujer", 250);
 
         // Objeto: también antes de mostrar la vista, porque su hilo ya lo pide
-        model.crearDinamicObject(VX, VY, ANGULO, THRUST);
-        model.getDinamicObject().girar(GIRO);   // PRUEBA: gira desde el principio; se quitará cuando haya teclado
+        model.crearDinamicObject(VX, VY, ANGULO);
 
         // 3. Mostrar la ventana y arrancar las animaciones.
         //    Va después de crearlas: el hilo de la vista ya recorre la lista de animaciones.
@@ -108,5 +107,35 @@ public class Presenter implements IPresenter{
             animacion.stop();
         }
         model.getDinamicObject().stop();
+    }
+
+    /** Gira a la izquierda: velocidad angular negativa. */
+    @Override
+    public void girarIzquierda() {
+        model.getDinamicObject().girar(-GIRO);
+    }
+
+    /** Gira a la derecha: velocidad angular positiva. */
+    @Override
+    public void girarDerecha() {
+        model.getDinamicObject().girar(GIRO);
+    }
+
+    /** Deja de girar: velocidad angular 0. */
+    @Override
+    public void dejarGirar() {
+        model.getDinamicObject().girar(0);
+    }
+
+    /** Enciende el motor con el empuje THRUST. */
+    @Override
+    public void encenderMotor() {
+        model.getDinamicObject().empujar(THRUST);
+    }
+
+    /** Apaga el motor: empuje 0. La velocidad que ya tiene el objeto se mantiene. */
+    @Override
+    public void apagarMotor() {
+        model.getDinamicObject().empujar(0);
     }
 }

@@ -18,5 +18,20 @@ public interface IPresenter {
 
     /** Para todas las animaciones y el objeto. */
     void stop();
+
+    /** Tecla ←: el objeto gira a la izquierda hasta que se llame a dejarGirar. La vista lo llama al pulsar la tecla. */
+    void girarIzquierda();
+
+    /** Tecla →: el objeto gira a la derecha hasta que se llame a dejarGirar. La vista lo llama al pulsar la tecla. */
+    void girarDerecha();
+
+    /** Soltar ← o →: el objeto deja de girar. La vista lo llama al soltar la tecla. */
+    void dejarGirar();
+
+    /** Tecla ↑: enciende el motor; el objeto acelera hacia donde mira hasta que se llame a apagarMotor. */
+    void encenderMotor();
+
+    /** Soltar ↑: apaga el motor; el objeto no frena, sigue con la velocidad que llevaba (inercia). */
+    void apagarMotor();
 }
 
