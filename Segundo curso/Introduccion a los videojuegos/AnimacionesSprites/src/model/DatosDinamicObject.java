@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Estado físico del planeta en un instante: cuándo es, dónde está, a qué velocidad va y cuánto acelera.
+ * Estado físico del objeto en un instante: cuándo es, dónde está, a qué velocidad va y cuánto acelera.
  * Es un record, así que no se modifica: cada paso crea uno nuevo y el hilo de la vista siempre lee uno completo.
  * Misma idea que PhysicsValuesDTO de MVCGameEngine.
  *
@@ -13,7 +13,7 @@ package model;
  * @param accX      aceleración en x, en píxeles por segundo al cuadrado
  * @param accY      aceleración en y, en píxeles por segundo al cuadrado
  */
-public record DatosPlaneta(long timeStamp,
+public record DatosDinamicObject(long timeStamp,
                              double posX, double posY,
                              double speedX, double speedY,
                              double accX, double accY,

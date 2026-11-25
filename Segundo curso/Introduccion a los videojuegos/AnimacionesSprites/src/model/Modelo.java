@@ -13,7 +13,7 @@ import java.util.List;
 public class Modelo implements IModel{
     private final Catalogo catalogo;                 // datos de las hojas; se recibe desde fuera (inyección)
     private List<SpriteAnimation> animaciones;       // animaciones en orden de creación
-    private DinamicObject dinamicObject;                     // el planeta que se mueve por encima de las animaciones
+    private DinamicObject dinamicObject;                     // el objeto que se mueve por encima de las animaciones
 
     /** @param catalogo catálogo de hojas ya rellenado; lo crea Main y se lo pasa al modelo */
     public Modelo(Catalogo catalogo){
@@ -36,14 +36,14 @@ public class Modelo implements IModel{
         animaciones.add(animation);
     }
 
-    /** Crea el planeta arriba a la izquierda (0, 0), con su velocidad y su aceleración. */
+    /** Crea el objeto arriba a la izquierda (0, 0), con su velocidad y su aceleración. */
     @Override
-    public void crearPlaneta(double vx, double vy, double ax, double ay,double angle, double angularSpeed, double angularAcc){
+    public void crearDinamicObject(double vx, double vy, double ax, double ay,double angle, double angularSpeed, double angularAcc){
         dinamicObject = new DinamicObject("Nave", 0, 0, vx, vy, ax, ay, angle, angularSpeed, angularAcc);
     }
 
     @Override
-    public DinamicObject getPlaneta(){
+    public DinamicObject getDinamicObject(){
         return dinamicObject;
     }
 

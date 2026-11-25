@@ -14,19 +14,19 @@ public class ViewPanel extends Canvas {
     private volatile List<BufferedImage> images;
     private static final int COLUMNAS = 5;
     private static final int FILAS = 2;
-    private static final Font FUENTE = new Font(Font.SANS_SERIF, Font.BOLD, 40);   // fuente del planeta
+    private static final Font FUENTE = new Font(Font.SANS_SERIF, Font.BOLD, 40);   // fuente del objeto
     // volatile: los escribe el hilo de la View y los lee el hilo que pinta
     private volatile BufferedImage imagen;
-    private volatile int planetaX;
-    private volatile int planetaY;
-    private volatile double planetaAngulo;   // grados
+    private volatile int dinamicObjectX;
+    private volatile int dinamicObjectY;
+    private volatile double dinamicObjectAngulo;   // grados
 
-    /** Recibe la imagen y la posición del planeta. No repinta: lo hace setImages justo después. */
-    public void setPlaneta(BufferedImage imagen, int x, int y, double angulo){
+    /** Recibe la imagen y la posición del objeto. No repinta: lo hace setImages justo después. */
+    public void setDinamicObject(BufferedImage imagen, int x, int y, double angulo){
         this.imagen = imagen;
-        this.planetaX = x;
-        this.planetaY = y;
-        this.planetaAngulo = angulo;
+        this.dinamicObjectX = x;
+        this.dinamicObjectY = y;
+        this.dinamicObjectAngulo = angulo;
     }
 
     /** Recibe los frames actuales y pide un repintado. */
@@ -64,7 +64,7 @@ public class ViewPanel extends Canvas {
             gb.drawImage(current.get(i), x, y, anchoCelda, altoCelda, null);
         }
 
-        // 5. El planeta, el último para que quede encima de las animaciones.
+        // 5. El objeto, el último para que quede encima de las animaciones.
         //    drawString recibe la línea base: se suma el ascent para que (x, y) sea su esquina de arriba
         gb.setColor(Color.WHITE);
         gb.setFont(FUENTE);
@@ -72,9 +72,9 @@ public class ViewPanel extends Canvas {
             Graphics2D g2 = (Graphics2D) gb;
             AffineTransform original = g2.getTransform();          // guardar cómo estaba el pincel
             // Girar el pincel alrededor del centro de la imagen (en grados -> radianes)
-            g2.rotate(Math.toRadians(planetaAngulo),
-                    planetaX + imagen.getWidth() / 2.0, planetaY + imagen.getHeight() / 2.0);
-            g2.drawImage(imagen, planetaX, planetaY, null);
+            g2.rotate(Math.toRadians(dinamicObjectAngulo),
+                    dinamicObjectX + imagen.getWidth() / 2.0, dinamicObjectY + imagen.getHeight() / 2.0);
+            g2.drawImage(imagen, dinamicObjectX, dinamicObjectY, null);
             g2.setTransform(original);                              // dejarlo como estaba
         }
 

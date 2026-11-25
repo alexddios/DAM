@@ -14,13 +14,13 @@ import java.util.List;
  * y se los pasa a la vista como AnimacionDTO; la vista es quien tiene las imágenes y pinta.
  */
 public class Presenter implements IPresenter{
-    // Movimiento del planeta: píxeles por segundo y píxeles por segundo al cuadrado
+    // Movimiento del objeto: píxeles por segundo y píxeles por segundo al cuadrado
     private static final double VX = 0;    // velocidad inicial en x: al empezar avanza despacio
     private static final double VY = 0;    // velocidad inicial en y
     private static final double AX = 0;      // aceleración en x: cada segundo va 8 px/s más rápido
     private static final double AY = 0;      // aceleración en y
 
-    // Giro del planeta sobre sí mismo: grados, grados por segundo y grados por segundo al cuadrado
+    // Giro del objeto sobre sí mismo: grados, grados por segundo y grados por segundo al cuadrado
     private static final double ANGULO = 0;           // ángulo inicial
     private static final double VEL_ANGULAR = 0;     // velocidad de giro inicial: una vuelta cada 6 segundos
     private static final double ACC_ANGULAR = 0;     // aceleración de giro: cada segundo gira 15 °/s más rápido
@@ -40,7 +40,7 @@ public class Presenter implements IPresenter{
         // 1. La vista necesita al presenter para pedirle qué pintar y para avisarle de los botones
         view.setPresenter(this);
 
-        // (Animaciones desactivadas con // para ver solo el planeta; quita los // para volver a verlas)
+        // (Animaciones desactivadas con // para ver solo el objeto; quita los // para volver a verlas)
         // 2. Crear las 10 animaciones: id de la hoja (registrada en el Catalogo) + ms entre frames.
         //    Varias usan la misma hoja con distinta velocidad: cada una va por su cuenta.
 
@@ -62,8 +62,8 @@ public class Presenter implements IPresenter{
         // model.crearAnimacion("Mujer", 150);
         // model.crearAnimacion("Mujer", 250);
 
-        // Planeta: también antes de mostrar la vista, porque su hilo ya lo pide
-        model.crearPlaneta(VX, VY, AX, AY, ANGULO, VEL_ANGULAR, ACC_ANGULAR);
+        // Objeto: también antes de mostrar la vista, porque su hilo ya lo pide
+        model.crearDinamicObject(VX, VY, AX, AY, ANGULO, VEL_ANGULAR, ACC_ANGULAR);
 
         // 3. Mostrar la ventana y arrancar las animaciones.
         //    Va después de crearlas: el hilo de la vista ya recorre la lista de animaciones.
@@ -86,11 +86,11 @@ public class Presenter implements IPresenter{
         return dtos;
     }
 
-    /** Id de la imagen y posición actuales del planeta, para que la vista la pinte encima de las animaciones. */
+    /** Id de la imagen y posición actuales del objeto, para que la vista la pinte encima de las animaciones. */
     @Override
-    public PlanetaDTO getPlaneta() {
-        DinamicObject a = model.getPlaneta();
-        return new PlanetaDTO(a.getIdImagen(), (int) a.getX(), (int) a.getY(), a.getAngle());
+    public DinamicObjectDTO getDinamicObject() {
+        DinamicObject a = model.getDinamicObject();
+        return new DinamicObjectDTO(a.getIdImagen(), (int) a.getX(), (int) a.getY(), a.getAngle());
     }
 
     /** Botón Iniciar: arranca el hilo de cada animación. */
@@ -99,7 +99,7 @@ public class Presenter implements IPresenter{
         for (SpriteAnimation animacion : model.getAnimaciones()) {
             animacion.start();
         }
-        model.getPlaneta().start();
+        model.getDinamicObject().start();
     }
 
     /** Botón Parar: detiene el hilo de cada animación (se quedan congeladas en su frame). */
@@ -108,6 +108,6 @@ public class Presenter implements IPresenter{
         for (SpriteAnimation animacion : model.getAnimaciones()) {
             animacion.stop();
         }
-        model.getPlaneta().stop();
+        model.getDinamicObject().stop();
     }
 }
