@@ -39,6 +39,10 @@ public class ControlPanel extends JPanel {
         // 2. El mismo listener escucha a los dos botones
         iniciar.addActionListener(listener);
         parar.addActionListener(listener);
+
+        // Los botones no cogen el foco: si lo cogieran al hacer clic, el lienzo dejaría de recibir las flechas
+        iniciar.setFocusable(false);
+        parar.setFocusable(false);
     }
 
 }

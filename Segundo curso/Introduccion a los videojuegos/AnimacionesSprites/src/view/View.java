@@ -23,7 +23,8 @@ import java.util.Map;
  * Es la única parte del programa que tiene imágenes: al crearse carga las hojas del Catalogo.
  * Tiene su propio hilo, que cada FRAME_MS pide al Presenter qué hoja y qué frame toca de cada
  * animación, saca esas imágenes de sus hojas y se las pasa al lienzo.
- * También escucha los botones (ActionListener) y avisa al Presenter.
+ * También escucha los botones (ActionListener) y el teclado (KeyListener) y avisa al Presenter:
+ * ← y → giran el objeto y ↑ enciende el motor.
  */
 public class View implements IView,Runnable,ActionListener, KeyListener {
     // Comandos de los botones (public static para usarlos desde ControlPanel)
@@ -38,6 +39,12 @@ public class View implements IView,Runnable,ActionListener, KeyListener {
     private Map<String, SpriteSheet> hojas;              // id → hoja ya cargada y recortada
 
     private final int FRAME_MS = 16;             // ~60 repintados por segundo (1000 / 60)
+
+    // Qué flechas de giro están pulsadas ahora mismo. Hacen falta para saber qué hacer al soltar una:
+    // si la contraria sigue pulsada hay que girar hacia ella, y si no, dejar de girar.
+    // Solo las toca el hilo de la ventana (los eventos de teclado), así que no necesitan volatile.
+    private boolean izquierdaPulsada;
+    private boolean derechaPulsada;
 
     /** @param catalogo catálogo de hojas ya rellenado; lo crea Main y se lo pasa a la vista */
     public View(Catalogo catalogo) {
@@ -95,8 +102,8 @@ public class View implements IView,Runnable,ActionListener, KeyListener {
             }
 
             DinamicObjectDTO a = presenter.getDinamicObject();                      // el objeto, encima de todo
-            SpriteSheet hojaDinamicObject = hojas.get(a.idImagen());        // hueco 1
-            BufferedImage imagenDinamicObject = hojaDinamicObject.getFrame( 0);   // hueco 2
+            SpriteSheet hojaDinamicObject = hojas.get(a.idImagen());        // la hoja de la imagen del objeto
+            BufferedImage imagenDinamicObject = hojaDinamicObject.getFrame(0);   // una imagen suelta: solo tiene el frame 0
             viewer.setDinamicObject(imagenDinamicObject, a.x(), a.y(), a.angle());
             viewer.setImages(imagenes);
             try {
@@ -107,11 +114,12 @@ public class View implements IView,Runnable,ActionListener, KeyListener {
         }
     }
 
-    /** Guarda el presenter y conecta los botones con esta vista como listener. */
+    /** Guarda el presenter y conecta los botones y el teclado con esta vista como listener. */
     @Override
     public void setPresenter(IPresenter presenter) {
         this.presenter=presenter;
         controlPanel.setActionListener(this);
+        viewer.addKeyListener(this);   // el teclado se escucha en el lienzo, que es quien recibe el foco
     }
 
     /** Mira el actionCommand del botón pulsado y avisa al presenter. */
@@ -123,28 +131,63 @@ public class View implements IView,Runnable,ActionListener, KeyListener {
         }
     }
 
-    /** Muestra la ventana y arranca el hilo de repintado. */
+    /** Muestra la ventana, da el foco al lienzo para que reciba las teclas y arranca el hilo de repintado. */
     @Override
     public void start() {
         frame.pack();
         frame.setVisible(true);
+        viewer.requestFocusInWindow();
         Thread thread = new Thread(this,"sprites-view");
         thread.setDaemon(true);   // daemon: no impide que el programa termine al cerrar la ventana
         thread.start();
     }
 
+    /** No se usa: las flechas no generan "tecla escrita", así que se trabaja con keyPressed y keyReleased. */
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
+    /** Pulsar una tecla: ← y → giran (y se apunta que están pulsadas) y ↑ enciende el motor. */
     @Override
     public void keyPressed(KeyEvent e) {
-
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT -> {
+                izquierdaPulsada = true;
+                presenter.girarIzquierda();
+            }
+            case KeyEvent.VK_RIGHT -> {
+               derechaPulsada = true;
+               presenter.girarDerecha();
+            }
+            case KeyEvent.VK_UP -> presenter.encenderMotor();
+        }
     }
 
+    /**
+     * Soltar una tecla: ↑ apaga el motor. Al soltar una flecha de giro se mira la contraria:
+     * si sigue pulsada se gira hacia ella, y si no, se deja de girar.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
-
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT -> {
+                izquierdaPulsada = false;
+                if (derechaPulsada) {
+                    presenter.girarDerecha();    // la derecha sigue pulsada
+                } else {
+                    presenter.dejarGirar();      // no queda ninguna flecha pulsada
+                }
+            }
+            case KeyEvent.VK_RIGHT -> {
+                derechaPulsada = false;
+                if (izquierdaPulsada){
+                    presenter.girarIzquierda();
+                }else{
+                    presenter.dejarGirar();
+                }
+            }
+            case KeyEvent.VK_UP -> presenter.apagarMotor();
+        }
     }
 }
