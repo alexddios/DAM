@@ -1,6 +1,6 @@
 package presenter;
 
-import model.Asterisco;
+import model.Nave;
 import model.IModel;
 import model.SpriteAnimation;
 import view.IView;
@@ -14,11 +14,11 @@ import java.util.List;
  * y se los pasa a la vista como AnimacionDTO; la vista es quien tiene las imágenes y pinta.
  */
 public class Presenter implements IPresenter{
-    // Movimiento del asterisco: píxeles por segundo y píxeles por segundo al cuadrado
+    // Movimiento de la nave: píxeles por segundo y píxeles por segundo al cuadrado
     private static final double VX = 100;   // velocidad inicial en x
     private static final double VY = 50;    // velocidad inicial en y
-    private static final double AX = 10;    // aceleración en x
-    private static final double AY = 5;     // aceleración en y
+    private static final double AX = 100;    // aceleración en x
+    private static final double AY = 100;     // aceleración en y
 
     private final IModel model;
     private final IView view;
@@ -56,8 +56,8 @@ public class Presenter implements IPresenter{
         model.crearAnimacion("Mujer", 150);
         model.crearAnimacion("Mujer", 250);
 
-        // Asterisco: también antes de mostrar la vista, porque su hilo ya lo pide
-        model.crearAsterisco(VX, VY, AX, AY);
+        // Nave: también antes de mostrar la vista, porque su hilo ya lo pide
+        model.crearNave(VX, VY, AX, AY);
 
         // 3. Mostrar la ventana y arrancar las animaciones.
         //    Va después de crearlas: el hilo de la vista ya recorre la lista de animaciones.
@@ -80,11 +80,11 @@ public class Presenter implements IPresenter{
         return dtos;
     }
 
-    /** Texto y posición actuales del asterisco, para que la vista lo pinte encima de las animaciones. */
+    /** Id de la imagen y posición actuales de la nave, para que la vista la pinte encima de las animaciones. */
     @Override
-    public AsteriscoDTO getAsterisco() {
-        Asterisco a = model.getAsterisco();
-        return new AsteriscoDTO(a.getTexto(), (int) a.getX(), (int) a.getY());
+    public NaveDTO getNave() {
+        Nave a = model.getNave();
+        return new NaveDTO(a.getIdImagen(), (int) a.getX(), (int) a.getY());
     }
 
     /** Botón Iniciar: arranca el hilo de cada animación. */
@@ -93,7 +93,7 @@ public class Presenter implements IPresenter{
         for (SpriteAnimation animacion : model.getAnimaciones()) {
             animacion.start();
         }
-        model.getAsterisco().start();
+        model.getNave().start();
     }
 
     /** Botón Parar: detiene el hilo de cada animación (se quedan congeladas en su frame). */
@@ -102,6 +102,6 @@ public class Presenter implements IPresenter{
         for (SpriteAnimation animacion : model.getAnimaciones()) {
             animacion.stop();
         }
-        model.getAsterisco().stop();
+        model.getNave().stop();
     }
 }

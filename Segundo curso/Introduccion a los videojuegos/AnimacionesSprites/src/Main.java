@@ -24,6 +24,7 @@ public class Main {
                     catalogo.registrar("Pato", "res/pato.png", 1, 4, 4);
                     catalogo.registrar("Fuego", "res/Flame.png", 4, 4, 14);
                     catalogo.registrar("Mujer", "res/mujer.png", 12, 1, 12);
+                    catalogo.registrar("Nave","res/Spaceship.png",1,1,1);
 
                     // 2. El mismo catálogo para los dos: el modelo saca los pasos y la vista carga las imágenes
                     IModel model = new Modelo(catalogo);

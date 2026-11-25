@@ -10,13 +10,13 @@ public interface IPresenter {
     /** Hoja y frame actual de cada animación, en orden. La vista lo pide en cada repintado. */
     List<AnimacionDTO> getAnimaciones();
 
-    /** Texto y posición del asterisco. La vista lo pide en cada repintado. */
-    AsteriscoDTO getAsterisco();
+    /** Id de la imagen y posición de la nave. La vista lo pide en cada repintado. */
+    NaveDTO getNave();
 
-    /** Arranca (o reanuda) todas las animaciones y el asterisco. */
+    /** Arranca (o reanuda) todas las animaciones y la nave. */
     void play();
 
-    /** Para todas las animaciones y el asterisco. */
+    /** Para todas las animaciones y la nave. */
     void stop();
 }
 

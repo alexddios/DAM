@@ -15,7 +15,7 @@ import java.util.Map;
 public class Modelo implements IModel{
     private final Catalogo catalogo;                 // datos de las hojas; se recibe desde fuera (inyección)
     private List<SpriteAnimation> animaciones;       // animaciones en orden de creación
-    private Asterisco asterisco;                     // el asterisco que se mueve por encima de las animaciones
+    private Nave nave;                     // la nave que se mueve por encima de las animaciones
 
     /** @param catalogo catálogo de hojas ya rellenado; lo crea Main y se lo pasa al modelo */
     public Modelo(Catalogo catalogo){
@@ -38,15 +38,15 @@ public class Modelo implements IModel{
         animaciones.add(animation);
     }
 
-    /** Crea el asterisco arriba a la izquierda (0, 0), con su velocidad y su aceleración. */
+    /** Crea la nave arriba a la izquierda (0, 0), con su velocidad y su aceleración. */
     @Override
-    public void crearAsterisco(double vx, double vy, double ax, double ay){
-        asterisco = new Asterisco("*", 0, 0, vx, vy, ax, ay);
+    public void crearNave(double vx, double vy, double ax, double ay){
+        nave = new Nave("Nave", 0, 0, vx, vy, ax, ay);
     }
 
     @Override
-    public Asterisco getAsterisco(){
-        return asterisco;
+    public Nave getNave(){
+        return nave;
     }
 
     /**
