@@ -4,9 +4,7 @@ import assets.Catalogo;
 import assets.HojaInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Modelo: guarda las animaciones y su estado (qué hoja usan, en qué frame van, a qué velocidad).
@@ -15,6 +13,7 @@ import java.util.Map;
 public class Modelo implements IModel{
     private final Catalogo catalogo;                 // datos de las hojas; se recibe desde fuera (inyección)
     private List<SpriteAnimation> animaciones;       // animaciones en orden de creación
+    private DinamicObject dinamicObject;                     // el planeta que se mueve por encima de las animaciones
 
     /** @param catalogo catálogo de hojas ya rellenado; lo crea Main y se lo pasa al modelo */
     public Modelo(Catalogo catalogo){
@@ -35,6 +34,17 @@ public class Modelo implements IModel{
         }
         SpriteAnimation animation = new SpriteAnimation(id, info.pasos(), ms);
         animaciones.add(animation);
+    }
+
+    /** Crea el planeta arriba a la izquierda (0, 0), con su velocidad y su aceleración. */
+    @Override
+    public void crearPlaneta(double vx, double vy, double ax, double ay,double angle, double angularSpeed, double angularAcc){
+        dinamicObject = new DinamicObject("Nave", 0, 0, vx, vy, ax, ay, angle, angularSpeed, angularAcc);
+    }
+
+    @Override
+    public DinamicObject getPlaneta(){
+        return dinamicObject;
     }
 
     /**

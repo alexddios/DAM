@@ -3,6 +3,7 @@ package view;
 import assets.Catalogo;
 import assets.HojaInfo;
 import presenter.AnimacionDTO;
+import presenter.PlanetaDTO;
 import presenter.IPresenter;
 
 import javax.swing.*;
@@ -91,6 +92,10 @@ public class View implements IView,Runnable,ActionListener {
                 imagenes.add(hoja.getFrame(dto.frame()));                   // el frame que toca
             }
 
+            PlanetaDTO a = presenter.getPlaneta();                      // el planeta, encima de todo
+            SpriteSheet hojaPlaneta = hojas.get(a.idImagen());        // hueco 1
+            BufferedImage imagenPlaneta = hojaPlaneta.getFrame( 0);   // hueco 2
+            viewer.setPlaneta(imagenPlaneta, a.x(), a.y(), a.angle());
             viewer.setImages(imagenes);
             try {
                 Thread.sleep(FRAME_MS);
