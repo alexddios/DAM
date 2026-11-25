@@ -10,13 +10,13 @@ public interface IPresenter {
     /** Hoja y frame actual de cada animación, en orden. La vista lo pide en cada repintado. */
     List<AnimacionDTO> getAnimaciones();
 
-    /** Id de la imagen y posición de la nave. La vista lo pide en cada repintado. */
-    NaveDTO getNave();
+    /** Id de la imagen y posición del planeta. La vista lo pide en cada repintado. */
+    PlanetaDTO getPlaneta();
 
-    /** Arranca (o reanuda) todas las animaciones y la nave. */
+    /** Arranca (o reanuda) todas las animaciones y el planeta. */
     void play();
 
-    /** Para todas las animaciones y la nave. */
+    /** Para todas las animaciones y el planeta. */
     void stop();
 }
 

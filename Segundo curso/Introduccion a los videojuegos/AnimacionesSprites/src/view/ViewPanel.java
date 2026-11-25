@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -13,17 +14,19 @@ public class ViewPanel extends Canvas {
     private volatile List<BufferedImage> images;
     private static final int COLUMNAS = 5;
     private static final int FILAS = 2;
-    private static final Font FUENTE = new Font(Font.SANS_SERIF, Font.BOLD, 40);   // fuente de la nave
+    private static final Font FUENTE = new Font(Font.SANS_SERIF, Font.BOLD, 40);   // fuente del planeta
     // volatile: los escribe el hilo de la View y los lee el hilo que pinta
     private volatile BufferedImage imagen;
-    private volatile int naveX;
-    private volatile int naveY;
+    private volatile int planetaX;
+    private volatile int planetaY;
+    private volatile double planetaAngulo;   // grados
 
-    /** Recibe la imagen y la posición de la nave. No repinta: lo hace setImages justo después. */
-    public void setNave(BufferedImage imagen, int x, int y){
+    /** Recibe la imagen y la posición del planeta. No repinta: lo hace setImages justo después. */
+    public void setPlaneta(BufferedImage imagen, int x, int y, double angulo){
         this.imagen = imagen;
-        this.naveX = x;
-        this.naveY = y;
+        this.planetaX = x;
+        this.planetaY = y;
+        this.planetaAngulo = angulo;
     }
 
     /** Recibe los frames actuales y pide un repintado. */
@@ -61,11 +64,19 @@ public class ViewPanel extends Canvas {
             gb.drawImage(current.get(i), x, y, anchoCelda, altoCelda, null);
         }
 
-        // 5. La nave, el último para que quede encima de las animaciones.
+        // 5. El planeta, el último para que quede encima de las animaciones.
         //    drawString recibe la línea base: se suma el ascent para que (x, y) sea su esquina de arriba
         gb.setColor(Color.WHITE);
         gb.setFont(FUENTE);
-        gb.drawImage(imagen, naveX, naveY,null);
+        if (imagen != null) {
+            Graphics2D g2 = (Graphics2D) gb;
+            AffineTransform original = g2.getTransform();          // guardar cómo estaba el pincel
+            // Girar el pincel alrededor del centro de la imagen (en grados -> radianes)
+            g2.rotate(Math.toRadians(planetaAngulo),
+                    planetaX + imagen.getWidth() / 2.0, planetaY + imagen.getHeight() / 2.0);
+            g2.drawImage(imagen, planetaX, planetaY, null);
+            g2.setTransform(original);                              // dejarlo como estaba
+        }
 
         gb.dispose();   // soltar el pincel del buffer
 
