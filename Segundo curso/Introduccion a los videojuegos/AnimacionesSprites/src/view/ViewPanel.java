@@ -13,6 +13,18 @@ public class ViewPanel extends Canvas {
     private volatile List<BufferedImage> images;
     private static final int COLUMNAS = 5;
     private static final int FILAS = 2;
+    private static final Font FUENTE = new Font(Font.SANS_SERIF, Font.BOLD, 40);   // fuente del asterisco
+    // volatile: los escribe el hilo de la View y los lee el hilo que pinta
+    private volatile String texto = "";
+    private volatile int asteriscoX;
+    private volatile int asteriscoY;
+
+    /** Recibe el texto y la posición del asterisco. No repinta: lo hace setImages justo después. */
+    public void setAsterisco(String texto, int x, int y){
+        this.texto = texto;
+        this.asteriscoX = x;
+        this.asteriscoY = y;
+    }
 
     /** Recibe los frames actuales y pide un repintado. */
     public void setImages(List<BufferedImage> images){
@@ -49,9 +61,15 @@ public class ViewPanel extends Canvas {
             gb.drawImage(current.get(i), x, y, anchoCelda, altoCelda, null);
         }
 
+        // 5. El asterisco, el último para que quede encima de las animaciones.
+        //    drawString recibe la línea base: se suma el ascent para que (x, y) sea su esquina de arriba
+        gb.setColor(Color.WHITE);
+        gb.setFont(FUENTE);
+        gb.drawString(texto, asteriscoX, asteriscoY + gb.getFontMetrics().getAscent());
+
         gb.dispose();   // soltar el pincel del buffer
 
-        // 5. Volcar a pantalla
+        // 6. Volcar a pantalla
         g.drawImage(buffer, 0, 0, null);
     }
 

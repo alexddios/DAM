@@ -3,6 +3,7 @@ package view;
 import assets.Catalogo;
 import assets.HojaInfo;
 import presenter.AnimacionDTO;
+import presenter.AsteriscoDTO;
 import presenter.IPresenter;
 
 import javax.swing.*;
@@ -91,6 +92,8 @@ public class View implements IView,Runnable,ActionListener {
                 imagenes.add(hoja.getFrame(dto.frame()));                   // el frame que toca
             }
 
+            AsteriscoDTO a = presenter.getAsterisco();                      // el asterisco, encima de todo
+            viewer.setAsterisco(a.texto(), a.x(), a.y());
             viewer.setImages(imagenes);
             try {
                 Thread.sleep(FRAME_MS);
