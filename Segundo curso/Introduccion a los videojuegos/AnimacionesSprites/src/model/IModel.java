@@ -8,7 +8,7 @@ public interface IModel {
     void crearAnimacion(String id, int ms);
 
     /** Crea el objeto en la esquina de arriba a la izquierda, con su velocidad y su aceleración. */
-    void crearDinamicObject(double vx, double vy, double ax, double ay, double angle, double angularSpeed, double angularAcc);
+    void crearDinamicObject(double vx, double vy, double angle, double angularSpeed, double angularAcc, double thrust);
 
     /** El objeto creado (null si todavía no hay). */
     DinamicObject getDinamicObject();

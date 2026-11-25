@@ -20,11 +20,10 @@ public class DinamicObject implements Runnable {
     /**
      * @param x,y   posición inicial en píxeles
      * @param vx,vy velocidad inicial en píxeles por segundo
-     * @param ax,ay aceleración en píxeles por segundo al cuadrado
      */
-    public DinamicObject(String idImagen, double x, double y, double vx, double vy, double ax, double ay, double angle, double angularSpeed, double angularAcc) {
+    public DinamicObject(String idImagen, double x, double y, double vx, double vy, double angle, double angularSpeed, double angularAcc, double thrust) {
         this.idImagen = idImagen;
-        this.datos = new DatosDinamicObject(System.nanoTime(), x, y, vx, vy, ax, ay,angle,angularSpeed,angularAcc);
+        this.datos = new DatosDinamicObject(System.nanoTime(), x, y, vx, vy, 0, 0, angle, angularSpeed, angularAcc, thrust);   // accX y accY empiezan en 0: se calculan en cada paso
         this.running = false;
     }
 
@@ -34,7 +33,7 @@ public class DinamicObject implements Runnable {
             running = true;
             // El reloj empieza ahora: si estuvo parado, el dt del primer paso no cuenta todo el tiempo de la pausa
             DatosDinamicObject d = datos;
-            datos = new DatosDinamicObject(System.nanoTime(), d.posX(), d.posY(), d.speedX(), d.speedY(), d.accX(), d.accY(),d.angle(),d.angularSpeed(),d.angularAcc());
+            datos = new DatosDinamicObject(System.nanoTime(), d.posX(), d.posY(), d.speedX(), d.speedY(), d.accX(), d.accY(),d.angle(),d.angularSpeed(),d.angularAcc(),d.thrust());
             new Thread(this, "Nave").start();
         }
     }
@@ -61,8 +60,11 @@ public class DinamicObject implements Runnable {
         long ahora = System.nanoTime();
         double dt = Math.min((ahora - d.timeStamp()) / NANOS_POR_SEGUNDO, DT_MAX);
 
-        double nuevaVx = d.speedX() + d.accX() * dt;
-        double nuevaVy = d.speedY() + d.accY() * dt;
+        double accX = Math.cos(Math.toRadians(d.angle())) * d.thrust();
+        double accY = Math.sin(Math.toRadians(d.angle())) * d.thrust();
+
+        double nuevaVx = d.speedX() + accX * dt;
+        double nuevaVy = d.speedY() + accY * dt;
 
         double nuevaX = d.posX() + (d.speedX() + nuevaVx) * 0.5 * dt;   // velocidad media
         double nuevaY = d.posY() + (d.speedY() + nuevaVy) * 0.5 * dt;
@@ -70,7 +72,7 @@ public class DinamicObject implements Runnable {
         double nuevaVelAng = d.angularSpeed() + d.angularAcc() * dt;
         double nuenoAng = d.angle() + (d.angularSpeed()+nuevaVelAng)*0.5*dt;
 
-        return new DatosDinamicObject(ahora, nuevaX, nuevaY, nuevaVx, nuevaVy, d.accX(), d.accY(),nuenoAng,nuevaVelAng,d.angularAcc());
+        return new DatosDinamicObject(ahora, nuevaX, nuevaY, nuevaVx, nuevaVy, accX, accY,nuenoAng,nuevaVelAng,d.angularAcc(),d.thrust());
     }
 
     public String getIdImagen() { return idImagen; }

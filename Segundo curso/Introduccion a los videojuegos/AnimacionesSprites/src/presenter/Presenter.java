@@ -17,13 +17,12 @@ public class Presenter implements IPresenter{
     // Movimiento del objeto: píxeles por segundo y píxeles por segundo al cuadrado
     private static final double VX = 0;    // velocidad inicial en x: al empezar avanza despacio
     private static final double VY = 0;    // velocidad inicial en y
-    private static final double AX = 0;      // aceleración en x: cada segundo va 8 px/s más rápido
-    private static final double AY = 0;      // aceleración en y
 
     // Giro del objeto sobre sí mismo: grados, grados por segundo y grados por segundo al cuadrado
-    private static final double ANGULO = 0;           // ángulo inicial
-    private static final double VEL_ANGULAR = 0;     // velocidad de giro inicial: una vuelta cada 6 segundos
+    private static final double ANGULO = 90;           // ángulo inicial
+    private static final double VEL_ANGULAR = 60;     // velocidad de giro inicial: una vuelta cada 6 segundos
     private static final double ACC_ANGULAR = 0;     // aceleración de giro: cada segundo gira 15 °/s más rápido
+    private static  final double THRUST = 50;
 
     private final IModel model;
     private final IView view;
@@ -63,7 +62,7 @@ public class Presenter implements IPresenter{
         // model.crearAnimacion("Mujer", 250);
 
         // Objeto: también antes de mostrar la vista, porque su hilo ya lo pide
-        model.crearDinamicObject(VX, VY, AX, AY, ANGULO, VEL_ANGULAR, ACC_ANGULAR);
+        model.crearDinamicObject(VX, VY, ANGULO, VEL_ANGULAR, ACC_ANGULAR,THRUST);
 
         // 3. Mostrar la ventana y arrancar las animaciones.
         //    Va después de crearlas: el hilo de la vista ya recorre la lista de animaciones.

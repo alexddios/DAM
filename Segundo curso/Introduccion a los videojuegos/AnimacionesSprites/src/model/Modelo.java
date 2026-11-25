@@ -38,8 +38,8 @@ public class Modelo implements IModel{
 
     /** Crea el objeto arriba a la izquierda (0, 0), con su velocidad y su aceleración. */
     @Override
-    public void crearDinamicObject(double vx, double vy, double ax, double ay,double angle, double angularSpeed, double angularAcc){
-        dinamicObject = new DinamicObject("Nave", 0, 0, vx, vy, ax, ay, angle, angularSpeed, angularAcc);
+    public void crearDinamicObject(double vx, double vy, double angle, double angularSpeed, double angularAcc, double thrust){
+        dinamicObject = new DinamicObject("Nave", 0, 0, vx, vy, angle, angularSpeed, angularAcc, thrust);
     }
 
     @Override

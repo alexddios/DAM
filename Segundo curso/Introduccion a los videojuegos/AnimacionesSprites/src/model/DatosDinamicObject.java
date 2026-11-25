@@ -17,5 +17,5 @@ public record DatosDinamicObject(long timeStamp,
                              double posX, double posY,
                              double speedX, double speedY,
                              double accX, double accY,
-                           double angle, double angularSpeed, double angularAcc) {
+                           double angle, double angularSpeed, double angularAcc,double thrust) {
 }
