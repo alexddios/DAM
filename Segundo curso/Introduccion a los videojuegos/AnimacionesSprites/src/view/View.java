@@ -24,7 +24,7 @@ import java.util.Map;
  * Tiene su propio hilo, que cada FRAME_MS pide al Presenter qué hoja y qué frame toca de cada
  * animación, saca esas imágenes de sus hojas y se las pasa al lienzo.
  * También escucha los botones (ActionListener) y el teclado (KeyListener) y avisa al Presenter:
- * ← y → giran el objeto y ↑ enciende el motor.
+ * ← o A giran a la izquierda, → o D a la derecha y ↑ o W encienden el motor.
  */
 public class View implements IView,Runnable,ActionListener, KeyListener {
     // Comandos de los botones (public static para usarlos desde ControlPanel)
@@ -148,30 +148,30 @@ public class View implements IView,Runnable,ActionListener, KeyListener {
 
     }
 
-    /** Pulsar una tecla: ← y → giran (y se apunta que están pulsadas) y ↑ enciende el motor. */
+    /** Pulsar una tecla: ←/A y →/D giran (y se apunta que están pulsadas) y ↑/W enciende el motor. */
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT -> {
+            case KeyEvent.VK_LEFT,KeyEvent.VK_A -> {
                 izquierdaPulsada = true;
                 presenter.girarIzquierda();
             }
-            case KeyEvent.VK_RIGHT -> {
+            case KeyEvent.VK_RIGHT,KeyEvent.VK_D  -> {
                derechaPulsada = true;
                presenter.girarDerecha();
             }
-            case KeyEvent.VK_UP -> presenter.encenderMotor();
+            case KeyEvent.VK_UP,KeyEvent.VK_W -> presenter.encenderMotor();
         }
     }
 
     /**
-     * Soltar una tecla: ↑ apaga el motor. Al soltar una flecha de giro se mira la contraria:
+     * Soltar una tecla: ↑/W apaga el motor. Al soltar una tecla de giro se mira la contraria:
      * si sigue pulsada se gira hacia ella, y si no, se deja de girar.
      */
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT -> {
+            case KeyEvent.VK_LEFT,KeyEvent.VK_A  -> {
                 izquierdaPulsada = false;
                 if (derechaPulsada) {
                     presenter.girarDerecha();    // la derecha sigue pulsada
@@ -179,7 +179,7 @@ public class View implements IView,Runnable,ActionListener, KeyListener {
                     presenter.dejarGirar();      // no queda ninguna flecha pulsada
                 }
             }
-            case KeyEvent.VK_RIGHT -> {
+            case KeyEvent.VK_RIGHT,KeyEvent.VK_D -> {
                 derechaPulsada = false;
                 if (izquierdaPulsada){
                     presenter.girarIzquierda();
@@ -187,7 +187,7 @@ public class View implements IView,Runnable,ActionListener, KeyListener {
                     presenter.dejarGirar();
                 }
             }
-            case KeyEvent.VK_UP -> presenter.apagarMotor();
+            case KeyEvent.VK_UP,KeyEvent.VK_W  -> presenter.apagarMotor();
         }
     }
 }
