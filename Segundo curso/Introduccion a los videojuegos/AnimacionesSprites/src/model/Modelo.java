@@ -36,10 +36,10 @@ public class Modelo implements IModel{
         animaciones.add(animation);
     }
 
-    /** Crea el objeto arriba a la izquierda (0, 0), con su velocidad y su aceleración. */
+    /** Crea el objeto arriba a la izquierda (0, 0), con su velocidad, su ángulo (grados) y su empuje. */
     @Override
-    public void crearDinamicObject(double vx, double vy, double angle, double angularSpeed, double angularAcc, double thrust){
-        dinamicObject = new DinamicObject("Nave", 0, 0, vx, vy, angle, angularSpeed, angularAcc, thrust);
+    public void crearDinamicObject(double vx, double vy, double angle, double thrust){
+        dinamicObject = new DinamicObject("Nave", 0, 0, vx, vy, angle, thrust);
     }
 
     @Override

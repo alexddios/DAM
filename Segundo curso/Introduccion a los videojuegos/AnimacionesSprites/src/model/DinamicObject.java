@@ -1,10 +1,12 @@
 package model;
 
 /**
- * El objeto: el id de su imagen en el Catalogo (ej. "Planeta") y su estado físico (DatosDinamicObject).
+ * El objeto (planeta o nave): el id de su imagen en el Catalogo (ej. "Nave") y su estado físico (DatosDinamicObject).
  * Con su propio hilo, cada MS milisegundos calcula cuánto tiempo (dt) ha pasado y mueve el objeto
  * con MRUA, como BasicPhysicsEngine de MVCGameEngine. Así la velocidad va en píxeles por segundo
  * y no depende de lo rápido que gire el hilo.
+ * La aceleración sale del empuje y del ángulo: sin empuje no hay aceleración y la velocidad se mantiene (inercia).
+ * El giro lo manda el jugador con girar(): es la velocidad angular de cada paso.
  */
 public class DinamicObject implements Runnable {
     private static final int MS = 16;                  // ~60 pasos por segundo
@@ -17,13 +19,20 @@ public class DinamicObject implements Runnable {
     // volatile: lo cambia stop() desde otro hilo y lo lee el bucle de run()
     private volatile boolean running;
 
+    // volatile: lo escribe girar() desde el hilo de la ventana y lo lee integrar() en el hilo del objeto.
+    // Es la velocidad angular que pide el jugador, en grados por segundo (negativa = izquierda, 0 = no gira).
+    // Va aparte de "datos" para que solo el hilo del objeto escriba "datos" y no se pierda ninguna orden.
+    private volatile double giro;
+
     /**
      * @param x,y   posición inicial en píxeles
      * @param vx,vy velocidad inicial en píxeles por segundo
+     * @param angle ángulo inicial en grados
+     * @param thrust empuje del motor en píxeles por segundo al cuadrado
      */
-    public DinamicObject(String idImagen, double x, double y, double vx, double vy, double angle, double angularSpeed, double angularAcc, double thrust) {
+    public DinamicObject(String idImagen, double x, double y, double vx, double vy, double angle, double thrust) {
         this.idImagen = idImagen;
-        this.datos = new DatosDinamicObject(System.nanoTime(), x, y, vx, vy, 0, 0, angle, angularSpeed, angularAcc, thrust);   // accX y accY empiezan en 0: se calculan en cada paso
+        this.datos = new DatosDinamicObject(System.nanoTime(), x, y, vx, vy, 0, 0, angle, thrust);   // accX y accY empiezan en 0: se calculan en cada paso
         this.running = false;
     }
 
@@ -33,8 +42,8 @@ public class DinamicObject implements Runnable {
             running = true;
             // El reloj empieza ahora: si estuvo parado, el dt del primer paso no cuenta todo el tiempo de la pausa
             DatosDinamicObject d = datos;
-            datos = new DatosDinamicObject(System.nanoTime(), d.posX(), d.posY(), d.speedX(), d.speedY(), d.accX(), d.accY(),d.angle(),d.angularSpeed(),d.angularAcc(),d.thrust());
-            new Thread(this, "Nave").start();
+            datos = new DatosDinamicObject(System.nanoTime(), d.posX(), d.posY(), d.speedX(), d.speedY(), d.accX(), d.accY(),d.angle(),d.thrust());
+            new Thread(this, "dinamic-object").start();
         }
     }
 
@@ -55,7 +64,12 @@ public class DinamicObject implements Runnable {
         }
     }
 
-    /** MRUA: v1 = v0 + a·dt  y  x1 = x0 + (v0 + v1)/2 · dt. Devuelve los datos nuevos; no toca los antiguos. */
+    /**
+     * Un paso de movimiento. Devuelve los datos nuevos; no toca los antiguos.
+     * Aceleración: sale del empuje y del ángulo actual (accX = empuje·cos, accY = empuje·sin).
+     * Movimiento (MRUA): v1 = v0 + a·dt  y  x1 = x0 + (v0 + v1)/2 · dt.
+     * Giro: el ángulo avanza con la velocidad angular que pide el jugador: ángulo1 = ángulo0 + giro·dt.
+     */
     private DatosDinamicObject integrar(DatosDinamicObject d) {
         long ahora = System.nanoTime();
         double dt = Math.min((ahora - d.timeStamp()) / NANOS_POR_SEGUNDO, DT_MAX);
@@ -69,14 +83,26 @@ public class DinamicObject implements Runnable {
         double nuevaX = d.posX() + (d.speedX() + nuevaVx) * 0.5 * dt;   // velocidad media
         double nuevaY = d.posY() + (d.speedY() + nuevaVy) * 0.5 * dt;
 
-        double nuevaVelAng = d.angularSpeed() + d.angularAcc() * dt;
-        double nuenoAng = d.angle() + (d.angularSpeed()+nuevaVelAng)*0.5*dt;
+        // Giro: se lee "giro" una sola vez (otro hilo puede cambiarlo en cualquier momento)
+        double nuevaVelAng = giro;                            // velocidad angular de este paso, en grados por segundo
+        double nuevoAng = d.angle() + nuevaVelAng * dt;       // ángulo + velocidad · tiempo
 
-        return new DatosDinamicObject(ahora, nuevaX, nuevaY, nuevaVx, nuevaVy, accX, accY,nuenoAng,nuevaVelAng,d.angularAcc(),d.thrust());
+        return new DatosDinamicObject(ahora, nuevaX, nuevaY, nuevaVx, nuevaVy, accX, accY,nuevoAng,d.thrust());
     }
 
     public String getIdImagen() { return idImagen; }
     public double getX() { return datos.posX(); }
     public double getY() { return datos.posY(); }
     public double getAngle() { return datos.angle(); }
+
+    /**
+     * Pide al objeto que gire a esa velocidad hasta que se le diga otra cosa.
+     * Se llama desde otro hilo (el de la ventana): solo guarda la orden, la aplica el hilo del objeto en el siguiente paso.
+     *
+     * @param gradosPorSegundo velocidad angular: negativa gira a la izquierda, positiva a la derecha, 0 deja de girar
+     */
+    public void girar(double gradosPorSegundo) {
+        this.giro = gradosPorSegundo;
+    }
+
 }

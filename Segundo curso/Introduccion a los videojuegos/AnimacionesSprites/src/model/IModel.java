@@ -7,8 +7,8 @@ public interface IModel {
     /** Crea una animación nueva que usa la hoja id del catálogo, con ms milisegundos entre frames. */
     void crearAnimacion(String id, int ms);
 
-    /** Crea el objeto en la esquina de arriba a la izquierda, con su velocidad y su aceleración. */
-    void crearDinamicObject(double vx, double vy, double angle, double angularSpeed, double angularAcc, double thrust);
+    /** Crea el objeto en la esquina de arriba a la izquierda, con su velocidad, su ángulo (grados) y su empuje. */
+    void crearDinamicObject(double vx, double vy, double angle, double thrust);
 
     /** El objeto creado (null si todavía no hay). */
     DinamicObject getDinamicObject();
