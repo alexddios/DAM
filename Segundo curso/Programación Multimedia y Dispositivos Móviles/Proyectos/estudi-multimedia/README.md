@@ -1,19 +1,19 @@
-# Estudi Multimèdia
+# Estudio Multimedia
 
-App de la UT3 amb React Native i Expo SDK 58.
+App de la UT3 con React Native y Expo SDK 58.
 
-## Execució
+## Ejecución
 
 ```bash
 npm install
 npx expo start
 ```
 
-## Microexercici 2 · Laboratori de formats
+## Microejercicio 2 · Laboratorio de formatos
 
-### Conclusions
+### Conclusiones
 
-> Pendent de comprovar amb les mesures pròpies (botó «Laboratori de formats»).
+> Pendiente de comprobar con las medidas propias (botón «Laboratorio de formatos»).
 
-1. La resolució és el factor que més redueix la mida: passar de 800 a 400 px d'amplada deixa la quarta part dels píxels, i el fitxer es redueix molt.
-2. A la mateixa resolució, JPEG 0.4 i WebP 0.6 pesen menys que JPEG 0.8. Les escales de qualitat de JPEG i WebP no són equivalents, així que cal comparar també el resultat visual.
+1. La resolución es el factor que más reduce el tamaño: pasar de 800 a 400 px de ancho deja la cuarta parte de los píxeles, y el archivo se reduce mucho.
+2. A la misma resolución, JPEG 0.4 y WebP 0.6 pesan menos que JPEG 0.8. Las escalas de calidad de JPEG y WebP no son equivalentes, así que también hay que comparar el resultado visual.

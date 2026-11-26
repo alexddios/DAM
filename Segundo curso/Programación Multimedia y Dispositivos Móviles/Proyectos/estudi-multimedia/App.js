@@ -2,82 +2,82 @@ import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Button, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import Laboratori from './Laboratori';
+import Laboratorio from './Laboratorio';
 
-// Demo 1a · Triar de la galeria (CA b)
+// Demo 1a · Elegir de la galería (CA b)
 export default function App() {
-  const [imatges, setImatges] = useState([]);
-  const [missatge,setMissatge] = useState('');
+  const [imagenes, setImagenes] = useState([]);
+  const [mensaje, setMensaje] = useState('');
 
-  async function triarDeGaleria() {
-    const permis = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permis.granted) {
-      setMissatge('Permís denegat: sense accés a la galeria.');
+  async function elegirDeGaleria() {
+    const permiso = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permiso.granted) {
+      setMensaje('Permiso denegado: sin acceso a la galería.');
       return;
     }
-    setMissatge('');
+    setMensaje('');
     try {
-      const resultat = await ImagePicker.launchImageLibraryAsync({
+      const resultado = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
         quality: 1,
         allowsMultipleSelection: true,
         selectionLimit : 3
       });
-      if (!resultat.canceled) {
-        setImatges(resultat.assets); // { uri, width, height, mimeType }
+      if (!resultado.canceled) {
+        setImagenes(resultado.assets); // { uri, width, height, mimeType }
       }else{
-        setImatges([]);
+        setImagenes([]);
       }
     }catch (e) {
-      Alert.alert('Error de galeria',e.message);
+      Alert.alert('Error de galería',e.message);
     }
   }
 
-  // Demo 1b · Fer una foto i mostrar-la (CA b, e)
-  async function ferFoto() {
-    const permis = await ImagePicker.requestCameraPermissionsAsync();
-    if (!permis.granted) {
-      setMissatge('Permís denegat: sense accés a la càmera.');
+  // Demo 1b · Hacer una foto y mostrarla (CA b, e)
+  async function hacerFoto() {
+    const permiso = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permiso.granted) {
+      setMensaje('Permiso denegado: sin acceso a la cámara.');
       return;
     }
-    setMissatge('');
+    setMensaje('');
     try {
-      const resultat = await ImagePicker.launchCameraAsync({ quality: 0.8 });
-      if (!resultat.canceled){
-        setImatges([resultat.assets[0]]);
+      const resultado = await ImagePicker.launchCameraAsync({ quality: 0.8 });
+      if (!resultado.canceled){
+        setImagenes([resultado.assets[0]]);
       } else{
-        setImatges([]);
+        setImagenes([]);
       }
     } catch (error) {
-      Alert.alert('Error de càmera', error.message); // sense càmera...
+      Alert.alert('Error de cámara', error.message); // sin cámara...
     }
   }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.titol}>Estudi Multimèdia</Text>
-      <Button title="Triar de la galeria" onPress={triarDeGaleria} />
-      <Button title="Fer una foto" onPress={ferFoto} />
+      <Text style={styles.titulo}>Estudio Multimedia</Text>
+      <Button title="Elegir de la galería" onPress={elegirDeGaleria} />
+      <Button title="Hacer una foto" onPress={hacerFoto} />
 
-      {missatge !== '' && <Text style={styles.missatge}>{missatge}</Text>}
+      {mensaje !== '' && <Text style={styles.mensaje}>{mensaje}</Text>}
 
-      {imatges.length ? (
+      {imagenes.length ? (
           <View style={styles.fila}>
-            {imatges.map(imatge => (
-                <View key={imatge.uri} style={styles.targeta}>
-                  <Image source={{ uri: imatge.uri }} style={styles.imatge} />
-                  <Text style={styles.fitxa}>
-                    {imatge.width} × {imatge.height} px · {((imatge.width*imatge.height)/1_000_000).toFixed(1)} Mpx · {imatge.mimeType}
+            {imagenes.map(imagen => (
+                <View key={imagen.uri} style={styles.tarjeta}>
+                  <Image source={{ uri: imagen.uri }} style={styles.imagen} />
+                  <Text style={styles.ficha}>
+                    {imagen.width} × {imagen.height} px · {((imagen.width*imagen.height)/1_000_000).toFixed(1)} Mpx · {imagen.mimeType}
                   </Text>
                 </View>
             ))}
           </View>
       ) : (
-          <Text>Cap imatge seleccionada</Text>
+          <Text>Ninguna imagen seleccionada</Text>
       )}
 
-      {/* Es processa la primera imatge; la key reinicia el laboratori si canvia */}
-      {imatges.length > 0 && <Laboratori key={imatges[0].uri} original={imatges[0]} />}
+      {/* Se procesa la primera imagen; la key reinicia el laboratorio si cambia */}
+      {imagenes.length > 0 && <Laboratorio key={imagenes[0].uri} original={imagenes[0]} />}
 
       <StatusBar style="auto" />
     </ScrollView>
@@ -94,11 +94,11 @@ const styles = StyleSheet.create({
     paddingVertical: 48,
     gap: 12,
   },
-  titol: {
+  titulo: {
     fontSize: 22,
     fontWeight: 'bold',
   },
-  imatge: {
+  imagen: {
     width: '100%',
     height: 120,
     resizeMode: 'contain',
@@ -108,16 +108,16 @@ const styles = StyleSheet.create({
     gap:12,
     width: '100%'
   },
-  targeta: {
+  tarjeta: {
     flex:1
   },
-  fitxa: {
+  ficha: {
     fontSize: 11,
     textAlign: 'center',
     color: '#555',
     marginTop: 4,
   },
-  missatge: {
+  mensaje: {
     color: '#b00020',
     backgroundColor: '#fdecea',
     borderColor: '#b00020',
