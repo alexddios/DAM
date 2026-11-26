@@ -1,167 +1,161 @@
+// useState sirve para guardar datos que, al cambiar, vuelven a pintar la pantalla
 import { useState } from 'react';
 import { Alert, Button, Image, StyleSheet, Text, View } from 'react-native';
+// Librerías de los apuntes: una modifica imágenes y la otra lee archivos
 import { FlipType, ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import { File } from 'expo-file-system';
 
-const TAMANOS = [1600, 800, 400];
-const SALIDAS = [
-  { format: SaveFormat.JPEG, compress: 0.8 },
-  { format: SaveFormat.JPEG, compress: 0.4 },
-  { format: SaveFormat.WEBP, compress: 0.6 },
-];
-
+// Demo 2a: devuelve lo que ocupa un archivo en KB (null si no existe)
 function tamanoEnKB(uri) {
   const archivo = new File(uri);
+  // condición ? valor si es verdad : valor si es mentira
   return archivo.exists ? Math.round(archivo.size / 1024) : null;
 }
 
-function describir({ format, compress, width, height, kb }) {
-  const calidad = format === SaveFormat.PNG ? '' : ` ${compress}`;
-  return `${format.toUpperCase()}${calidad} · ${width} × ${height} px · ${kb ?? '?'} KB`;
-}
-
+// "original" es la imagen que nos pasa App.js: { uri, width, height }
 export default function Laboratorio({ original }) {
-  const [resultado, setResultado] = useState(null);
-  const [tabla, setTabla] = useState([]);
-  const [procesando, setProcesando] = useState(false);
-  const [error, setError] = useState('');
+  const [resultado, setResultado] = useState(null); // última imagen procesada
+  const [tabla, setTabla] = useState([]);           // lista del microejercicio 2
+  const [procesando, setProcesando] = useState(false); // true = botones desactivados
 
-  // Aplica las transformaciones, guarda el archivo y calcula sus KB
-  async function guardar(uri, transformar, format, compress) {
-    const context = ImageManipulator.manipulate(uri);
-    transformar(context);
-    const imagen = await context.renderAsync();
-    const guardada = await imagen.saveAsync({ format, compress });
-    return { ...guardada, format, compress, kb: tamanoEnKB(guardada.uri) };
-  }
-
-  // Desactiva los botones mientras se procesa y controla los errores
-  async function ejecutar(operacion) {
-    setProcesando(true);
-    setError('');
-    try {
-      await operacion();
-    } catch (e) {
-      setError(`No se ha podido procesar: ${e.message}`);
-      Alert.alert('No se ha podido procesar', e.message);
-    } finally {
-      setProcesando(false);
-    }
-  }
+  // Los 4 pasos de los apuntes siempre son:
+  // 1. manipulate(uri)   2. transformar   3. renderAsync()   4. saveAsync()
+  // Las funciones son "async" porque tardan: "await" espera a que terminen.
 
   // Demo 2a · Redimensionar y convertir (CA c, d)
-  function procesar(format) {
-    ejecutar(async () => {
-      const nueva = await guardar(
-        original.uri,
-        (context) => context.resize({ width: 800 }), // la altura se calcula sola
-        format,
-        0.6
-      );
-      setResultado(nueva);
-    });
+  async function procesar(formato) {
+    setProcesando(true);
+    try {
+      const context = ImageManipulator.manipulate(original.uri);
+      context.resize({ width: 800 }); // la altura se calcula sola
+      const imagen = await context.renderAsync();
+      const guardada = await imagen.saveAsync({ format: formato, compress: 0.6 });
+      // "...guardada" copia sus datos (uri, width, height) y añadimos dos más
+      setResultado({ ...guardada, kb: tamanoEnKB(guardada.uri), format: formato });
+    } catch (error) {
+      Alert.alert('No se ha podido procesar', error.message);
+    }
+    setProcesando(false);
   }
 
   // Demo 2b · Recortar un cuadrado centrado (CA d)
-  function recortarCuadrado() {
-    ejecutar(async () => {
+  async function recortarCuadrado() {
+    setProcesando(true);
+    try {
+      // El lado del cuadrado es la medida más pequeña de la imagen
       const lado = Math.min(original.width, original.height);
-      const nueva = await guardar(
-        original.uri,
-        (context) =>
-          context.crop({
-            originX: (original.width - lado) / 2,
-            originY: (original.height - lado) / 2,
-            width: lado,
-            height: lado,
-          }),
-        SaveFormat.PNG,
-        1
-      );
-      setResultado(nueva);
-    });
+      const context = ImageManipulator.manipulate(original.uri);
+      context.crop({
+        originX: (original.width - lado) / 2,  // dónde empieza en horizontal
+        originY: (original.height - lado) / 2, // dónde empieza en vertical
+        width: lado,
+        height: lado,
+      });
+      const imagen = await context.renderAsync();
+      const guardada = await imagen.saveAsync({ format: SaveFormat.PNG });
+      setResultado({ ...guardada, kb: tamanoEnKB(guardada.uri), format: SaveFormat.PNG });
+    } catch (error) {
+      Alert.alert('No se ha podido recortar', error.message);
+    }
+    setProcesando(false);
   }
 
-  // Microejercicio 2 · Laboratorio de formatos: 3 tamaños x 3 salidas
-  function rellenarTabla() {
-    ejecutar(async () => {
-      setTabla([]);
-      const filas = [];
-      for (const ancho of TAMANOS) {
-        for (const { format, compress } of SALIDAS) {
-          const fila = await guardar(
-            original.uri,
-            (context) => context.resize({ width: ancho }),
-            format,
-            compress
-          );
-          filas.push(fila);
-          setTabla([...filas]);
-        }
+  // Ampliación · Rotar 90° o hacer espejo
+  async function girar(tipo) {
+    setProcesando(true);
+    try {
+      // Si ya hay un resultado seguimos sobre él; si no, usamos la original
+      let uri = original.uri;
+      if (resultado !== null) {
+        uri = resultado.uri;
       }
-    });
+
+      const context = ImageManipulator.manipulate(uri);
+      if (tipo === 'rotar') {
+        context.rotate(90);
+      } else {
+        context.flip(FlipType.Horizontal);
+      }
+      const imagen = await context.renderAsync();
+      const guardada = await imagen.saveAsync({ format: SaveFormat.JPEG, compress: 0.9 });
+      setResultado({ ...guardada, kb: tamanoEnKB(guardada.uri), format: SaveFormat.JPEG });
+    } catch (error) {
+      Alert.alert('No se ha podido girar', error.message);
+    }
+    setProcesando(false);
   }
 
-  // Ampliación · Rotar y espejo: se acumulan sobre el último resultado
-  function transformarResultado(transformar) {
-    ejecutar(async () => {
-      const nueva = await guardar(
-        resultado?.uri ?? original.uri,
-        transformar,
-        resultado?.format ?? SaveFormat.JPEG,
-        resultado?.compress ?? 0.9
-      );
-      setResultado(nueva);
-    });
+  // Sirve para el microejercicio 2: crea UNA fila de la tabla
+  async function crearFila(ancho, formato, calidad) {
+    const context = ImageManipulator.manipulate(original.uri);
+    context.resize({ width: ancho });
+    const imagen = await context.renderAsync();
+    const guardada = await imagen.saveAsync({ format: formato, compress: calidad });
+    return {
+      ...guardada,
+      kb: tamanoEnKB(guardada.uri),
+      format: formato,
+      compress: calidad,
+    };
   }
 
+  // Microejercicio 2 · 3 tamaños, y cada uno en 3 formatos (9 filas)
+  async function laboratorioDeFormatos() {
+    setProcesando(true);
+    try {
+      const anchos = [1600, 800, 400];
+      const filas = []; // lista vacía que vamos llenando con push
+
+      // El bucle se repite una vez por cada ancho
+      for (const ancho of anchos) {
+        filas.push(await crearFila(ancho, SaveFormat.JPEG, 0.8));
+        filas.push(await crearFila(ancho, SaveFormat.JPEG, 0.4));
+        filas.push(await crearFila(ancho, SaveFormat.WEBP, 0.6));
+      }
+      setTabla(filas);
+    } catch (error) {
+      Alert.alert('No se ha podido procesar', error.message);
+    }
+    setProcesando(false);
+  }
+
+  // Lo que se ve en pantalla
   return (
     <View style={styles.laboratorio}>
       <Text style={styles.subtitulo}>Procesar y convertir</Text>
 
+      {/* "() => procesar(...)" significa: ejecútalo solo al pulsar el botón */}
       <Button title="800 px en JPEG" disabled={procesando} onPress={() => procesar(SaveFormat.JPEG)} />
       <Button title="800 px en WebP" disabled={procesando} onPress={() => procesar(SaveFormat.WEBP)} />
       <Button title="800 px en PNG" disabled={procesando} onPress={() => procesar(SaveFormat.PNG)} />
       <Button title="Recortar cuadrado" disabled={procesando} onPress={recortarCuadrado} />
-      <Button
-        title="Rotar 90°"
-        disabled={procesando}
-        onPress={() => transformarResultado((context) => context.rotate(90))}
-      />
-      <Button
-        title="Espejo"
-        disabled={procesando}
-        onPress={() => transformarResultado((context) => context.flip(FlipType.Horizontal))}
-      />
-      <Button title="Laboratorio de formatos" disabled={procesando} onPress={rellenarTabla} />
+      <Button title="Rotar 90°" disabled={procesando} onPress={() => girar('rotar')} />
+      <Button title="Espejo" disabled={procesando} onPress={() => girar('espejo')} />
+      <Button title="Laboratorio de formatos" disabled={procesando} onPress={laboratorioDeFormatos} />
 
-      {procesando && <Text style={styles.estado}>Procesando…</Text>}
-      {error !== '' && <Text style={styles.error}>{error}</Text>}
+      {/* "condición && algo" pinta ese algo solo si la condición es verdad */}
+      {procesando && <Text style={styles.texto}>Procesando…</Text>}
 
       {resultado && (
         <View>
           <Image source={{ uri: resultado.uri }} style={styles.imagen} />
-          <Text style={styles.estado}>{describir(resultado)}</Text>
+          <Text style={styles.texto}>
+            {resultado.format} · {resultado.width} × {resultado.height} px · {resultado.kb} KB
+          </Text>
         </View>
       )}
 
-      {tabla.length > 0 && (
-        <View>
-          <Text style={styles.subtitulo}>Comparativa</Text>
-          <Text style={styles.fila}>
-            Original · {original.width} × {original.height} px · {tamanoEnKB(original.uri) ?? '?'} KB
-          </Text>
-          {tabla.map((fila) => (
-            <Text key={fila.uri} style={styles.fila}>
-              {describir(fila)}
-            </Text>
-          ))}
-        </View>
-      )}
+      {/* "map" recorre la lista y pinta un Text por cada fila */}
+      {tabla.map((fila) => (
+        <Text key={fila.uri} style={styles.fila}>
+          {fila.format} {fila.compress} · {fila.width} × {fila.height} px · {fila.kb} KB
+        </Text>
+      ))}
     </View>
   );
 }
 
+// Estilos: parecido a CSS
 const styles = StyleSheet.create({
   laboratorio: {
     width: '100%',
@@ -177,13 +171,9 @@ const styles = StyleSheet.create({
     height: 260,
     resizeMode: 'contain',
   },
-  estado: {
+  texto: {
     textAlign: 'center',
     color: '#555',
-  },
-  error: {
-    textAlign: 'center',
-    color: '#b00020',
   },
   fila: {
     paddingVertical: 6,

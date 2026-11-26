@@ -1,35 +1,42 @@
+// useState sirve para guardar datos que, al cambiar, vuelven a pintar la pantalla
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Button, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+// Librería de los apuntes para usar la galería y la cámara
 import * as ImagePicker from 'expo-image-picker';
 import Laboratorio from './Laboratorio';
 
 // Demo 1a · Elegir de la galería (CA b)
 export default function App() {
-  const [imagenes, setImagenes] = useState([]);
-  const [mensaje, setMensaje] = useState('');
+  // [valor, función para cambiarlo] = useState(valor inicial)
+  const [imagenes, setImagenes] = useState([]); // lista de imágenes elegidas
+  const [mensaje, setMensaje] = useState('');   // aviso de permiso denegado
 
+  // "async" y "await": la función espera a que el usuario responda
   async function elegirDeGaleria() {
+    // 1. Pedir permiso
     const permiso = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permiso.granted) {
       setMensaje('Permiso denegado: sin acceso a la galería.');
       return;
     }
     setMensaje('');
+    // 2. Abrir la galería. Si algo falla, se salta al "catch"
     try {
       const resultado = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
         quality: 1,
-        allowsMultipleSelection: true,
-        selectionLimit : 3
+        allowsMultipleSelection: true, // permite elegir varias
+        selectionLimit: 3,             // como máximo 3
       });
+      // canceled es true si el usuario cierra la galería sin elegir
       if (!resultado.canceled) {
         setImagenes(resultado.assets); // { uri, width, height, mimeType }
-      }else{
+      } else {
         setImagenes([]);
       }
-    }catch (e) {
-      Alert.alert('Error de galería',e.message);
+    } catch (error) {
+      Alert.alert('Error de galería', error.message);
     }
   }
 
@@ -43,9 +50,10 @@ export default function App() {
     setMensaje('');
     try {
       const resultado = await ImagePicker.launchCameraAsync({ quality: 0.8 });
-      if (!resultado.canceled){
+      if (!resultado.canceled) {
+        // La cámara devuelve una foto: la metemos en una lista de 1 elemento
         setImagenes([resultado.assets[0]]);
-      } else{
+      } else {
         setImagenes([]);
       }
     } catch (error) {
@@ -53,21 +61,26 @@ export default function App() {
     }
   }
 
+  // Lo que se ve en pantalla. ScrollView permite desplazarse hacia abajo
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.titulo}>Estudio Multimedia</Text>
       <Button title="Elegir de la galería" onPress={elegirDeGaleria} />
       <Button title="Hacer una foto" onPress={hacerFoto} />
 
+      {/* "condición && algo" pinta ese algo solo si la condición es verdad */}
       {mensaje !== '' && <Text style={styles.mensaje}>{mensaje}</Text>}
 
-      {imagenes.length ? (
+      {/* Si hay imágenes (?) se pintan sus fichas; si no (:) un texto */}
+      {imagenes.length > 0 ? (
           <View style={styles.fila}>
-            {imagenes.map(imagen => (
+            {/* "map" recorre la lista y pinta una tarjeta por imagen */}
+            {imagenes.map((imagen) => (
                 <View key={imagen.uri} style={styles.tarjeta}>
                   <Image source={{ uri: imagen.uri }} style={styles.imagen} />
+                  {/* Megapíxeles = ancho × alto / 1 millón, con 1 decimal */}
                   <Text style={styles.ficha}>
-                    {imagen.width} × {imagen.height} px · {((imagen.width*imagen.height)/1_000_000).toFixed(1)} Mpx · {imagen.mimeType}
+                    {imagen.width} × {imagen.height} px · {((imagen.width * imagen.height) / 1000000).toFixed(1)} Mpx · {imagen.mimeType}
                   </Text>
                 </View>
             ))}
@@ -84,6 +97,7 @@ export default function App() {
   );
 }
 
+// Estilos: parecido a CSS
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
