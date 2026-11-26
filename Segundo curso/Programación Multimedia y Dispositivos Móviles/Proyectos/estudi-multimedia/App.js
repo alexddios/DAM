@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Button, Image, StyleSheet, Text, View } from 'react-native';
+import { Alert, Button, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import Laboratori from './Laboratori';
 
 // Demo 1a · Triar de la galeria (CA b)
 export default function App() {
@@ -53,7 +54,7 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.titol}>Estudi Multimèdia</Text>
       <Button title="Triar de la galeria" onPress={triarDeGaleria} />
       <Button title="Fer una foto" onPress={ferFoto} />
@@ -75,18 +76,22 @@ export default function App() {
           <Text>Cap imatge seleccionada</Text>
       )}
 
+      {/* Es processa la primera imatge; la key reinicia el laboratori si canvia */}
+      {imatges.length > 0 && <Laboratori key={imatges[0].uri} original={imatges[0]} />}
+
       <StatusBar style="auto" />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16,
+    paddingVertical: 48,
     gap: 12,
   },
   titol: {
