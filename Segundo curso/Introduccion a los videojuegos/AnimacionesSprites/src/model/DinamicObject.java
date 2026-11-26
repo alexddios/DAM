@@ -13,6 +13,7 @@ public class DinamicObject implements Runnable {
     private static final double DT_MAX = 0.5;          // segundos; si pasa más, se recorta (como en el motor del profesor)
     private static final double NANOS_POR_SEGUNDO = 1_000_000_000.0;
 
+    private final int size;          // lado del cuadrado que ocupa el objeto, en píxeles (como size en PhysicsValuesDTO)
     private final String idImagen;   // id de la hoja en el Catalogo: el modelo no tiene la imagen, solo su id
     // volatile: lo escribe el hilo del objeto y lo lee el hilo de la vista (a través del presenter)
     private volatile DatosDinamicObject datos;
@@ -31,9 +32,11 @@ public class DinamicObject implements Runnable {
      * @param x,y   posición inicial en píxeles
      * @param vx,vy velocidad inicial en píxeles por segundo
      * @param angle ángulo inicial en grados
+     * @param size  lado del cuadrado que ocupa el objeto, en píxeles
      * El motor empieza apagado y no gira: lo cambian empujar() y girar().
      */
-    public DinamicObject(String idImagen, double x, double y, double vx, double vy, double angle) {
+    public DinamicObject(String idImagen, double x, double y, double vx, double vy, double angle, int size) {
+        this.size = size;
         this.idImagen = idImagen;
         this.datos = new DatosDinamicObject(System.nanoTime(), x, y, vx, vy, 0, 0, angle);   // accX y accY empiezan en 0: se calculan en cada paso
         this.running = false;
@@ -96,6 +99,7 @@ public class DinamicObject implements Runnable {
     }
 
     public String getIdImagen() { return idImagen; }
+    public int getSize() { return size; }
     public double getX() { return datos.posX(); }
     public double getY() { return datos.posY(); }
     public double getAngle() { return datos.angle(); }

@@ -104,7 +104,7 @@ public class View implements IView,Runnable,ActionListener, KeyListener {
             DinamicObjectDTO a = presenter.getDinamicObject();                      // el objeto, encima de todo
             SpriteSheet hojaDinamicObject = hojas.get(a.idImagen());        // la hoja de la imagen del objeto
             BufferedImage imagenDinamicObject = hojaDinamicObject.getFrame(0);   // una imagen suelta: solo tiene el frame 0
-            viewer.setDinamicObject(imagenDinamicObject, a.x(), a.y(), a.angle());
+            viewer.setDinamicObject(imagenDinamicObject, a.x(), a.y(), a.angle(), a.size());
             viewer.setImages(imagenes);
             try {
                 Thread.sleep(FRAME_MS);

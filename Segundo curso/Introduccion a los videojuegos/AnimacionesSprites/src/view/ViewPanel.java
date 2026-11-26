@@ -20,13 +20,15 @@ public class ViewPanel extends Canvas {
     private volatile int dinamicObjectX;
     private volatile int dinamicObjectY;
     private volatile double dinamicObjectAngulo;   // grados
+    private volatile int dinamicObjectSize;        // lado del cuadrado en el que se pinta, en píxeles
 
-    /** Recibe la imagen y la posición del objeto. No repinta: lo hace setImages justo después. */
-    public void setDinamicObject(BufferedImage imagen, int x, int y, double angulo){
+    /** Recibe la imagen, la posición, el ángulo y el tamaño del objeto. No repinta: lo hace setImages justo después. */
+    public void setDinamicObject(BufferedImage imagen, int x, int y, double angulo, int size){
         this.imagen = imagen;
         this.dinamicObjectX = x;
         this.dinamicObjectY = y;
         this.dinamicObjectAngulo = angulo;
+        this.dinamicObjectSize = size;
     }
 
     /** Recibe los frames actuales y pide un repintado. */
@@ -65,16 +67,17 @@ public class ViewPanel extends Canvas {
         }
 
         // 5. El objeto, el último para que quede encima de las animaciones.
-        //    drawString recibe la línea base: se suma el ascent para que (x, y) sea su esquina de arriba
+        //    (x, y) es su esquina de arriba a la izquierda y se pinta escalado a size x size
         gb.setColor(Color.WHITE);
         gb.setFont(FUENTE);
         if (imagen != null) {
             Graphics2D g2 = (Graphics2D) gb;
             AffineTransform original = g2.getTransform();          // guardar cómo estaba el pincel
-            // Girar el pincel alrededor del centro de la imagen (en grados -> radianes)
+            int size = dinamicObjectSize;
+            // Girar el pincel alrededor del centro de lo que se pinta (en grados -> radianes)
             g2.rotate(Math.toRadians(dinamicObjectAngulo),
-                    dinamicObjectX + imagen.getWidth() / 2.0, dinamicObjectY + imagen.getHeight() / 2.0);
-            g2.drawImage(imagen, dinamicObjectX, dinamicObjectY, null);
+                    dinamicObjectX + size / 2.0, dinamicObjectY + size / 2.0);
+            g2.drawImage(imagen, dinamicObjectX, dinamicObjectY, size, size, null);
             g2.setTransform(original);                              // dejarlo como estaba
         }
 

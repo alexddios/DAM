@@ -18,7 +18,9 @@ public class Presenter implements IPresenter{
     private static final double VX = 0;        // velocidad inicial en x, en píxeles por segundo
     private static final double VY = 0;        // velocidad inicial en y, en píxeles por segundo
     private static final double ANGULO = 90;   // ángulo inicial en grados (0 = derecha, 90 = abajo)
-    private static final double THRUST = 50;   // empuje del motor mientras se pulsa ↑, en píxeles por segundo al cuadrado
+    private static final double THRUST = 200;   // empuje del motor mientras se pulsa ↑, en píxeles por segundo al cuadrado
+
+    private static final int SIZE = 50;        // tamaño de la nave en pantalla: lado del cuadrado, en píxeles
 
     // Giro: grados por segundo a los que gira el objeto (positivo = derecha, negativo = izquierda)
     private static final double GIRO = 180;
@@ -61,7 +63,7 @@ public class Presenter implements IPresenter{
         // model.crearAnimacion("Mujer", 250);
 
         // Objeto: también antes de mostrar la vista, porque su hilo ya lo pide
-        model.crearDinamicObject(VX, VY, ANGULO);
+        model.crearDinamicObject(VX, VY, ANGULO, SIZE);
 
         // 3. Mostrar la ventana y arrancar las animaciones.
         //    Va después de crearlas: el hilo de la vista ya recorre la lista de animaciones.
@@ -88,7 +90,7 @@ public class Presenter implements IPresenter{
     @Override
     public DinamicObjectDTO getDinamicObject() {
         DinamicObject a = model.getDinamicObject();
-        return new DinamicObjectDTO(a.getIdImagen(), (int) a.getX(), (int) a.getY(), a.getAngle());
+        return new DinamicObjectDTO(a.getIdImagen(), (int) a.getX(), (int) a.getY(), a.getAngle(), a.getSize());
     }
 
     /** Botón Iniciar: arranca el hilo de cada animación. */
