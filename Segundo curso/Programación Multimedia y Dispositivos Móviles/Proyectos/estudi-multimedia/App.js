@@ -5,6 +5,7 @@ import { Alert, Button, Image, ScrollView, StyleSheet, Text, View } from 'react-
 // Librería de los apuntes para usar la galería y la cámara
 import * as ImagePicker from 'expo-image-picker';
 import Laboratorio from './Laboratorio';
+import DemoAudio from './DemoAudio';
 
 // Demo 1a · Elegir de la galería (CA b)
 export default function App() {
@@ -91,6 +92,9 @@ export default function App() {
 
       {/* Se procesa la primera imagen; la key reinicia el laboratorio si cambia */}
       {imagenes.length > 0 && <Laboratorio key={imagenes[0].uri} original={imagenes[0]} />}
+
+      {/* Demos 3a y 3b */}
+      <DemoAudio />
 
       <StatusBar style="auto" />
     </ScrollView>
